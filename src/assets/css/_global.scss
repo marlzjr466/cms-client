@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+@font-face {
+  font-family: 'Technica_Regular';
+  src: local('Technica_Regular'), url(../fonts/Technica_Regular.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Technica_Semi_Bold';
+  src: local('Technica_Semi_Bold'), url(../fonts/Technica_Semi_Bold.ttf) format('truetype');
+}
+
+@font-face {
+  font-family: 'Digital';
+  src: local('Digital'), url(../fonts/Digital.ttf) format('truetype');
+}
+
+html {
+  font-size: 100%;
+  box-sizing: border-box;
+}
+
+*, *::before, *::after {
+  box-sizing: inherit;
+  padding: 0;
+  margin: 0;
+}
+
+body {
+  font-family: Technica_Regular;
+
+  // @include breakpoint-down(medium) {}
+}
+
+button, input, select {
+  border: none;
+  outline: none;
+}
+
+a {
+  text-decoration: none;
+  color: #000;
+  height: auto;
+}
+
+ul, ol {
+  list-style: none;   
+}
+
+.flex {
+  display: flex;
+
+  &-jc-sb {
+    justify-content: space-between;
+  }
+
+  &-jc-c {
+    justify-content: center;
+  }
+
+  &-ai-c {
+    align-items: center;
+  }
+
+  &-ai-sb {
+    align-items: space-between;
+  }
+
+  &-ai-fs {
+    align-items: flex-start;
+  }
+
+  &-ai-fe {
+    align-items: flex-end;
+  }
+
+  &-column {
+    flex-direction: column;
+  }
+
+  &-end {
+    justify-content: flex-end;
+  }
+}
+
+.main-container {
+  width: 100vw;
+  height: 100vh;
+  background: #000;
+}
+
+.container {
+  width: 100%;
+  height: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.full-height {
+  height: 100%;
+}
+
+.font-family-bold {
+  font-family: Technica_Semi_Bold;
+}
+
+.font-family-digital {
+  font-family: Digital;
+}
+
+.bold {
+  font-weight: 600;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 3px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1; 
+}
+ 
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #c0c0c0; 
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #949494; 
+}
