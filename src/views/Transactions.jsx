@@ -4,7 +4,7 @@ function Transactions () {
 
   return (
     <>
-      <h1 className="">Client management system Transactions</h1>
+      <h1>Welcome to Transactions</h1>
     </>
   )
 }

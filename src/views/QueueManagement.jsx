@@ -4,7 +4,7 @@ function QueueManagement () {
 
   return (
     <>
-      <h1 className="">Client management system Queue Management</h1>
+      <h1>Welcome to Queue Management</h1>
     </>
   )
 }

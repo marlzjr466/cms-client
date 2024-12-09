@@ -4,7 +4,7 @@ function Users () {
 
   return (
     <>
-      <h1 className="">Client management system Users</h1>
+      <h1>Welcome to Users</h1>
     </>
   )
 }

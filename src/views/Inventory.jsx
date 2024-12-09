@@ -4,7 +4,7 @@ function Inventory () {
 
   return (
     <>
-      <h1 className="">Client management system Inventory</h1>
+      <h1>Welcome to Inventory</h1>
     </>
   )
 }

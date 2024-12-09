@@ -63,7 +63,7 @@ ul, ol {
 .flex-ai-fe {
   align-items: flex-end;
 }
-.flex-column {
+.flex-col {
   flex-direction: column;
 }
 .flex-end {
@@ -73,7 +73,19 @@ ul, ol {
 .main-container {
   width: 100vw;
   height: 100vh;
-  background: #000;
+  background: var(--bg);
+}
+
+.main-body {
+  flex: 1;
+  display: flex;
+}
+
+.content-body {
+  flex: 1;
+  height: 100%;
+  background-color: var(--primary-bg);
+  padding: 20px;
 }
 
 .container {
@@ -99,6 +111,17 @@ ul, ol {
 
 .bold {
   font-weight: 600;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--primary-border);
+  padding: 10px;
+  border-radius: 8px;
+  background-color: var(--primary-bg);
+  width: 100%;
 }
 
 /* width */
@@ -239,27 +262,176 @@ ul, ol {
     transform: rotate(360deg);
   }
 }
+.nav {
+  width: 100%;
+  height: 80px;
+  border-bottom: 1px solid var(--primary-border);
+  background-color: var(--primary-bg);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+}
+.nav__logo {
+  width: 120px;
+}
+.nav__logo img {
+  width: 100%;
+}
+.nav__user {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--primary-border);
+  padding: 10px;
+  border-radius: 8px;
+  cursor: pointer;
+  height: 47px;
+  color: var(--primary-color);
+}
+.nav__user-icon {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+}
+.nav__user-icon img {
+  width: 100%;
+  height: 100%;
+}
+.nav__user-info {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  gap: 15px;
+}
+.nav__user-info div {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+}
+.nav__user-info div span {
+  font-size: 12px;
+  color: var(--secondary-color);
+}
+.nav__user-info i {
+  font-size: 18px;
+  color: var(--secondary-color);
+}
+
+.sidemenu {
+  width: 300px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  border-right: 1px solid var(--primary-border);
+  padding: 20px;
+  position: relative;
+}
+.sidemenu .clinic-info {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+  gap: 15px;
+  width: 100%;
+}
+.sidemenu .clinic-info i {
+  font-size: 16px;
+  color: var(--secondary-color);
+}
+.sidemenu .clinic-info div {
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
+  color: var(--primary-color);
+}
+.sidemenu .clinic-info div span {
+  font-size: 12px;
+  color: var(--secondary-color);
+}
+.sidemenu__list {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.sidemenu__list li {
+  padding: 10px 0;
+  cursor: pointer;
+  transition: all 200ms ease-in-out;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--menu-color);
+  font-size: 14px;
+}
+.sidemenu__list li span {
+  width: 25px;
+}
+.sidemenu__list li span i {
+  font-size: 15px;
+  margin-top: 1px;
+}
+.sidemenu__list li:hover {
+  padding-left: 10px;
+  color: var(--hover-menu-color);
+}
+.sidemenu__list li.active {
+  color: var(--hover-menu-color);
+}
+.sidemenu__absolute {
+  position: absolute;
+  bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  padding: 0 20px;
+}
+.sidemenu__absolute .footer-item {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+}
+.sidemenu__absolute .footer-item div {
+  transition: all 200ms ease-in-out;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  color: var(--menu-color);
+  font-size: 14px;
+  width: 100%;
+}
+.sidemenu__absolute .footer-item div.pointer {
+  cursor: pointer;
+}
+.sidemenu__absolute .footer-item div span {
+  width: 20px;
+}
+.sidemenu__absolute .footer-item div span i {
+  font-size: 20px;
+  margin-top: 1px;
+}
+
 :root {
-  --bg: #DBDBDB;
+  --bg: #f9fafc;
   --border-color: rgba(0,0,0,.1);
   --nodata-color: #D8D8D8;
   --nodata-border-color: #fff;
-  --login-label-color: rgba(0,0,0,.5);
-  --login-panel-bg: rgba(0,0,0,.1);
-  --login-body-bg: rgba(255, 255, 255, .6);
-  --login-selected: rgba(254, 162, 0, .3);
-  --nav-bg: #26272F;
-  --nav-text-color: #fff;
-  --nav-date-color: #ffbf6a;
-  --ticket-bg: #fff;
-  --tickets-total-bg: rgba(0,0,0,.1);
-  --ticket-color: #11335a;
-  --ticket-label-color: rgba(0,0,0,.5);
-  --body-bg: #fff;
-  --body-name-color: rgba(0,0,0,.5);
-  --transfer-list-bg: rgba(0,0,0,.1);
+  --primary-border: rgb(229 231 235);
+  --primary-bg: #fff;
+  --primary-color: #000;
+  --secondary-color: rgba(0,0,0,.5);
+  --menu-color: rgba(0,0,0,.7);
+  --hover-menu-color: #f49531;
 }
 
 .dark {
-  --bg: #000;
+  --bg: #050505;
+  --primary-border: rgb(75 85 99);
+  --primary-bg: #222223;
+  --primary-color: #fff;
+  --secondary-color: rgba(255,255,255,.5);
+  --menu-color: rgba(255,255,255,.7);
+  --hover-menu-color: #f49531;
 }/*# sourceMappingURL=style.css.map */

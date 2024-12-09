@@ -75,7 +75,7 @@ ul, ol {
     align-items: flex-end;
   }
 
-  &-column {
+  &-col {
     flex-direction: column;
   }
 
@@ -87,7 +87,19 @@ ul, ol {
 .main-container {
   width: 100vw;
   height: 100vh;
-  background: #000;
+  background: var(--bg);
+}
+
+.main-body {
+  flex: 1;
+  display: flex;
+}
+
+.content-body {
+  flex: 1;
+  height: 100%;
+  background-color: var(--primary-bg);
+  padding: 20px;
 }
 
 .container {
@@ -113,6 +125,17 @@ ul, ol {
 
 .bold {
   font-weight: 600;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--primary-border);
+  padding: 10px;
+  border-radius: 8px;
+  background-color: var(--primary-bg);
+  width: 100%;
 }
 
 /* width */

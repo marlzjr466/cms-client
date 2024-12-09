@@ -4,7 +4,7 @@ function Settings () {
 
   return (
     <>
-      <h1 className="">Client management system Settings</h1>
+      <h1>Welcome to Settings</h1>
     </>
   )
 }

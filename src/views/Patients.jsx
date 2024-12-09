@@ -4,7 +4,7 @@ function Patients () {
 
   return (
     <>
-      <h1 className="">Client management system Patients</h1>
+      <h1>Welcome to Patients</h1>
     </>
   )
 }

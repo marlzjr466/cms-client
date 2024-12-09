@@ -1,32 +1,15 @@
 :root {
-  --bg: #DBDBDB;
+  --bg: #f9fafc;
   --border-color: rgba(0,0,0,.1);
 
   --nodata-color: #D8D8D8;
   --nodata-border-color: #fff;
 
-  // login
-  --login-label-color: rgba(0,0,0,.5);
-  --login-panel-bg: rgba(0,0,0,.1);
-  --login-body-bg: rgba(255, 255, 255, .6);
-  // --login-selected: rgba(0, 216, 250, .3);
-  --login-selected: rgba(254, 162, 0, .3);
+  --primary-border: rgb(229 231 235);
+  --primary-bg: #fff;
+  --primary-color: #000;
+  --secondary-color: rgba(0,0,0,.5);
 
-  // nav
-  --nav-bg: #26272F;
-  --nav-text-color: #fff;
-  --nav-date-color: #ffbf6a;
-
-  // tickets
-  --ticket-bg: #fff;
-  --tickets-total-bg: rgba(0,0,0,.1);
-  --ticket-color: #11335a;
-  --ticket-label-color: rgba(0,0,0,.5);
-
-  // body
-  --body-bg: #fff;
-  --body-name-color: rgba(0,0,0,.5);
-
-  // transfer
-  --transfer-list-bg: rgba(0,0,0,.1);
+  --menu-color: rgba(0,0,0,.7);
+  --hover-menu-color: #f49531;
 }

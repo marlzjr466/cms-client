@@ -1,49 +1,30 @@
 import { Link, Outlet } from "react-router-dom";
-import { useAuth } from '@hooks'
+import { useMeta } from '@opensource-dev/redux-meta';
+
+// components
+import Nav from "@components/Nav";
+import SideMenu from "@components/SideMenu";
 
 function Layout () {
-  const { logout } = useAuth();
+  const { metaStates } = useMeta()
+
+  const theme = {
+    ...metaStates('theme', ['mode'])
+  }
 
   return (
     <>
-      <h1>Welcome to the App</h1>
+      <div className={`main-container flex flex-col ${theme.mode}`}>
+        <Nav />
 
-      <ul>
-        <li>
-          <Link to="/dashboard">
-            Dashboard
-          </Link>
-        </li>
-        <li>
-          <Link to="/inventory">
-            Inventory
-          </Link>
-        </li>
-        <li>
-          <Link to="/patients">
-            Patients
-          </Link>
-        </li>
-        <li>
-          <Link to="/queue-management">
-            Queue Management
-          </Link>
-        </li>
-        <li>
-          <Link to="/transactions">
-            Transactions
-          </Link>
-        </li>
-        <li>
-          <Link to="/settings">
-            Settings
-          </Link>
-        </li>
-      </ul>
+        <div className="main-body">
+          <SideMenu />
 
-      <button onClick={logout}>Logout</button>
-
-      <Outlet />
+          <div className="content-body">
+            <Outlet />
+          </div>
+        </div>
+      </div>
     </>
   );
 }
