@@ -36,6 +36,47 @@ body {
 button, input, select {
   border: none;
   outline: none;
+  cursor: pointer;
+  border-radius: 5px;
+
+  &.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    padding: 0 10px;
+    gap: 5px;
+  }
+
+  &.default {
+    border: 1px solid rgba(0,0,0,.2);
+    background: transparent;
+    color: var(--menu-color);
+
+    &:hover {
+      background: rgba(0,0,0,.05);
+    }
+  }
+
+  &.success {
+    background-color: #22c55e;
+    background: linear-gradient(to top, #166534, #22c55e);
+  }
+
+  &.warning {
+    background-color: #eab308;
+    background: linear-gradient(to top, #854d0e, #eab308);
+  }
+
+  &.info {
+    background-color: #0ea5e9;
+    background: linear-gradient(to top, #075985, #0ea5e9);
+  }
+
+  &.danger {
+    background-color: #ef4444;
+    background: linear-gradient(to top, #991b1b, #ef4444);
+  }
 }
 
 a {
@@ -81,6 +122,10 @@ ul, ol {
 
   &-end {
     justify-content: flex-end;
+  }
+
+  &-1 {
+    flex: 1;
   }
 }
 
@@ -136,6 +181,19 @@ ul, ol {
   border-radius: 8px;
   background-color: var(--primary-bg);
   width: 100%;
+}
+
+.title {
+  @extend .flex;
+  @extend .flex-ai-c;
+  gap: 10px;
+  color: var( --content-header-color);
+  font-size: 20px;
+  font-weight: 600;
+
+  i {
+    font-size: 18px;
+  }
 }
 
 /* width */

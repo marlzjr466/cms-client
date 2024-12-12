@@ -30,6 +30,40 @@ body {
 button, input, select {
   border: none;
   outline: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+button.btn, input.btn, select.btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  padding: 0 10px;
+  gap: 5px;
+}
+button.default, input.default, select.default {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: transparent;
+  color: var(--menu-color);
+}
+button.default:hover, input.default:hover, select.default:hover {
+  background: rgba(0, 0, 0, 0.05);
+}
+button.success, input.success, select.success {
+  background-color: #22c55e;
+  background: linear-gradient(to top, #166534, #22c55e);
+}
+button.warning, input.warning, select.warning {
+  background-color: #eab308;
+  background: linear-gradient(to top, #854d0e, #eab308);
+}
+button.info, input.info, select.info {
+  background-color: #0ea5e9;
+  background: linear-gradient(to top, #075985, #0ea5e9);
+}
+button.danger, input.danger, select.danger {
+  background-color: #ef4444;
+  background: linear-gradient(to top, #991b1b, #ef4444);
 }
 
 a {
@@ -42,16 +76,16 @@ ul, ol {
   list-style: none;
 }
 
-.flex {
+.flex, .users, .table__pagination, .table__actions .search-filter, .table__actions, .table, .title {
   display: flex;
 }
 .flex-jc-sb {
   justify-content: space-between;
 }
-.flex-jc-c {
+.flex-jc-c, .table__pagination {
   justify-content: center;
 }
-.flex-ai-c {
+.flex-ai-c, .table__pagination, .title {
   align-items: center;
 }
 .flex-ai-sb {
@@ -63,11 +97,14 @@ ul, ol {
 .flex-ai-fe {
   align-items: flex-end;
 }
-.flex-col {
+.flex-col, .users, .table {
   flex-direction: column;
 }
 .flex-end {
   justify-content: flex-end;
+}
+.flex-1 {
+  flex: 1;
 }
 
 .main-container {
@@ -88,12 +125,12 @@ ul, ol {
   padding: 20px;
 }
 
-.container {
+.container, .users, .table {
   width: 100%;
   height: 100%;
 }
 
-.full-width {
+.full-width, .table__pagination, .table__actions {
   width: 100%;
 }
 
@@ -122,6 +159,16 @@ ul, ol {
   border-radius: 8px;
   background-color: var(--primary-bg);
   width: 100%;
+}
+
+.title {
+  gap: 10px;
+  color: var(--content-header-color);
+  font-size: 20px;
+  font-weight: 600;
+}
+.title i {
+  font-size: 18px;
 }
 
 /* width */
@@ -413,6 +460,96 @@ ul, ol {
   margin-top: 1px;
 }
 
+.table {
+  gap: 10px;
+  position: relative;
+}
+.table__actions {
+  gap: 5px;
+}
+.table__actions button {
+  height: 35px;
+  min-width: 35px;
+  font-size: 13px;
+}
+.table__actions button i {
+  margin-top: 2px;
+}
+.table__actions .search-filter {
+  gap: 2px;
+  height: 35px;
+  width: 250px;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  background: transparent;
+  border-radius: 5px;
+  padding: 0 10px;
+  align-items: center;
+}
+.table__actions .search-filter i {
+  font-size: 13px;
+  color: var(--menu-color);
+}
+.table__actions input {
+  flex: 1;
+  color: var(--menu-color);
+  cursor: text;
+  background: none;
+}
+.table__container {
+  overflow-y: auto;
+  max-height: calc(100vh - 250px);
+}
+.table__container table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.table__container table thead {
+  position: sticky;
+  top: 0;
+}
+.table__container table thead tr {
+  background: var(--table-header-bg);
+}
+.table__container table thead tr th {
+  padding: 10px 0;
+  color: var(--menu-color);
+  font-size: 13px;
+}
+.table__container table thead tr th input {
+  margin-top: 5px;
+}
+.table__container table tbody tr:nth-child(even) {
+  background: rgba(0, 0, 0, 0.02);
+}
+.table__container table tbody tr td {
+  padding: 10px 0;
+  color: var(--menu-color);
+  font-size: 13px;
+  text-align: center;
+}
+.table__container table tbody tr td input {
+  margin-top: 2px;
+}
+.table__pagination {
+  gap: 5px;
+}
+.table__pagination button {
+  width: 35px;
+  height: 35px;
+}
+.table__pagination button.active {
+  background: #0ea5e9;
+  color: #fff;
+  border: none;
+}
+.table__pagination button.ellipsis i {
+  margin-top: 6px;
+}
+
+.users {
+  gap: 20px;
+}
+
 :root {
   --bg: #f9fafc;
   --border-color: rgba(0,0,0,.1);
@@ -424,6 +561,8 @@ ul, ol {
   --secondary-color: rgba(0,0,0,.5);
   --menu-color: rgba(0,0,0,.7);
   --hover-menu-color: #f49531;
+  --content-header-color: rgba(0,0,0,.7);
+  --table-header-bg: #ededed;
 }
 
 .dark {
@@ -434,4 +573,6 @@ ul, ol {
   --secondary-color: rgba(255,255,255,.5);
   --menu-color: rgba(255,255,255,.7);
   --hover-menu-color: #f49531;
+  --content-header-color: rgba(255,255,255,.9);
+  --table-header-bg: #262627;
 }/*# sourceMappingURL=style.css.map */

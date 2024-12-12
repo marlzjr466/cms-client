@@ -1,0 +1,122 @@
+.table {
+  @extend .container;
+  @extend .flex;
+  @extend .flex-col;
+
+  gap: 10px;
+  position: relative;
+
+  &__actions {
+    @extend .full-width;
+    @extend .flex;
+    gap: 5px;
+
+    button {
+      height: 35px;
+      min-width: 35px;
+      font-size: 13px;
+
+      i {
+        margin-top: 2px;
+      }
+    }
+
+    .search-filter {
+      @extend .flex;
+      gap: 2px;
+      height: 35px;
+      width: 250px;
+      border: 1px solid rgba(0,0,0,.2);
+      background: transparent;
+      border-radius: 5px;
+      padding: 0 10px;
+      align-items: center;
+
+      i {
+        font-size: 13px;
+        color: var(--menu-color);
+      }
+    }
+
+    input {
+      flex: 1;
+      color: var(--menu-color);
+      cursor: text;
+      background: none;
+    }
+  }
+
+  &__container {
+    overflow-y: auto;
+    max-height: calc(100vh - 250px);
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+  
+      thead {
+        position: sticky;
+        top: 0;
+
+        tr {
+          background: var(--table-header-bg);
+          
+          th {
+            padding: 10px 0;
+            color: var(--menu-color);
+            font-size: 13px;
+
+            input {
+              margin-top: 5px;
+            }
+          }
+        }
+      }
+
+      tbody {
+        tr {
+          &:nth-child(even) {
+            background: rgba(0,0,0,.02);
+          }
+
+          td {
+            
+            padding: 10px 0;
+            color: var(--menu-color);
+            font-size: 13px;
+            text-align: center;
+
+            input {
+              margin-top: 2px;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__pagination {
+    @extend .full-width;
+    @extend .flex;
+    @extend .flex-ai-c;
+    @extend .flex-jc-c;
+    gap: 5px;
+
+    button {
+      width: 35px;
+      height: 35px;
+
+      &.active {
+        background: #0ea5e9;
+        color: #fff;
+        border: none;
+      }
+
+      &.ellipsis {
+        i {
+          margin-top: 6px;
+        }
+      }
+    }
+  }
+}
