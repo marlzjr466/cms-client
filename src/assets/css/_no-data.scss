@@ -1,0 +1,30 @@
+.no-data {
+  @extend .full-width;
+
+  display: grid;
+  place-items: center;
+  padding: 50px 0;
+  font-size: 40px;
+  color: var(--nodata-color);
+  position: relative;
+
+  &:before {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 65px;
+    background: var(--nodata-color);
+    border-left: 3px solid var(--nodata-border-color);
+    border-right: 3px solid var(--nodata-border-color);
+    transform: rotate(-45deg);
+  }
+
+  &:after {
+    @extend .bold;
+
+    content: attr(nodata-msg);
+    position: absolute;
+    font-size: 15px;
+    bottom: 15px;
+  }
+}

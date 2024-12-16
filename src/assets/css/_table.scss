@@ -46,6 +46,17 @@
     }
   }
 
+  &__loader {
+    @extend .flex;
+
+    position: absolute;
+    width: 100%;
+    justify-content: center;
+    padding: 20px 0;
+    height: calc(100% - 45px);
+    bottom: 0;
+  }
+
   &__container {
     overflow-y: auto;
     max-height: calc(100vh - 250px);
@@ -53,6 +64,7 @@
     table {
       width: 100%;
       border-collapse: collapse;
+      table-layout: fixed;
   
       thead {
         position: sticky;
@@ -79,12 +91,16 @@
             background: rgba(0,0,0,.02);
           }
 
+          &:hover {
+            background: rgba(0,0,0,.1);
+          }
+
           td {
-            
             padding: 10px 0;
             color: var(--menu-color);
             font-size: 13px;
             text-align: center;
+            cursor: pointer;
 
             input {
               margin-top: 2px;

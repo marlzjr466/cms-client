@@ -76,7 +76,7 @@ ul, ol {
   list-style: none;
 }
 
-.flex, .users, .table__pagination, .table__actions .search-filter, .table__actions, .table, .title {
+.flex, .users, .table__pagination, .table__loader, .table__actions .search-filter, .table__actions, .table, .title {
   display: flex;
 }
 .flex-jc-sb {
@@ -130,7 +130,7 @@ ul, ol {
   height: 100%;
 }
 
-.full-width, .table__pagination, .table__actions {
+.full-width, .table__pagination, .table__actions, .no-data {
   width: 100%;
 }
 
@@ -146,7 +146,7 @@ ul, ol {
   font-family: Digital;
 }
 
-.bold {
+.bold, .no-data:after {
   font-weight: 600;
 }
 
@@ -292,7 +292,6 @@ ul, ol {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh; /* Full screen height */
   background: rgba(0, 0, 0, 0.2);
 }
 
@@ -460,6 +459,31 @@ ul, ol {
   margin-top: 1px;
 }
 
+.no-data {
+  display: grid;
+  place-items: center;
+  padding: 50px 0;
+  font-size: 40px;
+  color: var(--nodata-color);
+  position: relative;
+}
+.no-data:before {
+  content: "";
+  position: absolute;
+  width: 10px;
+  height: 65px;
+  background: var(--nodata-color);
+  border-left: 3px solid var(--nodata-border-color);
+  border-right: 3px solid var(--nodata-border-color);
+  transform: rotate(-45deg);
+}
+.no-data:after {
+  content: attr(nodata-msg);
+  position: absolute;
+  font-size: 15px;
+  bottom: 15px;
+}
+
 .table {
   gap: 10px;
   position: relative;
@@ -495,6 +519,14 @@ ul, ol {
   cursor: text;
   background: none;
 }
+.table__loader {
+  position: absolute;
+  width: 100%;
+  justify-content: center;
+  padding: 20px 0;
+  height: calc(100% - 45px);
+  bottom: 0;
+}
 .table__container {
   overflow-y: auto;
   max-height: calc(100vh - 250px);
@@ -502,6 +534,7 @@ ul, ol {
 .table__container table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
 }
 .table__container table thead {
   position: sticky;
@@ -521,11 +554,15 @@ ul, ol {
 .table__container table tbody tr:nth-child(even) {
   background: rgba(0, 0, 0, 0.02);
 }
+.table__container table tbody tr:hover {
+  background: rgba(0, 0, 0, 0.1);
+}
 .table__container table tbody tr td {
   padding: 10px 0;
   color: var(--menu-color);
   font-size: 13px;
   text-align: center;
+  cursor: pointer;
 }
 .table__container table tbody tr td input {
   margin-top: 2px;
@@ -567,6 +604,8 @@ ul, ol {
 
 .dark {
   --bg: #050505;
+  --nodata-border-color: #222223;
+  --nodata-color: #393939;
   --primary-border: rgb(75 85 99);
   --primary-bg: #222223;
   --primary-color: #fff;

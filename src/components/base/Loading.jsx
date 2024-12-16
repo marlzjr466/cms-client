@@ -1,6 +1,11 @@
-function Loading ({ size = 50, thick = 5 }) {
+function Loading ({ size = 50, thick = 5, auto }) {
   return (
-    <div className="loading-container">
+    <div
+      className="loading-container"
+      style={{
+        height: auto ? '100%' : '100vh'
+      }}
+    >
       <div
         className="loading-spinner"
         style={{
