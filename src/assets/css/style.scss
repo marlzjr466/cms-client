@@ -8,9 +8,14 @@
 @import "side-menu";
 @import "no-data";
 @import "table";
+@import "date-picker";
+@import "info";
 
 // views
+@import "dashboard";
 @import "users";
+@import "inventory";
+@import "patients";
 
 // themes
 @import "light";

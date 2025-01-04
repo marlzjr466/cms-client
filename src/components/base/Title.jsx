@@ -1,8 +1,10 @@
-function Title ({ title, icon = 'fas fa-bars' }) {
+function Title ({ title, icon = 'fas fa-bars', size }) {
 
   return (
-    <div className="title">
-      <i className={icon}></i>
+    <div className="title" style={{fontSize: size || '20px'}}>
+      {
+        icon && <i className={icon}></i>
+      }
       {title}
     </div>
   )

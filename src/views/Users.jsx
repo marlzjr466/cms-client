@@ -20,7 +20,7 @@ function Users () {
 
   return (
     <div className="users">
-      <Title title="Manage Users" />
+      <Title title="Manage Staff" />
 
       <div className="flex-1">
         <Table

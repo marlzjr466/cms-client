@@ -4,11 +4,17 @@ import { useAuth } from '@hooks'
 
 function Login () {
   const navigate = useNavigate();
-  const { login } = useAuth();
+  const { login, auth } = useAuth();
+
+  useEffect(() => {
+    if (auth) {
+      navigate('/dashboard')
+    }
+  }, [auth])
 
   const handleLogin = () => {
-    login({ name: 'Athena Xiantelle Shekinah' }); // Simulate user login
-    navigate('/dashboard'); // Redirect to the main app
+    login({ name: 'Athena Xiantelle Shekinah' }) // Simulate user login
+    navigate('/dashboard') // Redirect to the main app
   };
 
   return (

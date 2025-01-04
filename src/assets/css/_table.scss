@@ -106,6 +106,16 @@
               margin-top: 2px;
             }
           }
+
+          &.nodata {
+            td {
+              cursor: default;
+            }
+
+            &:hover {
+              background: none;
+            } 
+          }
         }
       }
     }

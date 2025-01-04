@@ -1,0 +1,8 @@
+.patients {
+    @extend .container;
+    @extend .flex;
+    @extend .flex-col;
+  
+    gap: 20px;
+    
+  }

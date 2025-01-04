@@ -6,8 +6,8 @@ export default () => {
       icon: 'fa fa-th-large'
     },
     {
-      name: 'Users',
-      route: '/users',
+      name: 'Staff List',
+      route: '/staff-list',
       icon: 'fa fa-users'
     },
     {

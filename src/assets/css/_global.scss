@@ -77,6 +77,11 @@ button, input, select {
     background-color: #ef4444;
     background: linear-gradient(to top, #991b1b, #ef4444);
   }
+
+  &.disabled {
+    cursor: not-allowed;
+    opacity: .6;
+  }
 }
 
 a {
@@ -181,6 +186,15 @@ ul, ol {
   border-radius: 8px;
   background-color: var(--primary-bg);
   width: 100%;
+
+  &.col {
+    flex-direction: column;
+    align-items: baseline
+  }
+}
+
+.apex-chart {
+  width: 100%;
 }
 
 .title {
@@ -188,7 +202,6 @@ ul, ol {
   @extend .flex-ai-c;
   gap: 10px;
   color: var( --content-header-color);
-  font-size: 20px;
   font-weight: 600;
 
   i {

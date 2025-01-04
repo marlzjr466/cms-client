@@ -12,9 +12,10 @@ function Table({
   isLoading,
   onRowClick,
   totalRowsCount,
-  onPageChance
+  onPageChance,
+  disableButton
 }) {
-  const countPerPage = 1; // Number of rows per page
+  const countPerPage = 15; // Number of rows per page
   const totalPages = Math.ceil(totalRowsCount / countPerPage); // Total pages based on the row count
   const maxVisiblePages = 5; // Maximum number of page buttons to show at once
 
@@ -69,6 +70,12 @@ function Table({
     return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
   };
 
+  const combineKeys = (keys, row) => {
+    const value = keys.map(key => row[key]).join(' ')
+
+    return value
+  }
+
   return (
     <div className="table">
       <div className="table__actions">
@@ -81,13 +88,19 @@ function Table({
           <i className="fas fa-search"></i>
         </div>
 
-        <button className="btn info">
-          <i className="fas fa-plus"></i>
-        </button>
+        {
+          !disableButton && (
+            <>
+              <button className="btn info">
+                <i className="fas fa-plus"></i>
+              </button>
 
-        <button className="btn danger">
-          <i className="fas fa-trash"></i>
-        </button>
+              <button className="btn danger">
+                <i className="fas fa-trash"></i>
+              </button>
+            </>
+          )
+        }
       </div>
 
       {isLoading ? (
@@ -99,13 +112,18 @@ function Table({
           <table>
             <thead>
               <tr>
-                <th width="40px">
-                  <input
-                    type="checkbox"
-                    checked={selectedRows.length === rows.length && rows.length > 0}
-                    onChange={handleSelectAll}
-                  />
-                </th>
+                {
+                  !disableButton && (
+                    <th width="40px">
+                      <input
+                        type="checkbox"
+                        checked={selectedRows.length === rows.length && rows.length > 0}
+                        onChange={handleSelectAll}
+                      />
+                    </th>
+                  )
+                }
+                
                 {headers.map((header, index) => (
                   <th
                     key={index}
@@ -120,27 +138,32 @@ function Table({
             <tbody>
               {getPageRows().map((row, i) => (
                 <tr key={row.id}>
-                  <td>
-                    <input
-                      type="checkbox"
-                      checked={selectedRows.includes(key ? row[key] : i)}
-                      onChange={(e) => {
-                        e.stopPropagation();
-                        handleSelectRow(key ? row[key] : i);
-                      }}
-                    />
-                  </td>
+                  {
+                    !disableButton && (
+                      <td>
+                        <input
+                          type="checkbox"
+                          checked={selectedRows.includes(key ? row[key] : i)}
+                          onChange={(e) => {
+                            e.stopPropagation();
+                            handleSelectRow(key ? row[key] : i);
+                          }}
+                        />
+                      </td>
+                    )
+                  }
+                  
                   {headers.map((header, index) => (
                     <td key={index} onClick={() => onRowClick(row)}>
-                      {row[header.key] || ''}
+                      {typeof header.key === 'object' ? combineKeys(header.key, row) : row[header.key] || ''}
                     </td>
                   ))}
                 </tr>
               ))}
 
               {!rows.length && (
-                <tr>
-                  <td colSpan={headers.length + 1} style={{ textAlign: 'center' }}>
+                <tr className="nodata">
+                  <td colSpan={!disableButton ? headers.length + 1 : headers.length} style={{ textAlign: 'center' }}>
                     <NoData />
                   </td>
                 </tr>
@@ -153,7 +176,7 @@ function Table({
       {rows.length ? (
         <div className="table__pagination">
           <button
-            className={`btn default`}
+            className={`btn default ${currentPage === totalPages ? 'disabled' : ''}`}
             onClick={() => goToPage(1)}
             disabled={currentPage === 1}
           >
@@ -161,7 +184,7 @@ function Table({
           </button>
 
           <button
-            className="btn default"
+            className={`btn default ${currentPage === totalPages ? 'disabled' : ''}`}
             onClick={() => goToPage(currentPage - 1)}
             disabled={currentPage === 1}
           >
@@ -179,7 +202,7 @@ function Table({
           ))}
 
           <button
-            className="btn default"
+            className={`btn default ${currentPage === totalPages ? 'disabled' : ''}`}
             onClick={() => goToPage(currentPage + 1)}
             disabled={currentPage === totalPages}
           >
@@ -187,7 +210,7 @@ function Table({
           </button>
 
           <button
-            className="btn default"
+            className={`btn default ${currentPage === totalPages ? 'disabled' : ''}`}
             onClick={() => goToPage(totalPages)}
             disabled={currentPage === totalPages}
           >

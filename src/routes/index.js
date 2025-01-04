@@ -50,8 +50,8 @@ const routes = [
         authRequired: true
       },
       {
-        path: 'users',
-        name: 'users',
+        path: 'staff-list',
+        name: 'staff-list',
         component: lazy(() => import('@views/Users')),
         authRequired: true
       }

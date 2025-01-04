@@ -1,0 +1,212 @@
+.dashboard {
+  @extend .container;
+  @extend .flex;
+  @extend .flex-col;
+
+  gap: 30px;
+
+  &__title {
+    @extend .flex;
+    @extend .flex-col;
+    gap: 10px;
+
+    span {
+      color: var(--menu-color);
+      font-size: 13px;
+    }
+  }
+
+  &__body {
+    @extend .flex;
+    @extend .full-width;
+    gap: 20px;
+  }
+
+  &__left {
+    @extend .flex;
+    @extend .flex-col;
+
+    gap: 20px;
+    flex: 1;
+  }
+
+  &__totals {
+    @extend .flex;
+    @extend .full-width;
+
+    gap: 20px;
+
+    .card {
+      border-radius: 13px;
+      height: 180px;
+      position: relative;
+      overflow: hidden;
+
+      &__icon {
+        position: absolute;
+        right: -10px;
+        top: 0;
+        font-size: 150px;
+        opacity: .05;
+        color: var(--primary-color);
+      }
+      
+      &__header {
+        @extend .full-width;
+        @extend .flex;
+        @extend .flex-jc-sb;
+        @extend .flex-ai-c;
+  
+        padding: 15px;
+        position: relative;
+        z-index: 2;
+        
+        span {
+          @extend .flex;
+          color: var(--primary-color);
+          font-size: 16px;
+        }
+
+        button {
+          border: 1px solid var(--primary-border);
+          color: var(--primary-color);
+          padding: 10px;
+          font-size: 13px;
+          border-radius: 7px;
+          background: var(--primary-bg);
+        }
+      }
+
+      &__body {
+        @extend .full-width;
+        @extend .flex;
+
+        padding: 0 15px;
+        position: relative;
+        z-index: 2;
+        margin-bottom: 50px;
+
+        span {
+          font-weight: 600;
+          font-size: 25px;
+          color: var(--primary-color);
+        }
+      }
+
+      &__chart {
+        position: absolute;
+        width: 100%;
+        bottom: -45px;
+        left: -22px;
+        height: 20px;
+        height: fit-content;
+        z-index: 1;
+      }
+    }
+  }
+
+  &__table {
+    @extend .flex;
+    @extend .flex-col;
+    @extend .full-width;
+
+    gap: 20px;
+    padding: 20px;
+    border: 1px solid var(--primary-border);
+    border-radius: 13px;
+  }
+
+  &__right {
+    @extend .flex;
+    @extend .flex-col;
+
+    gap: 20px;
+    width: 25%;
+  }
+
+  &__statistics, &__online {
+    @extend .flex;
+    @extend .flex-col;
+
+    gap: 10px;
+    border: 1px solid var(--primary-border);
+    border-radius: 13px;
+    padding: 15px;
+
+    &-row {
+      @extend .full-width;
+      @extend .flex;
+      @extend .flex-jc-sb;
+      @extend .flex-ai-c;
+      
+      padding: 10px ;
+      font-size: 16px;
+      color: var(--menu-color);
+
+      &:not(:last-child) {
+        border-bottom: 1px solid var(--primary-border);
+      }
+
+      span {
+        font-weight: 600;
+      }
+    }
+  }
+
+  &__online {
+    &-item {
+      @extend .flex;
+      @extend .flex-jc-sb;
+      @extend .flex-ai-c;
+
+      padding: 5px 10px;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid var(--primary-border);
+      }
+
+      &-left {
+        @extend .flex;
+        @extend .flex-ai-c;
+        gap: 10px;
+
+        &__icon {
+          width: 45px;
+          height: 45px;
+
+          img {
+            width: inherit;
+            height: inherit;
+          }
+        }
+
+        &__info {
+          @extend .flex;
+          @extend .flex-col;
+
+          font-size: 16px;
+          color: var(--menu-color);
+          gap: 2px;
+
+          span {
+            font-size: 13px;
+            opacity: .6;
+          }
+        }
+      }
+
+      &-indicator {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+        background-color: #a9a9a9;
+        opacity: .2;
+
+        &.active {
+          opacity: 1;
+          background-color: #0ed492;
+        }
+      }
+    }
+  }
+}
