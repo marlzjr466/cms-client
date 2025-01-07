@@ -18,6 +18,18 @@ import modules from '@modules';
 // register all modules
 ReduxMeta.registerModules(modules());
 
+// Save the original methods
+const originalWarn = console.warn;
+
+// Override console.warn
+console.warn = (...args) => {
+  // Suppress specific warnings
+  if (args[0]?.includes('Selector unknown returned the root state')) {
+    return; // Ignore this warning
+  }
+  originalWarn(...args) // Allow other warnings
+}
+
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>

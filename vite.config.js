@@ -17,7 +17,8 @@ export default defineConfig({
       '@package': fileURLToPath(new URL('./src/package', import.meta.url)),
       '@components': fileURLToPath(new URL('./src/components', import.meta.url)),
       '@hooks': fileURLToPath(new URL('./src/hooks', import.meta.url)),
-      '@routes': fileURLToPath(new URL('./src/routes', import.meta.url))
+      '@routes': fileURLToPath(new URL('./src/routes', import.meta.url)),
+      '@config': fileURLToPath(new URL('./src/config', import.meta.url))
     },
   },
   server: {

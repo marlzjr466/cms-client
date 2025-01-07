@@ -9,7 +9,6 @@ import Loading from '@components/base/Loading';
 import routes from '@routes'
 
 function App () {
-
   return (
     <Suspense fallback={<Loading />}>
       <Routes>

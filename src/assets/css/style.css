@@ -80,16 +80,16 @@ ul, ol {
   list-style: none;
 }
 
-.flex, .patients, .inventory, .users, .dashboard__online-item-left__info, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__statistics, .dashboard__online, .dashboard__right, .dashboard__table, .dashboard__totals .card__body, .dashboard__totals .card__header span, .dashboard__totals .card__header, .dashboard__totals, .dashboard__left, .dashboard__body, .dashboard__title, .dashboard, .datepicker__display, .table__pagination, .table__loader, .table__actions .search-filter, .table__actions, .table, .title {
+.flex, .login-container .form-wrapper form .form-group, .login-container .form-wrapper form, .login-container .form-wrapper .greetings, .login-container .form, .patients, .inventory, .users, .dashboard__online-item-left__info, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__statistics, .dashboard__online, .dashboard__right, .dashboard__table, .dashboard__totals .card__body, .dashboard__totals .card__header span, .dashboard__totals .card__header, .dashboard__totals, .dashboard__left, .dashboard__body, .dashboard__title, .dashboard, .datepicker__display, .table__pagination, .table__loader, .table__actions .search-filter, .table__actions, .table, .title {
   display: flex;
 }
 .flex-jc-sb, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__totals .card__header {
   justify-content: space-between;
 }
-.flex-jc-c, .table__pagination {
+.flex-jc-c, .login-container .form, .table__pagination {
   justify-content: center;
 }
-.flex-ai-c, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__totals .card__header, .datepicker__display, .table__pagination, .title {
+.flex-ai-c, .login-container .form-wrapper .greetings, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__totals .card__header, .datepicker__display, .table__pagination, .title {
   align-items: center;
 }
 .flex-ai-sb {
@@ -101,7 +101,7 @@ ul, ol {
 .flex-ai-fe {
   align-items: flex-end;
 }
-.flex-col, .patients, .inventory, .users, .dashboard__online-item-left__info, .dashboard__statistics, .dashboard__online, .dashboard__right, .dashboard__table, .dashboard__left, .dashboard__title, .dashboard, .table {
+.flex-col, .login-container .form-wrapper form .form-group, .login-container .form-wrapper form, .login-container .form-wrapper .greetings, .patients, .inventory, .users, .dashboard__online-item-left__info, .dashboard__statistics, .dashboard__online, .dashboard__right, .dashboard__table, .dashboard__left, .dashboard__title, .dashboard, .table {
   flex-direction: column;
 }
 .flex-end {
@@ -134,11 +134,11 @@ ul, ol {
   height: 100%;
 }
 
-.full-width, .dashboard__statistics-row, .dashboard__online-row, .dashboard__table, .dashboard__totals .card__body, .dashboard__totals .card__header, .dashboard__totals, .dashboard__body, .table__pagination, .table__actions, .no-data {
+.full-width, .login-container .form-wrapper form .form-group input, .login-container .form-wrapper form .form-group button, .login-container .form-wrapper form .form-group select, .login-container .form-wrapper form, .login-container .form-wrapper .greetings, .login-container .form, .login-container h1, .login-container .logo, .login-container, .login-bg img, .login, .dashboard__statistics-row, .dashboard__online-row, .dashboard__table, .dashboard__totals .card__body, .dashboard__totals .card__header, .dashboard__totals, .dashboard__body, .table__pagination, .table__actions, .no-data {
   width: 100%;
 }
 
-.full-height {
+.full-height, .login-container, .login-bg img {
   height: 100%;
 }
 
@@ -303,7 +303,6 @@ ul, ol {
   display: flex;
   justify-content: center;
   align-items: center;
-  background: rgba(0, 0, 0, 0.2);
 }
 
 .loading-spinner {
@@ -807,6 +806,139 @@ ul, ol {
 
 .patients {
   gap: 20px;
+}
+
+.login {
+  height: 100vh;
+  position: relative;
+}
+.login-bg {
+  position: absolute;
+  inset: 0;
+}
+.login-container {
+  position: relative;
+  padding: 20px;
+}
+.login-container .logo img {
+  width: 205px;
+}
+.login-container h1 {
+  text-align: center;
+  color: #fff;
+  text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
+  padding: 20px;
+  margin-top: 50px;
+}
+.login-container .form-wrapper {
+  margin-top: 30px;
+  width: 500px;
+  padding: 30px;
+  border-radius: 20px;
+  background: rgb(255, 255, 255);
+  -webkit-backdrop-filter: blur(5px);
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.225);
+}
+.login-container .form-wrapper .greetings {
+  gap: 20px;
+  font-size: 18px;
+  font-weight: 600;
+  color: #00a6d6;
+}
+.login-container .form-wrapper .greetings span {
+  text-align: center;
+  font-size: 14px;
+  color: rgba(0, 0, 0, 0.7);
+}
+.login-container .form-wrapper form {
+  gap: 10px;
+  margin-top: 40px;
+}
+.login-container .form-wrapper form .form-group {
+  width: inherit;
+  gap: 2px;
+  padding: 0 20px;
+  position: relative;
+}
+.login-container .form-wrapper form .form-group label {
+  color: rgba(0, 0, 0, 0.5);
+  font-size: 13px;
+  padding-left: 5px;
+}
+.login-container .form-wrapper form .form-group input, .login-container .form-wrapper form .form-group button, .login-container .form-wrapper form .form-group select {
+  height: 45px;
+  border-radius: 10px;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  text-indent: 12px;
+  font-size: 16px;
+  background: none;
+  cursor: text;
+  color: rgba(0, 0, 0, 0.7);
+}
+.login-container .form-wrapper form .form-group input:focus, .login-container .form-wrapper form .form-group button:focus, .login-container .form-wrapper form .form-group select:focus {
+  border-color: #00a6d6;
+}
+.login-container .form-wrapper form .form-group input.submit, .login-container .form-wrapper form .form-group button.submit, .login-container .form-wrapper form .form-group select.submit {
+  margin: 20px 0;
+  cursor: pointer;
+  color: #fff;
+  background: linear-gradient(to top, #005972, #00a6d6);
+  border: none;
+}
+.login-container .form-wrapper form .form-group input.submit.disabled, .login-container .form-wrapper form .form-group button.submit.disabled, .login-container .form-wrapper form .form-group select.submit.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+.login-container .form-wrapper form .form-group select {
+  appearance: none; /* Hides the arrow in most browsers */
+  -webkit-appearance: none; /* Hides the arrow in WebKit browsers */
+  -moz-appearance: none;
+  text-indent: 0;
+}
+.login-container .form-wrapper form .form-group select option {
+  font-size: 14px;
+}
+.login-container .form-wrapper form .form-group span {
+  position: absolute;
+  right: 30px;
+  color: rgba(0, 0, 0, 0.3);
+  top: 50%;
+  transform: translateX(-50%);
+  font-size: 15px;
+}
+.login-container .form-wrapper form .form-group .response-message {
+  font-size: 11px;
+  color: #fff;
+  padding: 3px 10px;
+  font-weight: bold;
+  width: 100%;
+  text-align: center;
+  opacity: 0.7;
+  pointer-events: none;
+  margin-bottom: -30px;
+}
+.login-container .form-wrapper form .form-group .response-message.invalid {
+  background: linear-gradient(to right, rgba(229, 74, 74, 0.1), #E54949, rgba(229, 74, 74, 0.1));
+  border-top: 2px solid #E54949;
+  border-bottom: 2px solid #E54949;
+}
+.login-container .form-wrapper form .form-group .response-message.success {
+  background: linear-gradient(to right, rgba(73, 229, 196, 0.1), #49E5C4, rgba(73, 229, 196, 0.1));
+  border-top: 2px solid #49E5C4;
+  border-bottom: 2px solid #49E5C4;
+}
+.login-container .login-footer {
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  left: 0;
+  bottom: 30px;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.7);
+}
+.login-container .login-footer span {
+  color: #fff;
 }
 
 :root {

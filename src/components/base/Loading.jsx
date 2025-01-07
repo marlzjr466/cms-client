@@ -1,9 +1,10 @@
-function Loading ({ size = 50, thick = 5, auto }) {
+function Loading ({ size = 50, thick = 5, auto, noBackground }) {
   return (
     <div
       className="loading-container"
       style={{
-        height: auto ? '100%' : '100vh'
+        height: auto ? '100%' : '100vh',
+        backgroundColor: noBackground ? 'none' : 'rgba(0,0,0,.2)'
       }}
     >
       <div

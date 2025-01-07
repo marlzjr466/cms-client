@@ -1,7 +1,12 @@
 // images
 import images from '@assets/images'
 
+// hooks
+import { useAuth } from '@hooks'
+
 function Nav () {
+  const { auth } = useAuth();
+
   return (
     <div className="nav">
       <span className="nav__logo">
@@ -14,7 +19,7 @@ function Nav () {
         </span>
         <div className="nav__user-info">
           <div>
-            Athena Xiantelle
+            {auth.first_name} {auth.last_name}
             <span>Administrator</span>
           </div>
           <i className="fa fa-angle-down" aria-hidden="true"></i>

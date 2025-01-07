@@ -1,12 +1,22 @@
 import axios from 'axios'
 import _ from 'lodash'
 import env from '@constants'
+import { storage } from '@utilities/helper'
 
 const baseApi = (() => {
   const instance = axios.create({
     baseURL: env.API_URL,
-    timeout: 10000,
-    headers: {}
+    timeout: 10000
+  })
+
+  instance.interceptors.request.use(config => {
+    const token = storage.get('token')
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`
+    } else {
+      delete config.headers.Authorization
+    }
+    return config
   })
 
   const successResponse = response => {

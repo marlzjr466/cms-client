@@ -1,4 +1,9 @@
 import moment from 'moment'
+import { jwtDecode } from 'jwt-decode'
+
+function decodeToken (token) {
+  return jwtDecode(token)
+}
 
 function formatQueueNumber (number) {
   return String(number).padStart(4, '0')
@@ -52,5 +57,6 @@ export {
   sleep,
   storage,
   formattedNumber,
-  formatWithCurrency
+  formatWithCurrency,
+  decodeToken
 }
