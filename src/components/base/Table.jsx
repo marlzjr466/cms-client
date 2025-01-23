@@ -15,7 +15,7 @@ function Table({
   onPageChance,
   disableButton
 }) {
-  const countPerPage = 15; // Number of rows per page
+  const countPerPage = 10; // Number of rows per page
   const totalPages = Math.ceil(totalRowsCount / countPerPage); // Total pages based on the row count
   const maxVisiblePages = 5; // Maximum number of page buttons to show at once
 

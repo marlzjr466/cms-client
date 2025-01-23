@@ -34,10 +34,6 @@ export function headers () {
       key: 'address'
     },
     {
-      column: 'Status',
-      key: 'status'
-    },
-    {
       column: 'Created At',
       key: 'created_at'
     }

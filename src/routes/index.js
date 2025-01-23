@@ -31,18 +31,18 @@ const routes = [
         component: lazy(() => import('@views/Patients')),
         authRequired: true
       },
-      // {
-      //   path: 'queue-management',
-      //   name: 'queue-management',
-      //   component: lazy(() => import('@views/QueueManagement')),
-      //   authRequired: true
-      // },
-      // {
-      //   path: 'settings',
-      //   name: 'settings',
-      //   component: lazy(() => import('@views/Settings')),
-      //   authRequired: true
-      // },
+      {
+        path: 'queue-management',
+        name: 'queue-management',
+        component: lazy(() => import('@views/QueueManagement')),
+        authRequired: true
+      },
+      {
+        path: 'settings',
+        name: 'settings',
+        component: lazy(() => import('@views/Settings')),
+        authRequired: true
+      },
       {
         path: 'transactions',
         name: 'transactions',

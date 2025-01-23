@@ -730,6 +730,7 @@ ul, ol {
   height: -moz-fit-content;
   height: fit-content;
   z-index: 1;
+  opacity: 0.7;
 }
 .dashboard__table {
   gap: 20px;
@@ -821,17 +822,18 @@ ul, ol {
   padding: 20px;
 }
 .login-container .logo img {
-  width: 205px;
+  width: 150px;
 }
 .login-container h1 {
   text-align: center;
   color: #fff;
   text-shadow: 3px 3px 5px rgba(0, 0, 0, 0.5);
   padding: 20px;
-  margin-top: 50px;
+  margin-top: -20px;
+  font-size: 25px;
 }
 .login-container .form-wrapper {
-  margin-top: 30px;
+  margin-top: 10px;
   width: 500px;
   padding: 30px;
   border-radius: 20px;

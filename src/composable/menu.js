@@ -23,7 +23,8 @@ export default () => {
     {
       name: 'Queue Management',
       route: '/queue-management',
-      icon: 'fa fa-stream'
+      icon: 'fa fa-stream',
+      is_hidden: true
     },
     {
       name: 'Transactions',
@@ -33,7 +34,8 @@ export default () => {
     {
       name: 'Settings',
       route: '/settings',
-      icon: 'fa fa-sliders-h'
+      icon: 'fa fa-sliders-h',
+      is_hidden: true
     },
   ]
 

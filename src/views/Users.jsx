@@ -8,12 +8,12 @@ import Table from '@components/base/Table'
 import { headers } from '@composable/users'
 
 const data = [
-  { id: 1, name: 'John Doe', email: 'john@example.com' },
-  { id: 2, name: 'Jane Smith', email: 'jane@example.com' },
-  { id: 3, name: 'Bob Johnson', email: 'bob@example.com' },
-  { id: 4, name: 'Alice Brown', email: 'alice@example.com' },
-  { id: 5, name: 'Charlie White', email: 'charlie@example.com' },
-  { id: 6, name: 'Eve Black', email: 'eve@example.com' },
+  { id: 1, name: 'John Doe', phone_number: '09123456789', role: 'Attendant', status: 'Offline', created_at: new Date().toISOString() },
+  { id: 2, name: 'Jane Smith', phone_number: '09123456789', role: 'Doctor', status: 'Offline', created_at: new Date().toISOString() },
+  { id: 3, name: 'Bob Johnson', phone_number: '09123456789', role: 'Doctor', status: 'Offline', created_at: new Date().toISOString() },
+  { id: 4, name: 'Alice Brown', phone_number: '09123456789', role: 'Attendant', status: 'Offline', created_at: new Date().toISOString() },
+  { id: 5, name: 'Charlie White', phone_number: '09123456789', role: 'Doctor', status: 'Offline', created_at: new Date().toISOString() },
+  { id: 6, name: 'Eve Black', phone_number: '09123456789', role: 'Attendant', status: 'Offline', created_at: new Date().toISOString() },
 ]
 
 function Users () {
