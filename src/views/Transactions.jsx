@@ -25,7 +25,7 @@ function Transactions () {
   ]
 
   return (
-    <div className="patients">
+    <div className="transactions">
       <Title title="Transactions" />
 
       <div className="flex-1">

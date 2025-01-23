@@ -80,7 +80,7 @@ ul, ol {
   list-style: none;
 }
 
-.flex, .login-container .form-wrapper form .form-group, .login-container .form-wrapper form, .login-container .form-wrapper .greetings, .login-container .form, .patients, .inventory, .users, .dashboard__online-item-left__info, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__statistics, .dashboard__online, .dashboard__right, .dashboard__table, .dashboard__totals .card__body, .dashboard__totals .card__header span, .dashboard__totals .card__header, .dashboard__totals, .dashboard__left, .dashboard__body, .dashboard__title, .dashboard, .datepicker__display, .table__pagination, .table__loader, .table__actions .search-filter, .table__actions, .table, .title {
+.flex, .login-container .form-wrapper form .form-group, .login-container .form-wrapper form, .login-container .form-wrapper .greetings, .login-container .form, .transactions, .patients, .inventory, .users, .dashboard__online-item-left__info, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__statistics, .dashboard__online, .dashboard__right, .dashboard__table, .dashboard__totals .card__body, .dashboard__totals .card__header span, .dashboard__totals .card__header, .dashboard__totals, .dashboard__left, .dashboard__body, .dashboard__title, .dashboard, .datepicker__display, .table__pagination, .table__loader, .table__actions .search-filter, .table__actions, .table, .title {
   display: flex;
 }
 .flex-jc-sb, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__totals .card__header {
@@ -101,7 +101,7 @@ ul, ol {
 .flex-ai-fe {
   align-items: flex-end;
 }
-.flex-col, .login-container .form-wrapper form .form-group, .login-container .form-wrapper form, .login-container .form-wrapper .greetings, .patients, .inventory, .users, .dashboard__online-item-left__info, .dashboard__statistics, .dashboard__online, .dashboard__right, .dashboard__table, .dashboard__left, .dashboard__title, .dashboard, .table {
+.flex-col, .login-container .form-wrapper form .form-group, .login-container .form-wrapper form, .login-container .form-wrapper .greetings, .transactions, .patients, .inventory, .users, .dashboard__online-item-left__info, .dashboard__statistics, .dashboard__online, .dashboard__right, .dashboard__table, .dashboard__left, .dashboard__title, .dashboard, .table {
   flex-direction: column;
 }
 .flex-end {
@@ -129,7 +129,7 @@ ul, ol {
   padding: 0 0 0 20px;
 }
 
-.container, .patients, .inventory, .users, .dashboard, .table {
+.container, .transactions, .patients, .inventory, .users, .dashboard, .table {
   width: 100%;
   height: 100%;
 }
@@ -801,15 +801,31 @@ ul, ol {
 }
 
 .users {
+  height: calc(100vh - 80px);
   gap: 20px;
+  overflow: auto;
+  padding: 20px 10px 25px 0;
 }
 
 .inventory {
+  height: calc(100vh - 80px);
   gap: 20px;
+  overflow: auto;
+  padding: 20px 10px 25px 0;
 }
 
 .patients {
+  height: calc(100vh - 80px);
   gap: 20px;
+  overflow: auto;
+  padding: 20px 10px 25px 0;
+}
+
+.transactions {
+  height: calc(100vh - 80px);
+  gap: 20px;
+  overflow: auto;
+  padding: 20px 10px 25px 0;
 }
 
 .login {
