@@ -126,7 +126,7 @@ ul, ol {
   flex: 1;
   height: 100%;
   background-color: var(--primary-bg);
-  padding: 20px;
+  padding: 0 0 0 20px;
 }
 
 .container, .patients, .inventory, .users, .dashboard, .table {
@@ -660,7 +660,10 @@ ul, ol {
 }
 
 .dashboard {
+  height: calc(100vh - 80px);
   gap: 30px;
+  overflow: auto;
+  padding: 20px 10px 25px 0;
 }
 .dashboard__title {
   gap: 10px;

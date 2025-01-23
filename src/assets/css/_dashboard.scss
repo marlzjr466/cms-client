@@ -3,7 +3,10 @@
   @extend .flex;
   @extend .flex-col;
 
+  height: calc(100vh - 80px);
   gap: 30px;
+  overflow: auto;
+  padding: 20px 10px 25px 0;
 
   &__title {
     @extend .flex;

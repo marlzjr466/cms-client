@@ -5,7 +5,7 @@ import moment from 'moment/moment'
 import { useAuth } from '@hooks'
 
 // import utils
-import { formattedNumber, formatWithCurrency } from '@utilities/helper'
+import { formattedNumber, formatWithCurrency, formatQueueNumber } from '@utilities/helper'
 
 // composable
 import { headers } from '@composable/dashboard-patients'
@@ -23,7 +23,14 @@ import Chart from '@components/base/Chart'
 function Dashboard () {
   const { auth } = useAuth();
 
-  const data = []
+  const data = [
+    { id: 1, first_name: 'Patient', last_name: '1', queue_number: formatQueueNumber(13), txn_id: '', status: 'Waiting' },
+    { id: 2, first_name: 'Patient', last_name: '2', queue_number: formatQueueNumber(12), txn_id: '', status: 'Waiting' },
+    { id: 3, first_name: 'Patient', last_name: '3', queue_number: formatQueueNumber(11), txn_id: '', status: 'Ongoing' },
+    { id: 4, first_name: 'Patient', last_name: '4', queue_number: formatQueueNumber(10), txn_id: '', status: 'Completed' },
+    { id: 5, first_name: 'Patient', last_name: '5', queue_number: formatQueueNumber(9), txn_id: '', status: 'Completed' },
+    { id: 6, first_name: 'Patient', last_name: '6', queue_number: formatQueueNumber(8), txn_id: '', status: 'Completed' },
+  ]
   const currentDate = moment().format("dddd, MMMM D, YYYY")
 
   function getRandomChartData () {
@@ -84,7 +91,7 @@ function Dashboard () {
 
               <div className="card__header">
                 <span>
-                  Remaining Inventory
+                  Inventory
                   {/* <Info message="Total number of remaining products." /> */}
                 </span>
                 <button className="btn default">See Details</button>
