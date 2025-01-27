@@ -19,7 +19,7 @@ function Login () {
 
   const [isLoading, setIsLoading] = useState(false)
   const [errorMessage, setErrorMessage] = useState(null)
-  const formRef = useRef(null);
+  const formRef = useRef(null)
 
   useEffect(() => {
     if (auth) {

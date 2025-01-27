@@ -10,8 +10,8 @@ export function headers () {
       key: 'id'
     },
     {
-      column: 'Name',
-      key: 'name'
+      column: 'Full Name',
+      key: ['first_name', 'last_name']
     },
     {
       column: 'Email',
@@ -26,10 +26,6 @@ export function headers () {
       column: 'Address',
       key: 'address',
       is_hidden: true
-    },
-    {
-      column: 'Role',
-      key: 'role'
     },
     {
       column: 'Status',

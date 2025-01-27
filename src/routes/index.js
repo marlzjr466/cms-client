@@ -50,9 +50,15 @@ const routes = [
         authRequired: true
       },
       {
-        path: 'staff-list',
-        name: 'staff-list',
-        component: lazy(() => import('@views/Users')),
+        path: 'doctors',
+        name: 'doctors',
+        component: lazy(() => import('@views/Doctors')),
+        authRequired: true
+      },
+      {
+        path: 'attendants',
+        name: 'attendants',
+        component: lazy(() => import('@views/Attendants')),
         authRequired: true
       }
     ]

@@ -8,12 +8,15 @@ function Table({
   headers = [],
   rows = [],
   selectedValue: key,
-  onSelect,
   isLoading,
-  onRowClick,
   totalRowsCount,
-  onPageChance,
-  disableButton
+  disableButton,
+  onSelect = () => {},
+  onRowClick = () => {},
+  onPageChance = () => {},
+  onCreate = () => {},
+  onRefresh = () => {},
+  onDelete = () => {}
 }) {
   const countPerPage = 10; // Number of rows per page
   const totalPages = Math.ceil(totalRowsCount / countPerPage); // Total pages based on the row count
@@ -79,7 +82,7 @@ function Table({
   return (
     <div className="table">
       <div className="table__actions">
-        <button className="btn default">
+        <button className="btn default" onClick={onRefresh}>
           <i className="fas fa-sync"></i>
         </button>
 
@@ -91,11 +94,19 @@ function Table({
         {
           !disableButton && (
             <>
-              <button className="btn info">
+              <button className="btn info" onClick={onCreate}>
                 <i className="fas fa-plus"></i>
               </button>
 
-              <button className="btn danger">
+              <button
+                className={`btn danger ${!selectedRows.length ? 'disabled' : ''}`}
+                onClick={() => {
+                  onDelete(
+                    selectedRows,
+                    () => setSelectedRows([]) // reset selected rows
+                  )
+                }}
+              >
                 <i className="fas fa-trash"></i>
               </button>
             </>
@@ -155,7 +166,7 @@ function Table({
                   
                   {headers.map((header, index) => (
                     <td key={index} onClick={() => onRowClick(row)}>
-                      {typeof header.key === 'object' ? combineKeys(header.key, row) : row[header.key] || ''}
+                      {typeof header.key === 'object' ? combineKeys(header.key, row) : row[header.key] || '-'}
                     </td>
                   ))}
                 </tr>
