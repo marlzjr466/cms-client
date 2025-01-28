@@ -1,8 +1,9 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
+import moment from 'moment'
 
 // components
-import NoData from '@components/base/NoData';
-import Loading from '@components/base/Loading';
+import NoData from '@components/base/NoData'
+import Loading from '@components/base/Loading'
 
 function Table({
   headers = [],
@@ -166,7 +167,13 @@ function Table({
                   
                   {headers.map((header, index) => (
                     <td key={index} onClick={() => onRowClick(row)}>
-                      {typeof header.key === 'object' ? combineKeys(header.key, row) : row[header.key] || '-'}
+                      {
+                        typeof header.key === 'object'
+                          ? combineKeys(header.key, row)
+                          : header.key.includes('_at')
+                            ? moment(row[header.key]).format('DD MMM YYYY, hh:mm A')
+                            : row[header.key] || '-'
+                      }
                     </td>
                   ))}
                 </tr>

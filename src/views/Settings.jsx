@@ -1,11 +1,14 @@
-import { useEffect } from 'react'
+// components
+import Title from '@components/base/Title'
+import ThemeSelector from '../components/ThemeSelector'
 
 function Settings () {
-
   return (
-    <>
-      <h1>Welcome to Settings</h1>
-    </>
+    <div className="settings">
+      <Title title="Settings" />
+
+      <ThemeSelector />
+    </div>
   )
 }
 

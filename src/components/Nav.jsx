@@ -5,7 +5,7 @@ import images from '@assets/images'
 import { useAuth } from '@hooks'
 
 function Nav () {
-  const { auth } = useAuth();
+  const { auth } = useAuth()
 
   return (
     <div className="nav">

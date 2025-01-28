@@ -62,13 +62,25 @@ function Doctors () {
       },
       sort: [
         { field: 'created_at', direction: 'desc' }
+      ],
+      aggregate: [
+        {
+          table: 'authentications',
+          filters: [
+            {
+              field: 'doctor_id',
+              key: 'id'
+            }
+          ],
+          columns: ['status', 'username']
+        }
       ]
     })
   }
 
   const handleSubmit = async e => {
     e.preventDefault() // Prevent page refresh
-    // setIsLoading(true)
+    setIsLoading(true)
 
     // Use FormData to access the submitted values
     const formData = new FormData(formRef.current)

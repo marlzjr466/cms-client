@@ -23,6 +23,10 @@ export function headers () {
       key: 'phone_number'
     },
     {
+      column: 'Username',
+      key: 'username'
+    },
+    {
       column: 'Address',
       key: 'address',
       is_hidden: true

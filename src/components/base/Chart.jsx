@@ -19,12 +19,12 @@ const ApexChartComponent = ({ type, width, colors, series, showToolTip }) => {
           show: false,
         },
       },
-      tooltip: {
-        enabled: showToolTip || false,
-        x: {
-          show: false,
-        },
-      },
+      // tooltip: {
+      //   enabled: showToolTip || false,
+      //   x: {
+      //     show: false,
+      //   },
+      // },
       subtitle: {
         text: "",
         floating: true,

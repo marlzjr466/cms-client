@@ -39,8 +39,7 @@ export default () => {
     {
       name: 'Settings',
       route: '/settings',
-      icon: 'fa fa-sliders-h',
-      is_hidden: true
+      icon: 'fa fa-sliders-h'
     },
   ]
 

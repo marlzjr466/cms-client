@@ -58,7 +58,7 @@ function SideMenu () {
       </div>
 
       <div className="sidemenu__absolute">
-        <div className="card">
+        {/* <div className="card">
           <div className="footer-item">
             <div>
               <span>
@@ -74,7 +74,7 @@ function SideMenu () {
               />
             </span>
           </div>
-        </div>
+        </div> */}
 
         <div className="card">
           <div className="footer-item" onClick={logout}>

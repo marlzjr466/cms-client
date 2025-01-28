@@ -1,0 +1,227 @@
+.theme-selector {
+  width: 100%;
+
+  &__description {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+
+  &__options {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+}
+
+.theme-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: transform 0.2s ease;
+  padding: 12px;
+  border-radius: 16px;
+
+  &:hover {
+    transform: translateY(-4px);
+    background: rgba(244, 149, 49, 0.05);
+  }
+
+  &.default {
+    transform: translateY(-4px);
+    background: rgba(244, 149, 49, 0.05);
+  }
+
+  &__label {
+    font-size: 0.9rem;
+    color: var(--primary-color);
+    font-weight: 500;
+    position: relative;
+    padding-bottom: 4px;
+
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: #f49531;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+  }
+
+  &:hover .theme-option__label::after {
+    width: 100%;
+  }
+
+  &.default .theme-option__label::after {
+    width: 100%;
+  }
+}
+
+.theme-preview {
+  width: 240px;
+  height: 140px;
+  border-radius: 16px;
+  border: 1px solid var(--primary-border);
+  overflow: hidden;
+  background: #fff;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, rgba(244, 149, 49, 0.1), transparent);
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+
+  &:hover {
+    border-color: #f49531;
+    box-shadow: 0 8px 24px rgba(244, 149, 49, 0.2);
+    transform: scale(1.02);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &.default {
+    border-color: #f49531;
+    box-shadow: 0 8px 24px rgba(244, 149, 49, 0.2);
+    transform: scale(1.02);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+  &__split {
+    display: flex;
+    height: 100%;
+    position: relative;
+
+    // &::after {
+    //   content: '';
+    //   position: absolute;
+    //   top: 50%;
+    //   left: 50%;
+    //   transform: translate(-50%, -50%);
+    //   width: 28px;
+    //   height: 28px;
+    //   background: #fff;
+    //   border: 2px solid #f49531;
+    //   border-radius: 50%;
+    //   z-index: 1;
+    //   box-shadow: 0 2px 8px rgba(244, 149, 49, 0.2);
+    //   transition: all 0.3s ease;
+    // }
+  }
+
+  &__active {
+    color: rgb(63, 240, 178);
+    position: absolute;
+    top: 5px;
+    right: 5px;
+  }
+
+  &__light, &__dark {
+    width: 100%;
+    position: relative;
+    
+    &::after {
+      content: '';
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      right: 20px;
+      height: 12px;
+      border-radius: 6px;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 44px;
+      left: 20px;
+      right: 40px;
+      height: 8px;
+      border-radius: 4px;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .content-blocks {
+      position: absolute;
+      bottom: 20px;
+      left: 20px;
+      right: 20px;
+      display: flex;
+      gap: 8px;
+
+      span {
+        height: 24px;
+        flex: 1;
+        border-radius: 4px;
+        animation: shimmer 2s infinite;
+      }
+    }
+  }
+
+  &__light {
+    background: linear-gradient(135deg, #ffffff 20%, #d1d1d1 80%);
+
+    &::after, &::before {
+      background: rgba(255, 255, 255, 0.8);
+    }
+
+    .content-blocks span {
+      background: rgba(255, 255, 255, 0.8);
+    }
+  }
+
+  &__dark {
+    background: linear-gradient(225deg, #333333 10%, #050505 90%);
+
+    &::after, &::before {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    .content-blocks span {
+      background: rgba(255, 255, 255, 0.1);
+    }
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .theme-preview {
+    width: 200px;
+    height: 120px;
+  }
+}
+
+@media (max-width: 480px) {
+  .theme-preview {
+    width: 160px;
+    height: 100px;
+  }
+}
