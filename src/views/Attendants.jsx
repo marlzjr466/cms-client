@@ -47,14 +47,31 @@ function Attendants () {
     }
   }, [showCreateModal])
 
-  const loadAttendants = async () => {
-    await attendants.fetch({
-      filters: [
+  const loadAttendants = async (data = null) => {
+    let filters = [
+      {
+        field: 'deleted_at',
+        value: 'null'
+      }
+    ]
+
+    if (data) {
+      filters = [
         {
-          field: 'deleted_at',
-          value: 'null'
+          field: 'first_name',
+          operator: 'like',
+          value: data
+        },
+        {
+          field: 'last_name',
+          operator: 'orlike',
+          value: data
         }
-      ],
+      ]
+    }
+
+    await attendants.fetch({
+      filters,
       is_count: true,
       pagination: {
         rows: 10,
@@ -164,6 +181,7 @@ function Attendants () {
             setUpdateData(null)
             setShowCreateModal(true)
           }}
+          onSearch={data => loadAttendants(data)}
         />
       </div>
 

@@ -15,7 +15,7 @@ function SideMenu () {
   const navigate = useNavigate()
 
   const { metaStates, metaMutations } = useMeta()
-  const { logout } = useAuth()
+  const { logout, auth } = useAuth()
 
   const { list } = menu()
 
@@ -32,8 +32,8 @@ function SideMenu () {
         <div className="clinic-info">
           <i className="fa-solid fa-hospital" aria-hidden="true"></i>
           <div>
-            Avecina Clinic
-            <span>123 Main Street, Los Angeles</span>
+            {auth.clinic_name}
+            <span>{auth.clinic_address}</span>
           </div>
         </div>
       </div>

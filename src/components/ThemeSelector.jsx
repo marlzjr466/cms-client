@@ -53,7 +53,7 @@ const ThemeSelector = () => {
   return (
     <div className="theme-selector">
       <p className="theme-selector__description">
-      Customize your app experience by selecting a theme that suits your preference.
+        Customize your app experience by selecting a theme that suits your preference.
       </p>
       
       <div className="theme-selector__options">

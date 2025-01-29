@@ -41,6 +41,12 @@ button.btn, input.btn, select.btn {
   padding: 0 10px;
   gap: 5px;
 }
+button.ghost, input.ghost, select.ghost {
+  background: transparent;
+}
+button.ghost.negative, input.ghost.negative, select.ghost.negative {
+  margin-right: -10px;
+}
 button.default, input.default, select.default {
   border: 1px solid rgba(0, 0, 0, 0.2);
   background: transparent;

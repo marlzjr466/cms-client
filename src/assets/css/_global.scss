@@ -48,6 +48,14 @@ button, input, select {
     gap: 5px;
   }
 
+  &.ghost {
+    background: transparent;
+
+    &.negative {
+      margin-right: -10px;
+    }
+  }
+
   &.default {
     border: 1px solid rgba(0,0,0,.2);
     background: transparent;

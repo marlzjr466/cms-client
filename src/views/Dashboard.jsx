@@ -23,14 +23,7 @@ import Chart from '@components/base/Chart'
 function Dashboard () {
   const { auth } = useAuth();
 
-  const data = [
-    { id: 1, created_at: new Date().toDateString(), first_name: 'Patient', last_name: '1', queue_number: formatQueueNumber(13), txn_id: '-', status: 'Waiting' },
-    { id: 2, created_at: new Date().toDateString(), first_name: 'Patient', last_name: '2', queue_number: formatQueueNumber(12), txn_id: '-', status: 'Waiting' },
-    { id: 3, created_at: new Date().toDateString(), first_name: 'Patient', last_name: '3', queue_number: formatQueueNumber(11), txn_id: '-', status: 'Ongoing' },
-    { id: 4, created_at: new Date().toDateString(), first_name: 'Patient', last_name: '4', queue_number: formatQueueNumber(10), txn_id: '115', status: 'Completed' },
-    { id: 5, created_at: new Date().toDateString(), first_name: 'Patient', last_name: '5', queue_number: formatQueueNumber(9), txn_id: '114', status: 'Completed' },
-    { id: 6, created_at: new Date().toDateString(), first_name: 'Patient', last_name: '6', queue_number: formatQueueNumber(8), txn_id: '113', status: 'Completed' },
-  ]
+  const data = []
   const currentDate = moment().format("dddd, MMMM D, YYYY")
 
   function getRandomChartData () {

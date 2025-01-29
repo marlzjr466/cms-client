@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import moment from 'moment'
 
 // components
@@ -17,14 +17,17 @@ function Table({
   onPageChance = () => {},
   onCreate = () => {},
   onRefresh = () => {},
-  onDelete = () => {}
+  onDelete = () => {},
+  onSearch = () => {}
 }) {
-  const countPerPage = 10; // Number of rows per page
-  const totalPages = Math.ceil(totalRowsCount / countPerPage); // Total pages based on the row count
-  const maxVisiblePages = 5; // Maximum number of page buttons to show at once
+  const countPerPage = 10 // Number of rows per page
+  const totalPages = Math.ceil(totalRowsCount / countPerPage) // Total pages based on the row count
+  const maxVisiblePages = 5 // Maximum number of page buttons to show at once
 
-  const [selectedRows, setSelectedRows] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedRows, setSelectedRows] = useState([])
+  const [currentPage, setCurrentPage] = useState(1)
+
+  const searchFormRef = useRef(null) 
 
   useEffect(() => onSelect(selectedRows), [selectedRows])
   useEffect(() => onPageChance(currentPage), [currentPage])
@@ -80,17 +83,34 @@ function Table({
     return value
   }
 
+  const handleSearch = e => {
+    e.preventDefault()
+    onSearch(e.target.children[0].value)
+  }
+
   return (
     <div className="table">
       <div className="table__actions">
-        <button className="btn default" onClick={onRefresh}>
+        <button
+          className="btn default"
+          onClick={() => {
+            onRefresh()
+            searchFormRef.current.reset()
+          }}
+        >
           <i className="fas fa-sync"></i>
         </button>
 
-        <div className="search-filter">
-          <input type="text" placeholder="Search here..." />
-          <i className="fas fa-search"></i>
-        </div>
+        <form
+          ref={searchFormRef}
+          className="search-filter"
+          onSubmit={handleSearch}
+        >
+          <input type="text" name="search" placeholder="Search here..." />
+          <button className="btn ghost negative" type="submit">
+            <i className="fas fa-search"></i>
+          </button>
+        </form>
 
         {
           !disableButton && (

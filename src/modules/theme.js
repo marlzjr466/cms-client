@@ -33,7 +33,6 @@ export default () => ({
 
     async patch ({}, params) {
       try {
-        console.log('params', params)
         const response = await baseApi.patch('/settings', params)
         return response.data
       } catch (error) {

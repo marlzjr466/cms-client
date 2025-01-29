@@ -10,12 +10,14 @@ import Loading from '@components/base/Loading'
 
 // composable
 import { headers } from '@composable/users'
+import { filters } from '@composable/filters'
 
 // utils
 import swal from '@utilities/swal'
 
 function Doctors () {
   const { metaActions, metaStates } = useMeta()
+  const { setPage, pagination, sort, page } = filters()
 
   const doctors = {
     ...metaStates('doctors', ['list', 'count']),
@@ -25,7 +27,6 @@ function Doctors () {
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [updateData, setUpdateData] = useState(null)
-  const [page, setPage] = useState(1)
 
   const formRef = useRef(null)
 
@@ -47,22 +48,31 @@ function Doctors () {
     }
   }, [showCreateModal])
 
-  const loadDoctors = async () => {
-    await doctors.fetch({
-      filters: [
+  const loadDoctors = async (data = null) => {
+    let filters = [
+      {
+        field: 'deleted_at',
+        value: 'null'
+      }
+    ]
+
+    if (data) {
+      filters = [
         {
-          field: 'deleted_at',
-          value: 'null'
+          field: 'first_name',
+          operator: 'like',
+          value: data
+        },
+        {
+          field: 'last_name',
+          operator: 'orlike',
+          value: data
         }
-      ],
-      is_count: true,
-      pagination: {
-        rows: 10,
-        page
-      },
-      sort: [
-        { field: 'created_at', direction: 'desc' }
-      ],
+      ]
+    }
+
+    await doctors.fetch({
+      filters,
       aggregate: [
         {
           table: 'authentications',
@@ -74,7 +84,10 @@ function Doctors () {
           ],
           columns: ['status', 'username']
         }
-      ]
+      ],
+      is_count: true,
+      pagination,
+      sort,
     })
   }
 
@@ -164,6 +177,7 @@ function Doctors () {
             setUpdateData(null)
             setShowCreateModal(true)
           }}
+          onSearch={data => loadDoctors(data)}
         />
       </div>
 
