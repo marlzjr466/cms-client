@@ -27,6 +27,7 @@ function Doctors () {
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [updateData, setUpdateData] = useState(null)
+  const [isDataLoading, setIsDataLoading] = useState(false)
 
   const formRef = useRef(null)
 
@@ -49,6 +50,7 @@ function Doctors () {
   }, [showCreateModal])
 
   const loadDoctors = async (data = null) => {
+    setIsDataLoading(true)
     let filters = [
       {
         field: 'deleted_at',
@@ -89,6 +91,8 @@ function Doctors () {
       pagination,
       sort,
     })
+
+    setIsDataLoading(false)
   }
 
   const handleSubmit = async e => {
@@ -178,6 +182,7 @@ function Doctors () {
             setShowCreateModal(true)
           }}
           onSearch={data => loadDoctors(data)}
+          isLoading={isDataLoading}
         />
       </div>
 

@@ -9,9 +9,9 @@ function Table({
   headers = [],
   rows = [],
   selectedValue: key,
-  isLoading,
   totalRowsCount,
   disableButton,
+  isLoading,
   onSelect = () => {},
   onRowClick = () => {},
   onPageChance = () => {},
@@ -135,81 +135,83 @@ function Table({
         }
       </div>
 
-      {isLoading ? (
-        <div className="table__loader">
-          <Loading auto />
-        </div>
-      ) : (
-        <div className="table__container">
-          <table>
-            <thead>
-              <tr>
+      <div className="table__container">
+        <table>
+          <thead>
+            <tr>
+              {
+                !disableButton && (
+                  <th width="40px">
+                    <input
+                      type="checkbox"
+                      checked={selectedRows.length === rows.length && rows.length > 0}
+                      onChange={handleSelectAll}
+                    />
+                  </th>
+                )
+              }
+              
+              {headers.map((header, index) => (
+                <th
+                  key={index}
+                  style={['#', 'id'].includes(header.key) ? { width: '50px' } : {}}
+                >
+                  {header.column}
+                </th>
+              ))}
+            </tr>
+          </thead>
+
+          <tbody>
+            {getPageRows().map((row, i) => (
+              <tr key={row.id}>
                 {
                   !disableButton && (
-                    <th width="40px">
+                    <td>
                       <input
                         type="checkbox"
-                        checked={selectedRows.length === rows.length && rows.length > 0}
-                        onChange={handleSelectAll}
+                        checked={selectedRows.includes(key ? row[key] : i)}
+                        onChange={(e) => {
+                          e.stopPropagation();
+                          handleSelectRow(key ? row[key] : i);
+                        }}
                       />
-                    </th>
+                    </td>
                   )
                 }
                 
                 {headers.map((header, index) => (
-                  <th
-                    key={index}
-                    style={['#', 'id'].includes(header.key) ? { width: '50px' } : {}}
-                  >
-                    {header.column}
-                  </th>
+                  <td key={index} onClick={() => onRowClick(row)}>
+                    {
+                      typeof header.key === 'object'
+                        ? combineKeys(header.key, row)
+                        : header.key.includes('_at')
+                          ? moment(row[header.key]).format('DD MMM YYYY, hh:mm A')
+                          : row[header.key] || '-'
+                    }
+                  </td>
                 ))}
               </tr>
-            </thead>
+            ))}
 
-            <tbody>
-              {getPageRows().map((row, i) => (
-                <tr key={row.id}>
-                  {
-                    !disableButton && (
-                      <td>
-                        <input
-                          type="checkbox"
-                          checked={selectedRows.includes(key ? row[key] : i)}
-                          onChange={(e) => {
-                            e.stopPropagation();
-                            handleSelectRow(key ? row[key] : i);
-                          }}
-                        />
-                      </td>
-                    )
-                  }
-                  
-                  {headers.map((header, index) => (
-                    <td key={index} onClick={() => onRowClick(row)}>
-                      {
-                        typeof header.key === 'object'
-                          ? combineKeys(header.key, row)
-                          : header.key.includes('_at')
-                            ? moment(row[header.key]).format('DD MMM YYYY, hh:mm A')
-                            : row[header.key] || '-'
-                      }
-                    </td>
-                  ))}
-                </tr>
-              ))}
+            {!rows.length && (
+              <tr className="nodata">
+                <td colSpan={!disableButton ? headers.length + 1 : headers.length} style={{ textAlign: 'center' }}>
+                  <NoData />
+                </td>
+              </tr>
+            )}
+          </tbody>
+        </table>
 
-              {!rows.length && (
-                <tr className="nodata">
-                  <td colSpan={!disableButton ? headers.length + 1 : headers.length} style={{ textAlign: 'center' }}>
-                    <NoData />
-                  </td>
-                </tr>
-              )}
-            </tbody>
-          </table>
-        </div>
-      )}
+        {
+          isLoading && (
+            <div className="table__loader">
+              <Loading auto size={30} thick={4} />
+            </div>
+          )
+        }
+      </div>
 
       {rows.length ? (
         <div className="table__pagination">

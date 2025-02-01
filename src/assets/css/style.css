@@ -639,12 +639,13 @@ ul, ol {
   width: 100%;
   justify-content: center;
   padding: 20px 0;
-  height: calc(100% - 45px);
+  height: 100%;
   bottom: 0;
 }
 .table__container {
   overflow-y: auto;
   max-height: calc(100vh - 250px);
+  position: relative;
 }
 .table__container table {
   width: 100%;
