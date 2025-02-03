@@ -181,13 +181,19 @@ function Table({
                 }
                 
                 {headers.map((header, index) => (
-                  <td key={index} onClick={() => onRowClick(row)}>
+                  <td
+                    key={index}
+                    onClick={() => onRowClick(row)}
+                    className={header.key === 'description' ? 'truncate' : ''}
+                  >
                     {
                       typeof header.key === 'object'
                         ? combineKeys(header.key, row)
                         : header.key.includes('_at')
                           ? moment(row[header.key]).format('DD MMM YYYY, hh:mm A')
-                          : row[header.key] || '-'
+                          : header.key.includes('.')
+                            ? header.key.split('.').reduce((obj, key) => obj?.[key], row)
+                            : row[header.key] || '-'
                     }
                   </td>
                 ))}
@@ -213,7 +219,7 @@ function Table({
         }
       </div>
 
-      {rows.length ? (
+      {rows.length && !isLoading ? (
         <div className="table__pagination">
           <button
             className={`btn default ${currentPage === totalPages ? 'disabled' : ''}`}

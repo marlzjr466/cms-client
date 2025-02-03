@@ -8,6 +8,9 @@ import Title from '@components/base/Title'
 import Table from '@components/base/Table'
 import Loading from '@components/base/Loading'
 
+// hooks
+import { useAuth } from '@hooks'
+
 // composable
 import { headers } from '@composable/users'
 import { filters } from '@composable/filters'
@@ -16,6 +19,7 @@ import { filters } from '@composable/filters'
 import swal from '@utilities/swal'
 
 function Doctors () {
+  const { auth } = useAuth()
   const { metaActions, metaStates } = useMeta()
   const { setPage, pagination, sort, page } = filters()
 
@@ -52,6 +56,10 @@ function Doctors () {
   const loadDoctors = async (data = null) => {
     setIsDataLoading(true)
     let filters = [
+      {
+        field: 'admin_id',
+        value: auth.id
+      },
       {
         field: 'deleted_at',
         value: 'null'
@@ -112,6 +120,7 @@ function Doctors () {
         }
       })
     } else {
+      obj.admin_id = auth.id
       var response = await doctors.create(obj)
     }
 
@@ -130,7 +139,7 @@ function Doctors () {
     
     swal.success({
       title: 'Success',
-      text: 'Doctor created successfully!'
+      text: `Doctor ${updateData ? 'updated' : 'created'} successfully!`
     })
   }
 

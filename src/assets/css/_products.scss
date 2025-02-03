@@ -1,0 +1,23 @@
+.products {
+  @extend .container;
+  @extend .flex;
+  @extend .flex-col;
+
+  height: calc(100vh - 80px);
+  gap: 20px;
+  overflow: auto;
+  padding: 20px 10px 25px 0;
+
+  span.info {
+    @extend .flex;
+    @extend .flex-ai-c;
+
+    gap: 10px;
+    font-size: 15px;
+    color: var(--info-color);
+
+    i {
+      color: rgb(53, 120, 213);
+    }
+  }
+}

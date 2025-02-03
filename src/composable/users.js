@@ -24,7 +24,7 @@ export function headers () {
     },
     {
       column: 'Username',
-      key: 'username'
+      key: 'authentications.username'
     },
     {
       column: 'Address',
@@ -33,7 +33,7 @@ export function headers () {
     },
     {
       column: 'Status',
-      key: 'status'
+      key: 'authentications.status'
     },
     {
       column: 'Created At',

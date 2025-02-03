@@ -58,7 +58,7 @@
           padding-left: 5px;
         }
       
-        input, button, select {
+        input, button, select, textarea {
           @extend .full-width;
       
           height: 45px;
@@ -86,6 +86,25 @@
               opacity: .7;
               cursor: not-allowed;
             }
+          }
+        }
+
+        select {
+          color: var(--primary-color);;
+
+          option {
+            color: #000;
+          }
+        }
+
+        textarea {
+          min-height: 150px;
+          resize: none;
+          text-indent: 0;
+          padding: 12px;
+
+          &:focus {
+            outline: #00a6d6;
           }
         }
       

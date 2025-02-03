@@ -79,6 +79,13 @@
             padding: 10px 0;
             color: var(--menu-color);
             font-size: 13px;
+            text-align: left;
+            padding-left: 10px;
+
+            &:first-child {
+              text-align: center;
+              padding-left: 0;
+            }
 
             input {
               margin-top: 5px;
@@ -101,11 +108,22 @@
             padding: 10px 0;
             color: var(--menu-color);
             font-size: 13px;
-            text-align: center;
             cursor: pointer;
+            padding-left: 10px;
+
+            &:first-child {
+              text-align: center;
+              padding-left: 0;
+            }
 
             input {
               margin-top: 2px;
+            }
+
+            &.truncate {
+              overflow: hidden;
+              text-overflow: ellipsis;
+              white-space: nowrap;
             }
           }
 

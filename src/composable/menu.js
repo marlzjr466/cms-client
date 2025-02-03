@@ -16,9 +16,20 @@ export default () => {
       icon: 'fa fa-users'
     },
     {
+      name: 'Categories',
+      route: '/categories',
+      icon: 'fa fa-tags'
+    },
+    {
+      name: 'Products',
+      route: '/products',
+      icon: 'fa fa-pills'
+    },
+    {
       name: 'Inventory',
       route: '/inventory',
-      icon: 'fa fa-box'
+      icon: 'fa fa-box',
+      is_hidden: true
     },
     {
       name: 'Patients',

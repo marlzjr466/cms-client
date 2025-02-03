@@ -8,34 +8,35 @@ import Title from '@components/base/Title'
 import Table from '@components/base/Table'
 import Loading from '@components/base/Loading'
 
-// composable
-import { headers } from '@composable/users'
-
 // hooks
 import { useAuth } from '@hooks'
+
+// composable
+import { headers } from '@composable/categories'
+import { filters } from '@composable/filters'
 
 // utils
 import swal from '@utilities/swal'
 
-function Attendants () {
+function Categories () {
   const { auth } = useAuth()
   const { metaActions, metaStates } = useMeta()
+  const { setPage, pagination, sort, page } = filters()
 
-  const attendants = {
-    ...metaStates('attendants', ['list', 'count']),
-    ...metaActions('attendants', ['fetch', 'create', 'patch'])
+  const categories = {
+    ...metaStates('categories', ['list', 'count']),
+    ...metaActions('categories', ['fetch', 'create', 'patch'])
   }
 
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [updateData, setUpdateData] = useState(null)
-  const [page, setPage] = useState(1)
   const [isDataLoading, setIsDataLoading] = useState(false)
 
   const formRef = useRef(null)
 
   useEffect(() => {
-    loadAttendants()
+    loadCategories()
   }, [page])
 
   useEffect(() => {
@@ -46,13 +47,11 @@ function Attendants () {
 
   useEffect(() => {
     if (showCreateModal && updateData) {
-      formRef.current.querySelector('[name="first_name"]').value = updateData.first_name
-      formRef.current.querySelector('[name="last_name"]').value = updateData.last_name
-      formRef.current.querySelector('[name="phone_number"]').value = updateData.phone_number
+      formRef.current.querySelector('[name="name"]').value = updateData.name
     }
   }, [showCreateModal])
 
-  const loadAttendants = async (data = null) => {
+  const loadCategories = async (data = null) => {
     setIsDataLoading(true)
     let filters = [
       {
@@ -68,40 +67,18 @@ function Attendants () {
     if (data) {
       filters = [
         {
-          field: 'first_name',
+          field: 'name',
           operator: 'like',
-          value: data
-        },
-        {
-          field: 'last_name',
-          operator: 'orlike',
           value: data
         }
       ]
     }
 
-    await attendants.fetch({
+    await categories.fetch({
       filters,
       is_count: true,
-      pagination: {
-        rows: 10,
-        page
-      },
-      sort: [
-        { field: 'created_at', direction: 'desc' }
-      ],
-      aggregate: [
-        {
-          table: 'authentications',
-          filters: [
-            {
-              field: 'attendant_id',
-              key: 'id'
-            }
-          ],
-          columns: ['status', 'username']
-        }
-      ]
+      pagination,
+      sort,
     })
 
     setIsDataLoading(false)
@@ -116,7 +93,7 @@ function Attendants () {
     const obj = Object.fromEntries(formData.entries())
 
     if (updateData) {
-      var response = await attendants.patch({
+      var response = await categories.patch({
         key: 'id',
         data: {
           id: updateData.id,
@@ -125,14 +102,14 @@ function Attendants () {
       })
     } else {
       obj.admin_id = auth.id
-      var response = await attendants.create(obj)
+      var response = await categories.create(obj)
     }
 
     setUpdateData(null)
     setIsLoading(false)
     setShowCreateModal(false)
     formRef.current.reset()
-    loadAttendants()
+    loadCategories()
 
     if (response.error) {
       swal.error({
@@ -143,10 +120,10 @@ function Attendants () {
     
     swal.success({
       title: 'Success',
-      text: `Attendant ${updateData ? 'updated' : 'created'} successfully!`
+      text: `Category ${updateData ? 'updated' : 'created'} successfully!`
     })
   }
-  
+
   const handleBulkDelete = async (ids, reset) => {
     swal.prompt({
       text: 'Are you sure you want to delete this?',
@@ -154,7 +131,7 @@ function Attendants () {
         try {
           await Promise.all(
             ids.map(id => {
-              return attendants.patch({
+              return categories.patch({
                 key: 'id',
                 data: {
                   id,
@@ -165,7 +142,7 @@ function Attendants () {
           )
           
           reset()
-          loadDoctors()
+          loadCategories()
           swal.success()
         } catch (error) {
           swal.error({
@@ -177,31 +154,31 @@ function Attendants () {
   }
 
   return (
-    <div className="users">
-      <Title title="Manage Attendant" />
+    <div className="categories">
+      <Title title="Manage Categories" />
 
       <div className="flex-1">
         <Table
           headers={headers()}
-          rows={attendants.list}
+          rows={categories.list}
           selectedValue="id"
-          totalRowsCount={attendants.count}
-          onRefresh={() => loadAttendants()}
+          totalRowsCount={categories.count}
           onDelete={async (ids, reset) => handleBulkDelete(ids, reset)}
+          onRefresh={() => loadCategories()}
           onRowClick={row => setUpdateData(row)}
           onPageChance={value => setPage(value)}
           onCreate={() => {
             setUpdateData(null)
             setShowCreateModal(true)
           }}
-          onSearch={data => loadAttendants(data)}
+          onSearch={data => loadCategories(data)}
           isLoading={isDataLoading}
         />
       </div>
 
       <Modal
         visible={showCreateModal}
-        title={`${updateData ? 'Update' : 'Create'} Attendant`}
+        title={`${updateData ? 'Update' : 'Create'} Category`}
         onClose={() => {
           setUpdateData(null)
           setShowCreateModal(false)
@@ -209,18 +186,8 @@ function Attendants () {
       >
         <form ref={formRef} onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>First Name</label>
-            <input type="text" name="first_name" required autoComplete="off" />
-          </div>
-
-          <div className="form-group">
-            <label>Last Name</label>
-            <input type="text" name="last_name" required autoComplete="off" />
-          </div>
-
-          <div className="form-group">
-            <label>Phone Number</label>
-            <input type="text" name="phone_number" required autoComplete="off" />
+            <label>Name</label>
+            <input type="text" name="name" required autoComplete="off" />
           </div>
 
           <div className="form-group">
@@ -240,4 +207,4 @@ function Attendants () {
   )
 }
 
-export default Attendants
+export default Categories

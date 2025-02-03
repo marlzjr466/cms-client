@@ -86,7 +86,7 @@ ul, ol {
   list-style: none;
 }
 
-.flex, .settings, .transactions, .patients, .inventory, .users, .dashboard__online-item-left__info, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__statistics, .dashboard__online, .dashboard__right, .dashboard__table, .dashboard__totals .card__body, .dashboard__totals .card__header span, .dashboard__totals .card__header, .dashboard__totals, .dashboard__left, .dashboard__body, .dashboard__title, .dashboard, .modal_container form .form-group, .datepicker__display, .table__pagination, .table__loader, .table__actions .search-filter, .table__actions, .table, .form-wrapper form .form-group, .form-wrapper form, .form-wrapper .greetings, .form, .title {
+.flex, .categories, .products span.info, .products, .settings, .transactions, .patients, .inventory, .users, .dashboard__online-item-left__info, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__statistics, .dashboard__online, .dashboard__right, .dashboard__table, .dashboard__totals .card__body, .dashboard__totals .card__header span, .dashboard__totals .card__header, .dashboard__totals, .dashboard__left, .dashboard__body, .dashboard__title, .dashboard, .modal_container form .form-group, .datepicker__display, .table__pagination, .table__loader, .table__actions .search-filter, .table__actions, .table, .form-wrapper form .form-group, .form-wrapper form, .form-wrapper .greetings, .form, .title {
   display: flex;
 }
 .flex-jc-sb, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__totals .card__header {
@@ -95,7 +95,7 @@ ul, ol {
 .flex-jc-c, .table__pagination, .form {
   justify-content: center;
 }
-.flex-ai-c, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__totals .card__header, .datepicker__display, .table__pagination, .form-wrapper .greetings, .title {
+.flex-ai-c, .products span.info, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__totals .card__header, .datepicker__display, .table__pagination, .form-wrapper .greetings, .title {
   align-items: center;
 }
 .flex-ai-sb {
@@ -107,7 +107,7 @@ ul, ol {
 .flex-ai-fe {
   align-items: flex-end;
 }
-.flex-col, .settings, .transactions, .patients, .inventory, .users, .dashboard__online-item-left__info, .dashboard__statistics, .dashboard__online, .dashboard__right, .dashboard__table, .dashboard__left, .dashboard__title, .dashboard, .modal_container form .form-group, .table, .form-wrapper form .form-group, .form-wrapper form, .form-wrapper .greetings {
+.flex-col, .categories, .products, .settings, .transactions, .patients, .inventory, .users, .dashboard__online-item-left__info, .dashboard__statistics, .dashboard__online, .dashboard__right, .dashboard__table, .dashboard__left, .dashboard__title, .dashboard, .modal_container form .form-group, .table, .form-wrapper form .form-group, .form-wrapper form, .form-wrapper .greetings {
   flex-direction: column;
 }
 .flex-end {
@@ -135,12 +135,12 @@ ul, ol {
   padding: 0 0 0 20px;
 }
 
-.container, .settings, .transactions, .patients, .inventory, .users, .dashboard, .table {
+.container, .categories, .products, .settings, .transactions, .patients, .inventory, .users, .dashboard, .table {
   width: 100%;
   height: 100%;
 }
 
-.full-width, .login-container h1, .login-container .logo, .login-container, .login-bg img, .login, .dashboard__statistics-row, .dashboard__online-row, .dashboard__table, .dashboard__totals .card__body, .dashboard__totals .card__header, .dashboard__totals, .dashboard__body, .modal_container form .form-group input, .modal_container form .form-group button, .modal_container form .form-group select, .table__pagination, .table__actions, .no-data, .form-wrapper form .form-group input, .form-wrapper form .form-group button, .form-wrapper form .form-group select, .form-wrapper form, .form-wrapper .greetings, .form {
+.full-width, .login-container h1, .login-container .logo, .login-container, .login-bg img, .login, .dashboard__statistics-row, .dashboard__online-row, .dashboard__table, .dashboard__totals .card__body, .dashboard__totals .card__header, .dashboard__totals, .dashboard__body, .modal_container form .form-group input, .modal_container form .form-group button, .modal_container form .form-group select, .modal_container form .form-group textarea, .table__pagination, .table__actions, .no-data, .form-wrapper form .form-group input, .form-wrapper form .form-group button, .form-wrapper form .form-group select, .form-wrapper form .form-group textarea, .form-wrapper form, .form-wrapper .greetings, .form {
   width: 100%;
 }
 
@@ -224,7 +224,7 @@ ul, ol {
   font-size: 13px;
   padding-left: 5px;
 }
-.form-wrapper form .form-group input, .form-wrapper form .form-group button, .form-wrapper form .form-group select {
+.form-wrapper form .form-group input, .form-wrapper form .form-group button, .form-wrapper form .form-group select, .form-wrapper form .form-group textarea {
   height: 45px;
   border-radius: 10px;
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -234,17 +234,17 @@ ul, ol {
   cursor: text;
   color: rgba(0, 0, 0, 0.7);
 }
-.form-wrapper form .form-group input:focus, .form-wrapper form .form-group button:focus, .form-wrapper form .form-group select:focus {
+.form-wrapper form .form-group input:focus, .form-wrapper form .form-group button:focus, .form-wrapper form .form-group select:focus, .form-wrapper form .form-group textarea:focus {
   border-color: #00a6d6;
 }
-.form-wrapper form .form-group input.submit, .form-wrapper form .form-group button.submit, .form-wrapper form .form-group select.submit {
+.form-wrapper form .form-group input.submit, .form-wrapper form .form-group button.submit, .form-wrapper form .form-group select.submit, .form-wrapper form .form-group textarea.submit {
   margin: 20px 0;
   cursor: pointer;
   color: #fff;
   background: linear-gradient(to top, #005972, #00a6d6);
   border: none;
 }
-.form-wrapper form .form-group input.submit.disabled, .form-wrapper form .form-group button.submit.disabled, .form-wrapper form .form-group select.submit.disabled {
+.form-wrapper form .form-group input.submit.disabled, .form-wrapper form .form-group button.submit.disabled, .form-wrapper form .form-group select.submit.disabled, .form-wrapper form .form-group textarea.submit.disabled {
   opacity: 0.7;
   cursor: not-allowed;
 }
@@ -663,6 +663,12 @@ ul, ol {
   padding: 10px 0;
   color: var(--menu-color);
   font-size: 13px;
+  text-align: left;
+  padding-left: 10px;
+}
+.table__container table thead tr th:first-child {
+  text-align: center;
+  padding-left: 0;
 }
 .table__container table thead tr th input {
   margin-top: 5px;
@@ -677,11 +683,20 @@ ul, ol {
   padding: 10px 0;
   color: var(--menu-color);
   font-size: 13px;
-  text-align: center;
   cursor: pointer;
+  padding-left: 10px;
+}
+.table__container table tbody tr td:first-child {
+  text-align: center;
+  padding-left: 0;
 }
 .table__container table tbody tr td input {
   margin-top: 2px;
+}
+.table__container table tbody tr td.truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .table__container table tbody tr.nodata td {
   cursor: default;
@@ -818,7 +833,7 @@ ul, ol {
   font-size: 13px;
   padding-left: 5px;
 }
-.modal_container form .form-group input, .modal_container form .form-group button, .modal_container form .form-group select {
+.modal_container form .form-group input, .modal_container form .form-group button, .modal_container form .form-group select, .modal_container form .form-group textarea {
   height: 45px;
   border-radius: 10px;
   border: 1px solid var(--primary-border);
@@ -829,19 +844,34 @@ ul, ol {
   color: var(--primary-color);
   margin-bottom: 10px;
 }
-.modal_container form .form-group input:focus, .modal_container form .form-group button:focus, .modal_container form .form-group select:focus {
+.modal_container form .form-group input:focus, .modal_container form .form-group button:focus, .modal_container form .form-group select:focus, .modal_container form .form-group textarea:focus {
   border-color: #00a6d6;
 }
-.modal_container form .form-group input.submit, .modal_container form .form-group button.submit, .modal_container form .form-group select.submit {
+.modal_container form .form-group input.submit, .modal_container form .form-group button.submit, .modal_container form .form-group select.submit, .modal_container form .form-group textarea.submit {
   margin: 20px 0;
   cursor: pointer;
   color: #fff;
   background: linear-gradient(to top, #005972, #00a6d6);
   border: none;
 }
-.modal_container form .form-group input.submit.disabled, .modal_container form .form-group button.submit.disabled, .modal_container form .form-group select.submit.disabled {
+.modal_container form .form-group input.submit.disabled, .modal_container form .form-group button.submit.disabled, .modal_container form .form-group select.submit.disabled, .modal_container form .form-group textarea.submit.disabled {
   opacity: 0.7;
   cursor: not-allowed;
+}
+.modal_container form .form-group select {
+  color: var(--primary-color);
+}
+.modal_container form .form-group select option {
+  color: #000;
+}
+.modal_container form .form-group textarea {
+  min-height: 150px;
+  resize: none;
+  text-indent: 0;
+  padding: 12px;
+}
+.modal_container form .form-group textarea:focus {
+  outline: #00a6d6;
 }
 .modal_container form .form-group select {
   appearance: none; /* Hides the arrow in most browsers */
@@ -1277,6 +1307,28 @@ ul, ol {
   padding: 20px 10px 25px 0;
 }
 
+.products {
+  height: calc(100vh - 80px);
+  gap: 20px;
+  overflow: auto;
+  padding: 20px 10px 25px 0;
+}
+.products span.info {
+  gap: 10px;
+  font-size: 15px;
+  color: var(--info-color);
+}
+.products span.info i {
+  color: rgb(53, 120, 213);
+}
+
+.categories {
+  height: calc(100vh - 80px);
+  gap: 20px;
+  overflow: auto;
+  padding: 20px 10px 25px 0;
+}
+
 :root {
   --bg: #f9fafc;
   --border-color: rgba(0,0,0,.1);
@@ -1286,6 +1338,7 @@ ul, ol {
   --primary-bg: #fff;
   --primary-color: #000;
   --secondary-color: rgba(0,0,0,.5);
+  --info-color: rgba(0,0,0,.4);
   --menu-color: rgba(0,0,0,.7);
   --hover-menu-color: #f49531;
   --content-header-color: rgba(0,0,0,.7);
@@ -1300,6 +1353,7 @@ ul, ol {
   --primary-bg: #222223;
   --primary-color: #fff;
   --secondary-color: rgba(255,255,255,.5);
+  --info-color: rgba(255,255,255,.3);
   --menu-color: rgba(255,255,255,.7);
   --hover-menu-color: #f49531;
   --content-header-color: rgba(255,255,255,.9);

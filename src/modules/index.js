@@ -2,10 +2,14 @@ import theme from "./theme"
 import auth from "./auth"
 import doctors from "./doctors"
 import attendants from "./attendants"
+import categories from "./categories"
+import products from "./products"
 
 export default () => ([
   auth(),
   theme(),
   doctors(),
-  attendants()
+  attendants(),
+  categories(),
+  products()
 ])

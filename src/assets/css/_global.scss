@@ -273,7 +273,7 @@ ul, ol {
           padding-left: 5px;
         }
 
-        input, button, select {
+        input, button, select, textarea {
           @extend .full-width;
 
           height: 45px;

@@ -8,34 +8,44 @@ import Title from '@components/base/Title'
 import Table from '@components/base/Table'
 import Loading from '@components/base/Loading'
 
-// composable
-import { headers } from '@composable/users'
-
 // hooks
 import { useAuth } from '@hooks'
+
+// composable
+import { headers } from '@composable/products'
+import { filters } from '@composable/filters'
 
 // utils
 import swal from '@utilities/swal'
 
-function Attendants () {
+function Products () {
   const { auth } = useAuth()
   const { metaActions, metaStates } = useMeta()
+  const { setPage, pagination, sort, page } = filters()
 
-  const attendants = {
-    ...metaStates('attendants', ['list', 'count']),
-    ...metaActions('attendants', ['fetch', 'create', 'patch'])
+  const categories = {
+    ...metaStates('categories', ['list', 'count']),
+    ...metaActions('categories', ['fetch'])
+  }
+
+  const products = {
+    ...metaStates('products', ['list', 'count']),
+    ...metaActions('products', ['fetch', 'create', 'patch'])
   }
 
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [updateData, setUpdateData] = useState(null)
-  const [page, setPage] = useState(1)
   const [isDataLoading, setIsDataLoading] = useState(false)
 
   const formRef = useRef(null)
 
   useEffect(() => {
-    loadAttendants()
+    loadCategories()
+  }, [])
+  
+  useEffect(() => {
+    loadProducts()
   }, [page])
 
   useEffect(() => {
@@ -46,13 +56,33 @@ function Attendants () {
 
   useEffect(() => {
     if (showCreateModal && updateData) {
-      formRef.current.querySelector('[name="first_name"]').value = updateData.first_name
-      formRef.current.querySelector('[name="last_name"]').value = updateData.last_name
-      formRef.current.querySelector('[name="phone_number"]').value = updateData.phone_number
+      formRef.current.querySelector('[name="category_id"]').value = updateData.category_id
+      formRef.current.querySelector('[name="name"]').value = updateData.name
+      formRef.current.querySelector('[name="description"]').value = updateData.description
     }
   }, [showCreateModal])
 
-  const loadAttendants = async (data = null) => {
+  const loadCategories = async (data = null) => {
+    let filters = [
+      {
+        field: 'admin_id',
+        value: auth.id
+      },
+      {
+        field: 'deleted_at',
+        value: 'null'
+      }
+    ]
+
+    await categories.fetch({
+      filters,
+      is_count: true,
+      pagination,
+      sort,
+    })
+  }
+
+  const loadProducts = async (data = null) => {
     setIsDataLoading(true)
     let filters = [
       {
@@ -68,40 +98,35 @@ function Attendants () {
     if (data) {
       filters = [
         {
-          field: 'first_name',
+          field: 'name',
           operator: 'like',
           value: data
         },
         {
-          field: 'last_name',
-          operator: 'orlike',
+          field: 'description',
+          operator: 'like',
           value: data
         }
       ]
     }
 
-    await attendants.fetch({
+    await products.fetch({
       filters,
-      is_count: true,
-      pagination: {
-        rows: 10,
-        page
-      },
-      sort: [
-        { field: 'created_at', direction: 'desc' }
-      ],
       aggregate: [
         {
-          table: 'authentications',
+          table: 'product_categories',
           filters: [
             {
-              field: 'attendant_id',
-              key: 'id'
+              field: 'id',
+              key: 'category_id'
             }
           ],
-          columns: ['status', 'username']
+          columns: ['name']
         }
-      ]
+      ],
+      is_count: true,
+      pagination,
+      sort,
     })
 
     setIsDataLoading(false)
@@ -116,7 +141,7 @@ function Attendants () {
     const obj = Object.fromEntries(formData.entries())
 
     if (updateData) {
-      var response = await attendants.patch({
+      var response = await products.patch({
         key: 'id',
         data: {
           id: updateData.id,
@@ -125,14 +150,14 @@ function Attendants () {
       })
     } else {
       obj.admin_id = auth.id
-      var response = await attendants.create(obj)
+      var response = await products.create(obj)
     }
 
     setUpdateData(null)
     setIsLoading(false)
     setShowCreateModal(false)
     formRef.current.reset()
-    loadAttendants()
+    loadProducts()
 
     if (response.error) {
       swal.error({
@@ -143,10 +168,10 @@ function Attendants () {
     
     swal.success({
       title: 'Success',
-      text: `Attendant ${updateData ? 'updated' : 'created'} successfully!`
+      text: `Product ${updateData ? 'updated' : 'created'} successfully!`
     })
   }
-  
+
   const handleBulkDelete = async (ids, reset) => {
     swal.prompt({
       text: 'Are you sure you want to delete this?',
@@ -154,7 +179,7 @@ function Attendants () {
         try {
           await Promise.all(
             ids.map(id => {
-              return attendants.patch({
+              return products.patch({
                 key: 'id',
                 data: {
                   id,
@@ -165,7 +190,7 @@ function Attendants () {
           )
           
           reset()
-          loadDoctors()
+          loadProducts()
           swal.success()
         } catch (error) {
           swal.error({
@@ -177,31 +202,40 @@ function Attendants () {
   }
 
   return (
-    <div className="users">
-      <Title title="Manage Attendant" />
+    <div className="products">
+      <Title title="Manage Products" />
 
       <div className="flex-1">
-        <Table
-          headers={headers()}
-          rows={attendants.list}
-          selectedValue="id"
-          totalRowsCount={attendants.count}
-          onRefresh={() => loadAttendants()}
-          onDelete={async (ids, reset) => handleBulkDelete(ids, reset)}
-          onRowClick={row => setUpdateData(row)}
-          onPageChance={value => setPage(value)}
-          onCreate={() => {
-            setUpdateData(null)
-            setShowCreateModal(true)
-          }}
-          onSearch={data => loadAttendants(data)}
-          isLoading={isDataLoading}
-        />
+        {
+          !categories.count ? (
+            <span className="info">
+              <i className="fas fa-circle-info"></i>
+              Create product category first before adding products.
+            </span>
+          ) : (
+            <Table
+              headers={headers()}
+              rows={products.list}
+              selectedValue="id"
+              totalRowsCount={products.count}
+              onDelete={async (ids, reset) => handleBulkDelete(ids, reset)}
+              onRefresh={() => loadProducts()}
+              onRowClick={row => setUpdateData(row)}
+              onPageChance={value => setPage(value)}
+              onCreate={() => {
+                setUpdateData(null)
+                setShowCreateModal(true)
+              }}
+              onSearch={data => loadProducts(data)}
+              isLoading={isDataLoading}
+            />
+          )
+        }
       </div>
 
       <Modal
         visible={showCreateModal}
-        title={`${updateData ? 'Update' : 'Create'} Attendant`}
+        title={`${updateData ? 'Update' : 'Create'} Product`}
         onClose={() => {
           setUpdateData(null)
           setShowCreateModal(false)
@@ -209,18 +243,28 @@ function Attendants () {
       >
         <form ref={formRef} onSubmit={handleSubmit}>
           <div className="form-group">
-            <label>First Name</label>
-            <input type="text" name="first_name" required autoComplete="off" />
+            <label>Category</label>
+            <select name="category_id" required>
+              <option value="">&nbsp;&nbsp;&nbsp;Select here</option>
+              {
+                categories.list.map((list, index) => (
+                  <option key={index} value={list.id}>&nbsp;&nbsp;&nbsp;{list.name}</option>
+                ))
+              }
+            </select>
+            <span>
+              <i className="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
           </div>
 
           <div className="form-group">
-            <label>Last Name</label>
-            <input type="text" name="last_name" required autoComplete="off" />
+            <label>Name</label>
+            <input type="text" name="name" required autoComplete="off" />
           </div>
 
           <div className="form-group">
-            <label>Phone Number</label>
-            <input type="text" name="phone_number" required autoComplete="off" />
+            <label>Description</label>
+            <textarea name="description" required />
           </div>
 
           <div className="form-group">
@@ -240,4 +284,4 @@ function Attendants () {
   )
 }
 
-export default Attendants
+export default Products
