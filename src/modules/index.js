@@ -4,6 +4,7 @@ import doctors from "./doctors"
 import attendants from "./attendants"
 import categories from "./categories"
 import products from "./products"
+import productVariants from "./variants"
 
 export default () => ([
   auth(),
@@ -11,5 +12,6 @@ export default () => ([
   doctors(),
   attendants(),
   categories(),
-  products()
+  products(),
+  productVariants()
 ])

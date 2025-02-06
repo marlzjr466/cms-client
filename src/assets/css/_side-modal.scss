@@ -1,0 +1,145 @@
+.side-modal {
+  position: absolute;
+  inset: 0;
+  background: rgba(0,0,0,.7);
+  display: flex;
+  flex-direction: row-reverse;
+  overflow: hidden;
+  animation: fadeIn 300ms ease-in-out;
+
+  &_container {
+    position: relative;
+    padding: 25px;
+    background: var(--primary-bg);
+    width: 75%;
+    height: 100%;
+    animation: slideToLeft 300ms ease-in-out;
+    border-left: 2px solid #f49531;
+
+    .title {
+      color: var(--primary-color);
+      width: 100%;
+      border-bottom: 1px solid var(--primary-border);
+      padding-bottom: 10px;
+    }
+
+    .close-button-side {
+      position: absolute;
+      top: 5px;
+      left: -30px;
+      width: 25px;
+      height: 25px;
+      background: #db4c4c;
+      border-radius: 50%;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      color: #fff;
+
+      &:hover {
+        background: #ac3030;
+      }
+    }
+
+    .product-info {
+      @extend .flex;
+      @extend .flex-col;
+
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+
+      .buttons {
+        @extend .flex;
+
+        gap: 5px;
+        position: absolute;
+        right: 25px;
+        top: 17px;
+
+        button {
+          height: 30px;
+          opacity: .8;
+
+          &:hover {
+            opacity: 1;
+          }
+        }
+      }
+
+      .desc {
+        width: 100%;
+        padding: 20px 0;
+        display: flex;
+        flex-direction: column;
+        font-size: 14px;
+        color: var(--product-info-color);
+        gap: 3px;
+
+        span {
+          font-size: 12px;
+          color: var(--info-color);
+        }
+      }
+
+      .body {
+        width: 100%;
+        padding-bottom: 25px;
+        flex: 1;
+
+        .tab {
+          @extend .flex;
+          width: 100%;
+
+          li {
+            padding: 10px 20px;
+            font-size: 12px;
+            border: 1px solid var(--primary-border);
+            color: var(--secondary-color);
+            border-top-left-radius: 5px;
+            border-top-right-radius: 5px;
+            cursor: pointer;
+            position: relative;
+
+            &:after {
+              content: '';
+              position: absolute;
+              left: 50%;
+              transform: translateX(-50%);
+              bottom: 0;
+              width: 0;
+              border-bottom: 3px solid #f49531;
+              transition: all 200ms ease-in-out;
+            }
+
+            &.active {
+              color: var(--primary-color);
+              font-weight: 600;
+
+              &:after {
+                width: calc(100% + 2px);
+              }
+            }
+
+            &:hover {
+              color: var(--primary-color);
+              font-weight: 600;
+
+              &:after {
+                width: calc(100% + 2px);
+              }
+            }
+          }
+        }
+
+        .table {
+          width: 100%;
+          height: calc((100% - 36px));
+          border: 1px solid var(--primary-border);
+          padding: 5px;
+        }
+      }
+    }
+  }
+}

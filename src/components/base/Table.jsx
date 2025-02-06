@@ -12,6 +12,7 @@ function Table({
   totalRowsCount,
   disableButton,
   isLoading,
+  actions,
   onSelect = () => {},
   onRowClick = () => {},
   onPageChance = () => {},
@@ -159,6 +160,12 @@ function Table({
                   {header.column}
                 </th>
               ))}
+
+              {
+                actions && (
+                  <th>Actions</th>
+                )
+              }
             </tr>
           </thead>
 
@@ -197,6 +204,28 @@ function Table({
                     }
                   </td>
                 ))}
+
+                {
+                  actions ? (
+                    <td className="flex gap-2">
+                      {
+                        actions.map((item, index) => (
+                          <button
+                            key={index}
+                            className="btn info"
+                            style={{ padding: 8 }}
+                            onClick={e => {
+                              e.stopPropagation()
+                              item.onAction(row)
+                            }}
+                          >
+                            {item.label}
+                          </button>
+                        ))
+                      }
+                    </td>
+                  ) : null
+                }
               </tr>
             ))}
 

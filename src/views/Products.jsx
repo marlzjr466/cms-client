@@ -4,6 +4,7 @@ import moment from 'moment'
 
 // components
 import Modal from '@components/Modal'
+import SideModal from '@components/SideModal'
 import Title from '@components/base/Title'
 import Table from '@components/base/Table'
 import Loading from '@components/base/Loading'
@@ -33,12 +34,22 @@ function Products () {
     ...metaActions('products', ['fetch', 'create', 'patch'])
   }
 
+  const productVariants = {
+    ...metaStates('variants', ['list', 'count']),
+    ...metaActions('variants', ['fetch', 'create', 'patch'])
+  }
+
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [isVariantLoading, setIsVariantLoading] = useState(false)
   const [updateData, setUpdateData] = useState(null)
+  const [updateVariantData, setUpdateVariantData] = useState(null)
+  const [row, setRow] = useState(null)
   const [isDataLoading, setIsDataLoading] = useState(false)
+  const [showVariantModal, setShowVariantModal] = useState(false)
 
   const formRef = useRef(null)
+  const formVariantRef = useRef(null)
 
   useEffect(() => {
     loadCategories()
@@ -55,6 +66,12 @@ function Products () {
   }, [updateData])
 
   useEffect(() => {
+    if (row) {
+      loadVariants()
+    }
+  }, [row])
+
+  useEffect(() => {
     if (showCreateModal && updateData) {
       formRef.current.querySelector('[name="category_id"]').value = updateData.category_id
       formRef.current.querySelector('[name="name"]').value = updateData.name
@@ -62,7 +79,27 @@ function Products () {
     }
   }, [showCreateModal])
 
-  const loadCategories = async (data = null) => {
+  const loadVariants = async () => {
+    await productVariants.fetch({
+      filters: [
+        {
+          field: 'product_id',
+          value: row.id
+        },
+        {
+          field: 'name',
+          operator: '!=',
+          value: 'def_var'
+        },
+        {
+          field: 'deleted_at',
+          value: 'null'
+        }
+      ]
+    })
+  }
+
+  const loadCategories = async () => {
     let filters = [
       {
         field: 'admin_id',
@@ -121,7 +158,18 @@ function Products () {
               key: 'category_id'
             }
           ],
+          is_first: true,
           columns: ['name']
+        },
+        {
+          table: 'product_variants',
+          filters: [
+            {
+              field: 'product_id',
+              key: 'id'
+            }
+          ],
+          columns: ['id', 'name']
         }
       ],
       is_count: true,
@@ -201,6 +249,49 @@ function Products () {
     })
   }
 
+  const handleSubmitVariant = async e => {
+    e.preventDefault() // Prevent page refresh
+    setIsVariantLoading(true)
+
+    // Use FormData to access the submitted values
+    const formData = new FormData(formVariantRef.current)
+    const obj = Object.fromEntries(formData.entries())
+
+    if (updateVariantData) {
+      var response = await productVariants.patch({
+        key: 'id',
+        data: {
+          id: updateVariantData.id,
+          ...obj
+        }
+      })
+    } else {
+      obj.product_id = row.id
+      var response = await productVariants.create(obj)
+    }
+
+    setUpdateVariantData(null)
+    setIsVariantLoading(false)
+    setShowVariantModal(false)
+    formVariantRef.current.reset()
+    loadVariants()
+
+    if (response.error) {
+      swal.error({
+        title: 'Error',
+        text: error.message
+      })
+    }
+    
+    swal.success({
+      title: 'Success',
+      text: `Variant ${updateData ? 'updated' : 'added'} successfully!`,
+      position: 'bottom-end',
+      showConfirmButton: false,
+      timer: 2000
+    })
+  }
+
   return (
     <div className="products">
       <Title title="Manage Products" />
@@ -228,6 +319,12 @@ function Products () {
               }}
               onSearch={data => loadProducts(data)}
               isLoading={isDataLoading}
+              actions={[
+                {
+                  label: 'View',
+                  onAction: item => setRow(item)
+                }
+              ]}
             />
           )
         }
@@ -280,6 +377,65 @@ function Products () {
           </div>
         </form>
       </Modal>
+
+      <SideModal
+        visible={row !== null}
+        title={`${row?.name} » ${row?.product_categories.name}`}
+        onClose={() => setRow(null)}
+      >
+        <div className="product-info">
+          <div className="buttons">
+            <button className="btn info" onClick={() => setShowVariantModal(true)}>+ Add Variant</button>
+            <button className="btn info">+ Add Item</button>
+          </div>
+
+          <div className="desc">
+            <span>Description:</span>
+            {row?.description}
+          </div>
+
+          <div className="body">
+            <ul className="tab">
+              <li className="active">All</li>
+
+              {
+                productVariants.list.map((item, index) => (
+                  <li key={index}>{item.name}</li>
+                ))
+              }
+            </ul>
+            
+            <div className="table">
+
+            </div>
+          </div>
+
+          <Modal
+            visible={showVariantModal}
+            title="Add Variant"
+            onClose={() => setShowVariantModal(false)}
+          >
+            <form ref={formVariantRef} onSubmit={handleSubmitVariant}>
+              <div className="form-group">
+                <label>Name</label>
+                <input type="text" name="name" required autoComplete="off" />
+              </div>
+
+              <div className="form-group">
+                <button
+                  type="submit"
+                  className={`submit ${isVariantLoading ? 'disabled' : ''}`}
+                  disabled={isVariantLoading}
+                >
+                  {
+                    isVariantLoading ? <Loading size={20} thick={3} auto noBackground /> : (updateData ? 'Update' : 'Add')
+                  }
+                </button>
+              </div>
+            </form>
+          </Modal>
+        </div>
+      </SideModal>
     </div>
   )
 }

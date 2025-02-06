@@ -1,9 +1,10 @@
 .modal {
   position: absolute;
   inset: 0;
-  background: rgba(0,0,0,.6);
+  background: rgba(0,0,0,.5);
   display: grid;
   place-items: center;
+  animation: fadeIn 300ms ease-in-out;
 
   &_container {
     position: relative;
@@ -12,6 +13,7 @@
     background: var(--primary-bg);
     min-width: 400px;
     box-shadow: 3px 3px 10px rgba(0,0,0,.2);
+    animation: zoomIn 400ms ease-in-out;
 
     .title {
       color: var(--primary-color);

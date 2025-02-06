@@ -99,6 +99,7 @@ function Attendants () {
               key: 'id'
             }
           ],
+          is_first: true,
           columns: ['status', 'username']
         }
       ]
