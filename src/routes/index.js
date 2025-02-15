@@ -68,6 +68,18 @@ const routes = [
         authRequired: true
       },
       {
+        path: 'products/:id',
+        name: 'products',
+        component: lazy(() => import('@views/Products')),
+        authRequired: true
+      },
+      {
+        path: 'products/:id/:tab',
+        name: 'products',
+        component: lazy(() => import('@views/Products')),
+        authRequired: true
+      },
+      {
         path: 'categories',
         name: 'categories',
         component: lazy(() => import('@views/Categories')),

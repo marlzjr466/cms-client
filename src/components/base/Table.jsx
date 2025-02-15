@@ -5,6 +5,9 @@ import moment from 'moment'
 import NoData from '@components/base/NoData'
 import Loading from '@components/base/Loading'
 
+// utils
+import { formatWithCurrency } from '@utilities/helper'
+
 function Table({
   headers = [],
   rows = [],
@@ -13,6 +16,7 @@ function Table({
   disableButton,
   isLoading,
   actions,
+  countPerPage = 10,
   onSelect = () => {},
   onRowClick = () => {},
   onPageChance = () => {},
@@ -21,7 +25,6 @@ function Table({
   onDelete = () => {},
   onSearch = () => {}
 }) {
-  const countPerPage = 10 // Number of rows per page
   const totalPages = Math.ceil(totalRowsCount / countPerPage) // Total pages based on the row count
   const maxVisiblePages = 5 // Maximum number of page buttons to show at once
 
@@ -123,6 +126,10 @@ function Table({
               <button
                 className={`btn danger ${!selectedRows.length ? 'disabled' : ''}`}
                 onClick={() => {
+                  if (!selectedRows.length) {
+                    return null
+                  }
+
                   onDelete(
                     selectedRows,
                     () => setSelectedRows([]) // reset selected rows
@@ -191,16 +198,20 @@ function Table({
                   <td
                     key={index}
                     onClick={() => onRowClick(row)}
-                    className={header.key === 'description' ? 'truncate' : ''}
+                    className={`
+                      ${header.key === 'description' ? 'truncate' : ''}
+                    `}
                   >
                     {
                       typeof header.key === 'object'
                         ? combineKeys(header.key, row)
                         : header.key.includes('_at')
-                          ? moment(row[header.key]).format('DD MMM YYYY, hh:mm A')
+                          ? moment(row[header.key]).format('MMM DD, YYYY')
                           : header.key.includes('.')
                             ? header.key.split('.').reduce((obj, key) => obj?.[key], row)
-                            : row[header.key] || '-'
+                            : ['price', 'amount'].includes(header.key)
+                              ? formatWithCurrency(row[header.key])
+                              : row[header.key] || '-'
                     }
                   </td>
                 ))}

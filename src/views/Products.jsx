@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef } from 'react'
 import { useMeta } from '@opensource-dev/redux-meta'
 import moment from 'moment'
+import { useNavigate, useParams } from 'react-router-dom'
 
 // components
 import Modal from '@components/Modal'
@@ -14,12 +15,16 @@ import { useAuth } from '@hooks'
 
 // composable
 import { headers } from '@composable/products'
+import { headers as productItemHeaders } from '@composable/product-items'
 import { filters } from '@composable/filters'
 
 // utils
 import swal from '@utilities/swal'
 
 function Products () {
+  const navigate = useNavigate()
+  const urlParams = useParams()
+  
   const { auth } = useAuth()
   const { metaActions, metaStates } = useMeta()
   const { setPage, pagination, sort, page } = filters()
@@ -39,17 +44,25 @@ function Products () {
     ...metaActions('variants', ['fetch', 'create', 'patch'])
   }
 
+  const productItems = {
+    ...metaStates('product-items', ['list', 'count']),
+    ...metaActions('product-items', ['fetch', 'create', 'patch'])
+  }
+
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [isVariantLoading, setIsVariantLoading] = useState(false)
   const [updateData, setUpdateData] = useState(null)
   const [updateVariantData, setUpdateVariantData] = useState(null)
+  const [updateItemData, setUpdateItemData] = useState(null)
   const [row, setRow] = useState(null)
   const [isDataLoading, setIsDataLoading] = useState(false)
   const [showVariantModal, setShowVariantModal] = useState(false)
+  const [showItemModal, setShowItemModal] = useState(false)
 
   const formRef = useRef(null)
   const formVariantRef = useRef(null)
+  const formItemRef = useRef(null)
 
   useEffect(() => {
     loadCategories()
@@ -63,7 +76,15 @@ function Products () {
     if (updateData) {
       setShowCreateModal(true)
     }
-  }, [updateData])
+
+    if (updateItemData) {
+      setShowItemModal(true)
+    }
+
+    if (updateVariantData) {
+      setShowVariantModal(true)
+    }
+  }, [updateData, updateItemData, updateVariantData])
 
   useEffect(() => {
     if (row) {
@@ -72,12 +93,86 @@ function Products () {
   }, [row])
 
   useEffect(() => {
+    if (row) {
+      loadItems()
+    }
+  }, [urlParams])
+
+  useEffect(() => {
     if (showCreateModal && updateData) {
       formRef.current.querySelector('[name="category_id"]').value = updateData.category_id
       formRef.current.querySelector('[name="name"]').value = updateData.name
       formRef.current.querySelector('[name="description"]').value = updateData.description
     }
-  }, [showCreateModal])
+
+    if (showItemModal && updateItemData) {
+      if (updateItemData.product_variants) {
+        formItemRef.current.querySelector('[name="variant_id"]').value = updateItemData.product_variants.id
+      }
+
+      formItemRef.current.querySelector('[name="stock"]').value = updateItemData.stock
+      formItemRef.current.querySelector('[name="name"]').value = updateItemData.name
+      formItemRef.current.querySelector('[name="price"]').value = updateItemData.price
+      formItemRef.current.querySelector('[name="expired_at"]').value = moment(updateItemData.expired_at).format('YYYY-MM-DD')
+    }
+
+    if (showVariantModal && updateVariantData) {
+      formVariantRef.current.querySelector('[name="name"]').value = updateVariantData.name
+    }
+  }, [showCreateModal, showItemModal, showVariantModal])
+
+  const loadItems = async (data = null) => {
+    const filters = [
+      {
+        field: 'product_id',
+        value: row.id
+      },
+      {
+        field: 'deleted_at',
+        value: 'null'
+      }
+    ]
+
+    if (data) {
+      filters.push(...[
+        {
+          field: 'name',
+          operator: 'like',
+          value: data
+        }
+      ])
+    }
+
+    if (urlParams.tab !== 'all') {
+      const variant = productVariants.list.find(x => getSlug(x.name) === urlParams.tab)
+      if (variant) {
+        filters.push({
+          field: 'variant_id',
+          value: variant.id
+        })
+      }
+    }
+
+    await productItems.fetch({
+      filters,
+      aggregate: [
+        {
+          table: 'product_variants',
+          filters: [
+            {
+              field: 'id',
+              key: 'variant_id'
+            }
+          ],
+          is_first: true,
+          columns: ['id', 'name']
+        }
+      ],
+      is_count: true,
+      pagination,
+      sort
+    })
+  }
 
   const loadVariants = async () => {
     await productVariants.fetch({
@@ -95,7 +190,8 @@ function Products () {
           field: 'deleted_at',
           value: 'null'
         }
-      ]
+      ],
+      is_count: true
     })
   }
 
@@ -121,7 +217,7 @@ function Products () {
 
   const loadProducts = async (data = null) => {
     setIsDataLoading(true)
-    let filters = [
+    const filters = [
       {
         field: 'admin_id',
         value: auth.id
@@ -133,7 +229,7 @@ function Products () {
     ]
 
     if (data) {
-      filters = [
+      filters.push(...[
         {
           field: 'name',
           operator: 'like',
@@ -141,10 +237,10 @@ function Products () {
         },
         {
           field: 'description',
-          operator: 'like',
+          operator: 'orlike',
           value: data
         }
-      ]
+      ])
     }
 
     await products.fetch({
@@ -174,7 +270,7 @@ function Products () {
       ],
       is_count: true,
       pagination,
-      sort,
+      sort
     })
 
     setIsDataLoading(false)
@@ -222,7 +318,7 @@ function Products () {
 
   const handleBulkDelete = async (ids, reset) => {
     swal.prompt({
-      text: 'Are you sure you want to delete this?',
+      text: 'Are you sure you want to delete this products?',
       async onConfirm () {
         try {
           await Promise.all(
@@ -285,11 +381,123 @@ function Products () {
     
     swal.success({
       title: 'Success',
-      text: `Variant ${updateData ? 'updated' : 'added'} successfully!`,
-      position: 'bottom-end',
+      text: `Variant ${updateVariantData ? 'updated' : 'added'} successfully!`,
       showConfirmButton: false,
-      timer: 2000
+      timer: 2000,
+      position: 'bottom-end'
     })
+  }
+
+  const handleSubmitItem = async e => {
+    e.preventDefault() // Prevent page refresh
+    setIsVariantLoading(true)
+
+    // Use FormData to access the submitted values
+    const formData = new FormData(formItemRef.current)
+    const obj = Object.fromEntries(formData.entries())
+
+    if (updateItemData) {
+      var response = await productItems.patch({
+        key: 'id',
+        data: {
+          id: updateItemData.id,
+          ...obj
+        }
+      })
+    } else {
+      obj.product_id = row.id
+      var response = await productItems.create(obj)
+    }
+
+    setUpdateItemData(null)
+    setIsVariantLoading(false)
+    setShowItemModal(false)
+    formItemRef.current.reset()
+    loadItems()
+
+    if (response.error) {
+      swal.error({
+        title: 'Error',
+        text: error.message
+      })
+    }
+    
+    swal.success({
+      title: 'Success',
+      text: `Item ${updateData ? 'updated' : 'added'} successfully!`,
+      showConfirmButton: false,
+      timer: 2000,
+      position: 'bottom-end'
+    })
+  }
+
+  const handleItemBulkDelete = async (ids, reset) => {
+    swal.prompt({
+      text: 'Are you sure you want to delete this items?',
+      async onConfirm () {
+        try {
+          await Promise.all(
+            ids.map(id => {
+              return productItems.patch({
+                key: 'id',
+                data: {
+                  id,
+                  deleted_at: moment().format('YYYY-MM-DD HH:mm:ss')
+                }
+              })
+            })
+          )
+          
+          reset()
+          loadItems()
+          swal.success()
+        } catch (error) {
+          swal.error({
+            text: error.message
+          })
+        }
+      }
+    })
+  }
+
+  const handleVariantDelete = async (id) => {
+    swal.prompt({
+      text: 'Are you sure you want to delete this variant?',
+      async onConfirm () {
+        try {
+          productVariants.patch({
+            key: 'id',
+            data: {
+              id,
+              deleted_at: moment().format('YYYY-MM-DD HH:mm:ss')
+            }
+          })
+          
+          loadVariants()
+          swal.success().then(() => {
+            setRow(null)
+            navigate('/products')
+          })
+        } catch (error) {
+          swal.error({
+            text: error.message
+          })
+        }
+      }
+    })
+  }
+
+  const getSlug = tab => {
+    return tab.split(' ').join('-').toLowerCase()
+  }
+
+  const getVariantOption = () => {
+    if (urlParams.tab !== 'all') {
+      const variant = productVariants.list.find(x => getSlug(x.name) === urlParams.tab)
+      return variant?.id || ''
+    }
+
+    return ''
   }
 
   return (
@@ -309,7 +517,7 @@ function Products () {
               rows={products.list}
               selectedValue="id"
               totalRowsCount={products.count}
-              onDelete={async (ids, reset) => handleBulkDelete(ids, reset)}
+              onDelete={(ids, reset) => handleBulkDelete(ids, reset)}
               onRefresh={() => loadProducts()}
               onRowClick={row => setUpdateData(row)}
               onPageChance={value => setPage(value)}
@@ -322,7 +530,10 @@ function Products () {
               actions={[
                 {
                   label: 'View',
-                  onAction: item => setRow(item)
+                  onAction: item => {
+                    setRow(item)
+                    navigate(`${item.id}/all`)
+                  }
                 }
               ]}
             />
@@ -379,14 +590,45 @@ function Products () {
       </Modal>
 
       <SideModal
-        visible={row !== null}
-        title={`${row?.name} » ${row?.product_categories.name}`}
-        onClose={() => setRow(null)}
+        visible={urlParams.id}
+        title={`${row?.name} - ${row?.product_categories.name}`}
+        onClose={() => {
+          setRow(null)
+          navigate('/products')
+        }}
       >
         <div className="product-info">
           <div className="buttons">
-            <button className="btn info" onClick={() => setShowVariantModal(true)}>+ Add Variant</button>
-            <button className="btn info">+ Add Item</button>
+            <button className="btn info" onClick={() => setShowVariantModal(true)}>
+              <i className="fas fa-plus"></i>
+              Add New Variant
+            </button>
+
+            {
+              urlParams.tab !== 'all' && (
+                <>
+                  <button className="btn warning" onClick={() => {
+                    const variant = productVariants.list.find(x => getSlug(x.name) === urlParams.tab)
+                    setUpdateVariantData(variant)
+                  }}>
+                    <i className="fas fa-pencil"></i>
+                    Update Variant
+                  </button>
+                  
+                  {
+                    !productItems.count ? (
+                      <button className="btn danger" onClick={() => {
+                        const variant = productVariants.list.find(x => getSlug(x.name) === urlParams.tab)
+                        handleVariantDelete(variant.id)
+                      }}>
+                        <i className="fas fa-trash"></i>
+                        Delete Variant
+                      </button>
+                    ) : null
+                  }
+                </>
+              )
+            }
           </div>
 
           <div className="desc">
@@ -396,23 +638,50 @@ function Products () {
 
           <div className="body">
             <ul className="tab">
-              <li className="active">All</li>
+              <li
+                className={'all' === urlParams.tab ? 'active' : ''}
+                onClick={() => navigate(`/products/${row?.id}/all`)}
+              >
+                All
+              </li>
 
               {
                 productVariants.list.map((item, index) => (
-                  <li key={index}>{item.name}</li>
+                  <li
+                    key={index}
+                    onClick={() => navigate(`/products/${row?.id}/${getSlug(item.name)}`)}
+                    className={getSlug(item.name) === urlParams.tab ? 'active' : ''}
+                  >
+                    {item.name}
+                  </li>
                 ))
               }
             </ul>
             
-            <div className="table">
-
+            <div className="content-table">
+              <Table
+                headers={productItemHeaders()}
+                rows={productItems.list}
+                selectedValue="id"
+                totalRowsCount={productItems.count}
+                onDelete={(ids, reset) => handleItemBulkDelete(ids, reset)}
+                onRefresh={() => loadItems()}
+                onRowClick={row => setUpdateItemData(row)}
+                onPageChance={value => {}}
+                onCreate={() => {
+                  setUpdateItemData(null)
+                  setShowItemModal(true)
+                }}
+                onSearch={data => loadItems(data)}
+                isLoading={false}
+                countPerPage={8}
+              />
             </div>
           </div>
 
           <Modal
             visible={showVariantModal}
-            title="Add Variant"
+            title={`${updateVariantData ? 'Update' : 'Add'} Variant`}
             onClose={() => setShowVariantModal(false)}
           >
             <form ref={formVariantRef} onSubmit={handleSubmitVariant}>
@@ -428,7 +697,74 @@ function Products () {
                   disabled={isVariantLoading}
                 >
                   {
-                    isVariantLoading ? <Loading size={20} thick={3} auto noBackground /> : (updateData ? 'Update' : 'Add')
+                    isVariantLoading ? <Loading size={20} thick={3} auto noBackground /> : (updateVariantData ? 'Update' : 'Add')
+                  }
+                </button>
+              </div>
+            </form>
+          </Modal>
+
+          <Modal
+            visible={showItemModal}
+            title={`${updateItemData ? 'Update' : 'Add'} Item`}
+            onClose={() => {
+              setUpdateItemData(null)
+              setShowItemModal(false)
+            }}
+          >
+            <form ref={formItemRef} onSubmit={handleSubmitItem}>
+              <div className="form-group">
+                <label>Name</label>
+                <input type="text" name="name" required autoComplete="off" />
+              </div>
+
+              {
+                productVariants.count ? (
+                  <div className="form-group">
+                    <label>Variant</label>
+                    <select name="variant_id" defaultValue={getVariantOption()} required>
+                      <option value="">&nbsp;&nbsp;&nbsp;Select here</option>
+                      {
+                        productVariants.list.map(item => (
+                          <option
+                            key={item.id}
+                            value={item.id}
+                          >
+                            &nbsp;&nbsp;&nbsp;{item.name}
+                          </option>
+                        ))
+                      }
+                    </select>
+                    <span>
+                      <i className="fa fa-angle-down" aria-hidden="true"></i>
+                    </span>
+                  </div>
+                ) : null
+              }
+
+              <div className="form-group">
+                <label>Price</label>
+                <input type="number" name="price" min="0" required autoComplete="off" />
+              </div>
+
+              <div className="form-group">
+                <label>Stock</label>
+                <input type="number" name="stock" min="0" required autoComplete="off" />
+              </div>
+
+              <div className="form-group">
+                <label>Expiry Date</label>
+                <input type="date" name="expired_at" required autoComplete="off" />
+              </div>
+
+              <div className="form-group">
+                <button
+                  type="submit"
+                  className={`submit ${isVariantLoading ? 'disabled' : ''}`}
+                  disabled={isVariantLoading}
+                >
+                  {
+                    isVariantLoading ? <Loading size={20} thick={3} auto noBackground /> : (updateItemData ? 'Update' : 'Add')
                   }
                 </button>
               </div>

@@ -10,6 +10,10 @@ export function headers () {
       key: 'id'
     },
     {
+      column: 'Date',
+      key: 'created_at'
+    },
+    {
       column: 'First Name',
       key: 'first_name'
     },
@@ -18,24 +22,12 @@ export function headers () {
       key: 'last_name'
     },
     {
-      column: 'Age',
-      key: 'age'
-    },
-    {
       column: 'Gender',
       key: 'gender'
     },
     {
       column: 'Birth Date',
       key: 'birth_date'
-    },
-    {
-      column: 'Address',
-      key: 'address'
-    },
-    {
-      column: 'Created At',
-      key: 'created_at'
     }
   ]
 

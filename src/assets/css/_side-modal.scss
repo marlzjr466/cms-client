@@ -11,7 +11,7 @@
     position: relative;
     padding: 25px;
     background: var(--primary-bg);
-    width: 75%;
+    width: 80%;
     height: 100%;
     animation: slideToLeft 300ms ease-in-out;
     border-left: 2px solid #f49531;
@@ -133,7 +133,7 @@
           }
         }
 
-        .table {
+        .content-table {
           width: 100%;
           height: calc((100% - 36px));
           border: 1px solid var(--primary-border);

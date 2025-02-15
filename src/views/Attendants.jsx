@@ -54,7 +54,7 @@ function Attendants () {
 
   const loadAttendants = async (data = null) => {
     setIsDataLoading(true)
-    let filters = [
+    const filters = [
       {
         field: 'admin_id',
         value: auth.id
@@ -66,7 +66,7 @@ function Attendants () {
     ]
 
     if (data) {
-      filters = [
+      filters.push(...[
         {
           field: 'first_name',
           operator: 'like',
@@ -77,7 +77,7 @@ function Attendants () {
           operator: 'orlike',
           value: data
         }
-      ]
+      ])
     }
 
     await attendants.fetch({

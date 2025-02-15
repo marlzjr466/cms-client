@@ -64,7 +64,7 @@ function Dashboard () {
               </div>
 
               <div className="card__body">
-                <span>{formattedNumber(9871)}</span>
+                <span>{formattedNumber(0)}</span>
               </div>
 
               <div className="card__chart">
@@ -91,7 +91,7 @@ function Dashboard () {
               </div>
 
               <div className="card__body">
-                <span>{formattedNumber(9871)}</span>
+                <span>{formattedNumber(0)}</span>
               </div>
 
               <div className="card__chart">
@@ -117,7 +117,7 @@ function Dashboard () {
               </div>
 
               <div className="card__body">
-                <span>{formatWithCurrency(9871)}</span>
+                <span>{formatWithCurrency(0)}</span>
               </div>
 
               <div className="card__chart">

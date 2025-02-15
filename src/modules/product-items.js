@@ -2,7 +2,7 @@ import { baseApi } from "@config/axios"
 
 export default () => ({
   metaModule: true,
-  name: 'variants',
+  name: 'product-items',
 
   metaStates: {
     list: [],
@@ -24,7 +24,7 @@ export default () => ({
     async fetch ({ commit }, params) {
       try {
         const data = btoa(JSON.stringify(params))
-        const response = await baseApi.get('/product-variants', { params: { data } })
+        const response = await baseApi.get('/product-items', { params: { data } })
         
         commit('SET_LIST', response.data)
       } catch (error) {
@@ -38,7 +38,7 @@ export default () => ({
 
     async create ({}, params) {
       try {
-        const response = await baseApi.post('/product-variants', params)
+        const response = await baseApi.post('/product-items', params)
         return response.data
       } catch (error) {
         return {
@@ -51,7 +51,7 @@ export default () => ({
 
     async patch ({}, params) {
       try {
-        const response = await baseApi.patch('/product-variants', params)
+        const response = await baseApi.patch('/product-items', params)
         return response.data
       } catch (error) {
         return {

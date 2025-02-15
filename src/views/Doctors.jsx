@@ -55,7 +55,7 @@ function Doctors () {
 
   const loadDoctors = async (data = null) => {
     setIsDataLoading(true)
-    let filters = [
+    const filters = [
       {
         field: 'admin_id',
         value: auth.id
@@ -67,7 +67,7 @@ function Doctors () {
     ]
 
     if (data) {
-      filters = [
+      filters.push(...[
         {
           field: 'first_name',
           operator: 'like',
@@ -78,7 +78,7 @@ function Doctors () {
           operator: 'orlike',
           value: data
         }
-      ]
+      ])
     }
 
     await doctors.fetch({
