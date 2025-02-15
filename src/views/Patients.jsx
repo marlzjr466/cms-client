@@ -20,6 +20,7 @@ function Patients () {
           rows={data}
           selectedValue="id"
           totalRowsCount={data.length}
+          disableButton
           onSelect={selected => {
             console.log('selected:', selected)
           }}
