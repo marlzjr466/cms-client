@@ -22,8 +22,8 @@ function Layout () {
     theme.fetch({
       filters: [
         {
-          field: 'admin_id',
-          value: auth.id
+          field: `${auth.role}_id`,
+          value: auth[`${auth.role}_id`]
         }
       ],
       is_first: true

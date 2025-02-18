@@ -24,9 +24,9 @@ const ThemeSelector = () => {
       async onConfirm () {
         try {
           await theme.patch({
-            key: 'admin_id',
+            key: `${auth.role}_id`,
             data: {
-              admin_id: auth.id,
+              [`${auth.role}_id`]: auth[`${auth.role}_id`],
               mode
             }
           })
@@ -34,8 +34,8 @@ const ThemeSelector = () => {
           await theme.fetch({
             filters: [
               {
-                field: 'admin_id',
-                value: auth.id
+                field: `${auth.role}_id`,
+                value: auth[`${auth.role}_id`]
               }
             ],
             is_first: true

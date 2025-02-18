@@ -1,51 +1,63 @@
+import { useAuth } from '@hooks'
+
 export default () => {
+  const { auth } = useAuth()
+
   const list = [
     {
       name: 'Dashboard',
       route: '/dashboard',
-      icon: 'fa fa-th-large'
+      icon: 'fa fa-th-large',
+      is_hidden: auth.role !== 'admin'
     },
     {
       name: 'Doctors',
       route: '/doctors',
-      icon: 'fas fa-user-doctor'
+      icon: 'fas fa-user-doctor',
+      is_hidden: auth.role !== 'admin'
     },
     {
       name: 'Attendants',
       route: '/attendants',
-      icon: 'fa fa-users'
+      icon: 'fa fa-users',
+      is_hidden: auth.role !== 'admin'
     },
     {
       name: 'Categories',
       route: '/categories',
-      icon: 'fa fa-tags'
+      icon: 'fa fa-tags',
+      is_hidden: auth.role !== 'admin'
     },
     {
       name: 'Products',
       route: '/products',
-      icon: 'fa fa-pills'
+      icon: 'fa fa-pills',
+      is_hidden: auth.role !== 'admin'
     },
     {
       name: 'Inventory',
       route: '/inventory',
       icon: 'fa fa-box',
-      is_hidden: true
+      is_hidden: true,
+      is_hidden: auth.role !== 'admin'
     },
     {
       name: 'Patients',
       route: '/patients',
-      icon: 'fa fa-procedures'
+      icon: 'fa fa-procedures',
+      is_hidden: auth.role !== 'admin'
     },
     {
       name: 'Queue Management',
       route: '/queue-management',
       icon: 'fa fa-stream',
-      is_hidden: true
+      is_hidden: auth.role === 'admin'
     },
     {
       name: 'Transactions',
       route: '/transactions',
-      icon: 'fa fa-credit-card'
+      icon: 'fa fa-credit-card',
+      is_hidden: auth.role !== 'admin'
     },
     {
       name: 'Settings',
