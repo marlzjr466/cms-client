@@ -20,7 +20,11 @@ function Nav () {
         <div className="nav__user-info">
           <div>
             {auth.first_name} {auth.last_name}
-            <span>Administrator</span>
+            <span>
+              {
+                auth.role === 'admin' ? 'Administrator' : 'Doctor'
+              }
+            </span>
           </div>
           <i className="fa fa-angle-down" aria-hidden="true"></i>
         </div>

@@ -17,6 +17,7 @@ function Table({
   isLoading,
   actions,
   countPerPage = 10,
+  noDelete,
   onSelect = () => {},
   onRowClick = () => {},
   onPageChance = () => {},
@@ -82,7 +83,13 @@ function Table({
   };
 
   const combineKeys = (keys, row) => {
-    const value = keys.map(key => row[key]).join(' ')
+    const value = keys.map(key => {
+      if (key.includes('.')) {
+        return key.split('.').reduce((obj, key) => obj?.[key], row)
+      }
+
+      return row[key]
+    }).join(' ')
 
     return value
   }
@@ -123,21 +130,25 @@ function Table({
                 <i className="fas fa-plus"></i>
               </button>
 
-              <button
-                className={`btn danger ${!selectedRows.length ? 'disabled' : ''}`}
-                onClick={() => {
-                  if (!selectedRows.length) {
-                    return null
-                  }
+              {
+                !noDelete && (
+                  <button
+                    className={`btn danger ${!selectedRows.length ? 'disabled' : ''}`}
+                    onClick={() => {
+                      if (!selectedRows.length) {
+                        return null
+                      }
 
-                  onDelete(
-                    selectedRows,
-                    () => setSelectedRows([]) // reset selected rows
-                  )
-                }}
-              >
-                <i className="fas fa-trash"></i>
-              </button>
+                      onDelete(
+                        selectedRows,
+                        () => setSelectedRows([]) // reset selected rows
+                      )
+                    }}
+                  >
+                    <i className="fas fa-trash"></i>
+                  </button>
+                )
+              }
             </>
           )
         }
@@ -148,7 +159,7 @@ function Table({
           <thead>
             <tr>
               {
-                !disableButton && (
+                !disableButton && !noDelete && (
                   <th width="40px">
                     <input
                       type="checkbox"
@@ -180,7 +191,7 @@ function Table({
             {getPageRows().map((row, i) => (
               <tr key={row.id}>
                 {
-                  !disableButton && (
+                  !disableButton && !noDelete && (
                     <td>
                       <input
                         type="checkbox"
@@ -206,7 +217,7 @@ function Table({
                       typeof header.key === 'object'
                         ? combineKeys(header.key, row)
                         : header.key.includes('_at')
-                          ? moment(row[header.key]).format('MMM DD, YYYY')
+                          ? moment(row[header.key]).format('MMM DD, YYYY | hh:mm A')
                           : header.key.includes('.')
                             ? header.key.split('.').reduce((obj, key) => obj?.[key], row)
                             : ['price', 'amount'].includes(header.key)
@@ -242,7 +253,7 @@ function Table({
 
             {!rows.length && (
               <tr className="nodata">
-                <td colSpan={!disableButton ? headers.length + 1 : headers.length} style={{ textAlign: 'center' }}>
+                <td colSpan={!disableButton && !noDelete ? headers.length + 1 : headers.length} style={{ textAlign: 'center' }}>
                   <NoData />
                 </td>
               </tr>

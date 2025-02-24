@@ -42,16 +42,16 @@ export default () => {
       is_hidden: auth.role !== 'admin'
     },
     {
+      name: 'Dashboard',
+      route: '/doctor/dashboard',
+      icon: 'fa fa-th-large',
+      is_hidden: auth.role === 'admin'
+    },
+    {
       name: 'Patients',
       route: '/patients',
       icon: 'fa fa-procedures',
-      is_hidden: auth.role !== 'admin'
-    },
-    {
-      name: 'Queue Management',
-      route: '/queue-management',
-      icon: 'fa fa-stream',
-      is_hidden: auth.role === 'admin'
+      // is_hidden: auth.role !== 'admin'
     },
     {
       name: 'Transactions',

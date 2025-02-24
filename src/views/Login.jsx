@@ -23,7 +23,7 @@ function Login () {
 
   useEffect(() => {
     if (auth) {
-      navigate('/dashboard')
+      navigate(auth.role === 'admin' ? '/dashboard' : '/doctor/dashboard')
     }
   }, [auth])
 

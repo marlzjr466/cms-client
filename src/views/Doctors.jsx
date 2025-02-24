@@ -98,7 +98,7 @@ function Doctors () {
       ],
       is_count: true,
       pagination,
-      sort,
+      sort
     })
 
     setIsDataLoading(false)
@@ -132,9 +132,9 @@ function Doctors () {
     loadDoctors()
 
     if (response.error) {
-      swal.error({
+      return swal.error({
         title: 'Error',
-        text: error.message
+        text: response.error.message
       })
     }
     

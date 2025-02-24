@@ -44,6 +44,8 @@
     form {
       width: 100%;
       padding: 20px 0 0 0;
+      max-height: 80vh;
+      overflow: auto;
 
       .form-group {
         @extend .flex;
@@ -108,6 +110,11 @@
           &:focus {
             outline: #00a6d6;
           }
+
+          &.records {
+            width: 400px;
+            min-height: 120px;
+          }
         }
       
         select {
@@ -152,6 +159,15 @@
             border-top: 2px solid #49E5C4;
             border-bottom: 2px solid #49E5C4;
           }
+        }
+      }
+
+      &.grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+
+        .form-group:last-child {
+          grid-column: span 2;
         }
       }
     }

@@ -29,7 +29,7 @@ html {
 
 body {
   font-family: Technica_Regular;
-
+  scroll-behavior: smooth;
   // @include breakpoint-down(medium) {}
 }
 
@@ -46,6 +46,7 @@ button, input, select {
     color: #fff;
     padding: 0 10px;
     gap: 5px;
+    position: relative;
   }
 
   &.ghost {
@@ -69,26 +70,50 @@ button, input, select {
   &.success {
     background-color: #22c55e;
     background: linear-gradient(to top, #166534, #22c55e);
+    opacity: .8;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 
   &.warning {
     background-color: #eab308;
     background: linear-gradient(to top, #854d0e, #eab308);
+    opacity: .8;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 
   &.info {
     background-color: #0ea5e9;
     background: linear-gradient(to top, #075985, #0ea5e9);
+    opacity: .8;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 
   &.danger {
     background-color: #ef4444;
     background: linear-gradient(to top, #991b1b, #ef4444);
+    opacity: .8;
+
+    &:hover {
+      opacity: 1;
+    }
   }
 
   &.disabled {
     cursor: not-allowed;
     opacity: .6;
+
+    &:hover {
+      opacity: .6 !important;
+    }
   }
 }
 

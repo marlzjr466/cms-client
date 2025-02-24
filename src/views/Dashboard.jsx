@@ -1,8 +1,4 @@
-import { useState, useEffect } from 'react'
 import moment from 'moment/moment'
-
-//hooks
-import { useAuth } from '@hooks'
 
 // import utils
 import { formattedNumber, formatWithCurrency, formatQueueNumber } from '@utilities/helper'
@@ -16,18 +12,15 @@ import images from '@assets/images'
 // components
 import Title from '@components/base/Title'
 import DatePicker from '@components/base/DatePicker'
-import Info from '@components/base/Info'
 import Table from '@components/base/Table'
 import Chart from '@components/base/Chart'
 
 function Dashboard () {
-  const { auth } = useAuth();
-
   const data = []
   const currentDate = moment().format("dddd, MMMM D, YYYY")
 
   function getRandomChartData () {
-    return Array.from({ length: 10 }, () => Math.floor(Math.random() * (50 - 10 + 1)) + 10);
+    return Array.from({ length: 10 }, () => Math.floor(Math.random() * (50 - 10 + 1)) + 10)
   }
 
   return (
@@ -215,8 +208,6 @@ function Dashboard () {
           </div>
         </div>
       </div>
-
-      
     </div>
   )
 }

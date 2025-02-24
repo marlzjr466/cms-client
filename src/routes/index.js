@@ -32,9 +32,9 @@ const routes = [
         authRequired: true
       },
       {
-        path: 'queue-management',
-        name: 'queue-management',
-        component: lazy(() => import('@views/QueueManagement')),
+        path: 'doctor/dashboard',
+        name: 'doctor-dashboard',
+        component: lazy(() => import('@views/DoctorDashboard')),
         authRequired: true
       },
       {

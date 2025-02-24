@@ -7,6 +7,8 @@ import products from "./products"
 import productItems from "./product-items"
 import productVariants from "./variants"
 import patients from "./patients"
+import records from "./records"
+import queues from "./queues"
 
 export default () => ([
   auth(),
@@ -17,5 +19,7 @@ export default () => ([
   products(),
   productVariants(),
   productItems(),
-  patients()
+  patients(),
+  records(),
+  queues()
 ])

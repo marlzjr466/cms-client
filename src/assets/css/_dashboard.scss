@@ -120,6 +120,110 @@
     border-radius: 13px;
   }
 
+  &__manage_queue {
+    @extend .flex;
+    @extend .flex-col;
+    @extend .full-width;
+
+    gap: 20px;
+    padding: 20px;
+    border: 1px solid var(--primary-border);
+    border-radius: 13px;
+
+    .header {
+      button {
+        height: 30px;
+        width: 105px;
+      }
+    }
+
+    .patient-info {
+      @extend .flex;  
+      @extend .full-width;  
+
+      gap: 50px;
+      align-items: flex-end;
+      padding-bottom: 15px;
+      border-bottom: 1px solid var(--primary-border);
+
+      &-item {
+        @extend .flex; 
+        @extend .flex-col; 
+
+        // width: inherit;
+        color: var(--primary-color);
+        font-size: 16px;
+        font-weight: 500;
+
+        span {
+          opacity: .7;
+          font-size: 12px;
+          font-weight: 300;
+        }
+
+        &:last-child {
+          margin-left: auto;
+          text-align: right;
+        }
+        
+        button {
+          height: 30px;
+        }
+      }
+    }
+
+    .patient-records {
+      @extend .flex;  
+      @extend .full-width;
+      @extend .flex-col;
+      gap: 10px;
+
+      &-new {
+        @extend .flex; 
+        @extend .flex-col;
+
+        flex: 1;
+
+        span {
+          width: inherit;
+          color: var(--primary-color);
+          font-size: 14px;
+          font-weight: 500;
+        }
+
+        label {
+          opacity: .8;
+          font-size: 13px;
+          font-weight: 300;
+          color: var(--menu-color);
+          margin-top: 15px;
+        }
+
+        textarea {
+          min-height: 100px;
+          resize: none;
+          text-indent: 0;
+          padding: 12px;
+          margin-top: 3px;
+          background: none;
+          border: 1px solid var(--primary-border);
+          border-radius: 5px;
+          color: var(--primary-color);
+          font-size: 14px;
+
+          &:focus {
+            border: 1px solid #f49531;
+            outline: none;
+          }
+        }
+      }
+
+      &-recent {
+        flex: 1;
+      }
+    }
+  }
+
   &__right {
     @extend .flex;
     @extend .flex-col;
@@ -128,7 +232,7 @@
     width: 25%;
   }
 
-  &__statistics, &__online {
+  &__statistics, &__online, &__queue {
     @extend .flex;
     @extend .flex-col;
 
@@ -209,6 +313,66 @@
         &.active {
           opacity: 1;
           background-color: #0ed492;
+        }
+      }
+    }
+  }
+
+  &__queue {
+    &-wrapper {
+      @extend .full-width;
+      @extend .flex;
+      @extend .flex-col;
+
+      max-height: 280px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+
+    &-item {
+      @extend .flex;
+      @extend .flex-jc-sb;
+      @extend .flex-ai-c;
+
+      padding: 5px 10px;
+
+      &:not(:last-child) {
+        border-bottom: 1px solid var(--primary-border);
+      }
+
+      &-left {
+        @extend .flex;
+        @extend .flex-ai-c;
+        @extend .full-width;
+        gap: 10px;
+
+        &__icon {
+          width: 45px;
+          height: 45px;
+
+          img {
+            width: inherit;
+            height: inherit;
+          }
+        }
+
+        &__info {
+          @extend .flex;
+          @extend .flex-jc-sb;
+          @extend .flex-ai-c;
+          @extend .full-width;
+
+          font-size: 16px;
+          color: var(--menu-color);
+          gap: 2px;
+          font-weight: bold;
+          padding: 5px 0;
+
+          span {
+            font-size: 13px;
+            opacity: .8;
+            font-weight: normal;
+          }
         }
       }
     }
