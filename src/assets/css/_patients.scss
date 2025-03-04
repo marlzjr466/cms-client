@@ -7,4 +7,86 @@
   gap: 20px;
   overflow: auto;
   padding: 20px 10px 25px 0;
+
+  .patient-info {
+    @extend .flex;  
+    @extend .full-width;  
+
+    gap: 50px;
+    align-items: flex-end;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--primary-border);
+    margin-bottom: 10px;
+
+    &-item {
+      @extend .flex; 
+      @extend .flex-col; 
+
+      // width: inherit;
+      color: var(--primary-color);
+      font-size: 16px;
+      font-weight: 500;
+
+      span {
+        opacity: .7;
+        font-size: 12px;
+        font-weight: 300;
+      }
+      
+      button {
+        height: 30px;
+      }
+    }
+  }
+
+  .patient-records {
+    @extend .flex;  
+    @extend .full-width;
+    @extend .flex-col;
+    gap: 10px;
+
+    &-new {
+      @extend .flex; 
+      @extend .flex-col;
+
+      flex: 1;
+
+      span {
+        width: inherit;
+        color: var(--primary-color);
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      label {
+        opacity: .8;
+        font-size: 13px;
+        font-weight: 300;
+        color: var(--menu-color);
+        margin-top: 15px;
+      }
+
+      textarea {
+        min-height: 100px;
+        resize: none;
+        text-indent: 0;
+        padding: 12px;
+        margin-top: 3px;
+        background: none;
+        border: 1px solid var(--primary-border);
+        border-radius: 5px;
+        color: var(--primary-color);
+        font-size: 14px;
+
+        &:focus {
+          border: 1px solid #f49531;
+          outline: none;
+        }
+      }
+    }
+
+    &-recent {
+      flex: 1;
+    }
+  }
 }

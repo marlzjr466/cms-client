@@ -42,25 +42,25 @@ function Table({
       prevSelectedRows.includes(id)
         ? prevSelectedRows.filter((rowId) => rowId !== id)
         : [...prevSelectedRows, id]
-    );
-  };
+    )
+  }
 
   const handleSelectAll = () => {
     if (selectedRows.length === rows.length) {
-      setSelectedRows([]);
+      setSelectedRows([])
     } else {
-      setSelectedRows(rows.map((row, i) => (key ? row[key] : i)));
+      setSelectedRows(rows.map((row, i) => (key ? row[key] : i)))
     }
-  };
+  }
 
   const goToPage = (page) => {
-    setCurrentPage(page);
-  };
+    setCurrentPage(page)
+  }
 
   const getPageRows = () => {
-    const startIndex = (currentPage - 1) * countPerPage;
-    return rows.slice(startIndex, startIndex + countPerPage);
-  };
+    const startIndex = (currentPage - 1) * countPerPage
+    return rows.slice(startIndex, startIndex + countPerPage)
+  }
 
   const getPaginationRange = () => {
     // Total pages are less than or equal to maxVisiblePages, show all pages
@@ -97,6 +97,16 @@ function Table({
   const handleSearch = e => {
     e.preventDefault()
     onSearch(e.target.children[0].value)
+  }
+
+  const objectKey = (row, headerKey) => {
+    let result = headerKey.split('.').reduce((obj, key) => obj?.[key], row)
+
+    if (headerKey.includes('_at') || headerKey.includes('_date')) {
+      result = result ? moment(result).format('MMM DD, YYYY') : '---'
+    }
+
+    return result
   }
 
   return (
@@ -216,10 +226,10 @@ function Table({
                     {
                       typeof header.key === 'object'
                         ? combineKeys(header.key, row)
-                        : header.key.includes('_at')
-                          ? moment(row[header.key]).format('MMM DD, YYYY | hh:mm A')
-                          : header.key.includes('.')
-                            ? header.key.split('.').reduce((obj, key) => obj?.[key], row)
+                        : header.key.includes('.')
+                          ? objectKey(row, header.key)
+                          : header.key.includes('_at') || header.key.includes('_date')
+                            ? moment(row[header.key]).format('MMM DD, YYYY')
                             : ['price', 'amount'].includes(header.key)
                               ? formatWithCurrency(row[header.key])
                               : row[header.key] || '-'

@@ -14,12 +14,8 @@ export function headers () {
       key: 'created_at'
     },
     {
-      column: 'First Name',
-      key: 'first_name'
-    },
-    {
-      column: 'Last Name',
-      key: 'last_name'
+      column: 'Full Name',
+      key: ['first_name', 'last_name']
     },
     {
       column: 'Gender',
@@ -28,6 +24,10 @@ export function headers () {
     {
       column: 'Birth Date',
       key: 'birth_date'
+    },
+    {
+      column: 'Last Visit',
+      key: 'records.created_at'
     }
   ]
 

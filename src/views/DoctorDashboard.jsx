@@ -30,11 +30,6 @@ function QueueManagement () {
     ...metaActions('records', ['fetch', 'create', 'patch'])
   }
 
-  const patients = {
-    ...metaStates('patients', ['list', 'count']),
-    ...metaActions('patients', ['fetch'])
-  }
-
   const queues = {
     ...metaStates('queues', ['list', 'count', 'current']),
     ...metaMutations('queues', ['SET_CURRENT']),
@@ -234,6 +229,7 @@ function QueueManagement () {
         }
       })
     } else {
+      obj.admin_id = auth.admin_id
       obj.doctor_id = auth.doctor_id
       obj.patient_id = queues.current.patient_id
       obj.queue_id = queues.current.id

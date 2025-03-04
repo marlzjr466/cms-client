@@ -1,5 +1,6 @@
+import { useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-import { useMeta } from '@opensource-dev/redux-meta';
+import { useMeta } from '@opensource-dev/redux-meta'
 
 // components
 import ToogleSwitch from "@components/base/ToggleSwitch"
@@ -16,8 +17,9 @@ function SideMenu () {
 
   const { metaStates, metaMutations } = useMeta()
   const { logout, auth } = useAuth()
-
   const { list } = menu()
+
+  const [isNavCollapse, setIsNavCollapse] = useState(false)
 
   const theme = {
     ...metaStates('theme', ['mode']),
@@ -27,14 +29,25 @@ function SideMenu () {
   const handleNavigate = route => navigate(route)
 
   return (
-    <div className="sidemenu">
+    <div className={`sidemenu ${isNavCollapse ? 'collapse' : ''}`}>
+      <span
+        className="sidemenu__collapse_btn"
+        onClick={() => setIsNavCollapse(!isNavCollapse)}
+      >
+        <i className={`fas fa-angle-${isNavCollapse ? 'right' : 'left'}`}></i>
+      </span>
+
       <div className="card">
         <div className="clinic-info">
           <i className="fa-solid fa-hospital" aria-hidden="true"></i>
-          <div>
-            {auth.clinic_name}
-            <span>{auth.clinic_address}</span>
-          </div>
+          {
+            !isNavCollapse && (
+              <div>
+                {auth.clinic_name}
+                <span>{auth.clinic_address}</span>
+              </div>
+            )
+          }
         </div>
       </div>
 
@@ -50,7 +63,7 @@ function SideMenu () {
                 <span>
                   <i className={item.icon} aria-hidden="true"></i>
                 </span>
-                {item.name}
+                {!isNavCollapse && item.name}
               </li>
             ))
           }
@@ -82,7 +95,7 @@ function SideMenu () {
               <span>
                 <i className="fa-solid fa-right-from-bracket"></i>
               </span>
-                Log out
+                {!isNavCollapse && 'Log out'}
               </div>
           </div>
         </div>
