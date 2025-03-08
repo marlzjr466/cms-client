@@ -2,12 +2,12 @@ import { baseApi } from "@config/axios"
 
 export default () => ({
   metaModule: true,
-  name: 'records',
+  name: 'admins',
 
   metaStates: {
     list: [],
     count: 0,
-    servePatientsCount: 0
+    profile: null
   },
   
   metaMutations: {
@@ -18,9 +18,9 @@ export default () => ({
       }
     },
 
-    SET_SERVE_PATIENTS_COUNT: (state, { payload }) => {
+    SET_PROFILE: (state, { payload }) => {
       if (payload) {
-        state.servePatientsCount = payload.count
+        state.profile = payload
       }
     }
   },
@@ -31,7 +31,7 @@ export default () => ({
     async fetch ({ commit }, params) {
       try {
         const data = btoa(JSON.stringify(params))
-        const response = await baseApi.get('/records', { params: { data } })
+        const response = await baseApi.get('/admins', { params: { data } })
         
         commit('SET_LIST', response.data)
       } catch (error) {
@@ -45,7 +45,7 @@ export default () => ({
 
     async create ({}, params) {
       try {
-        const response = await baseApi.post('/records', params)
+        const response = await baseApi.post('/admins', params)
         return response.data
       } catch (error) {
         return {
@@ -58,7 +58,7 @@ export default () => ({
 
     async patch ({}, params) {
       try {
-        const response = await baseApi.patch('/records', params)
+        const response = await baseApi.patch('/admins', params)
         return response.data
       } catch (error) {
         return {
@@ -69,12 +69,22 @@ export default () => ({
       }
     },
 
-    async getServePatients ({ commit }, params) {
+    async getProfile ({ commit }, id) {
       try {
-        const data = btoa(JSON.stringify(params))
-        const response = await baseApi.get('/records', { params: { data } })
+        const params = {
+          is_first: true,
+          filters: [
+            {
+              field: 'id',
+              value: id
+            }
+          ]
+        }
 
-        commit('SET_SERVE_PATIENTS_COUNT', response.data)
+        const data = btoa(JSON.stringify(params))
+        const response = await baseApi.get('/admins', { params: { data } })
+        
+        commit('SET_PROFILE', response.data)
       } catch (error) {
         return {
           error: {
@@ -82,6 +92,6 @@ export default () => ({
           }
         }
       }
-    },
+    }
   }
 })

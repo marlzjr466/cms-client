@@ -1,3 +1,6 @@
+import { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+
 // images
 import images from '@assets/images'
 
@@ -5,7 +8,10 @@ import images from '@assets/images'
 import { useAuth } from '@hooks'
 
 function Nav () {
-  const { auth } = useAuth()
+  const navigate = useNavigate()
+  const { auth, logout } = useAuth()
+
+  const [showPopup, setShowPopup] = useState(false)
 
   return (
     <div className="nav">
@@ -13,7 +19,7 @@ function Nav () {
         <img src={images.logo} alt="Connect PH logo" />
       </span>
 
-      <div className="nav__user">
+      <div className="nav__user" onClick={() => setShowPopup(!showPopup)}>
         <span className="nav__user-icon">
           <img src={images.adminIcon} alt="Admin Icon" />
         </span>
@@ -26,8 +32,24 @@ function Nav () {
               }
             </span>
           </div>
-          <i className="fa fa-angle-down" aria-hidden="true"></i>
+          <i className={`fa fa-angle-down ${showPopup ? 'open' : ''}`} aria-hidden="true"></i>
         </div>
+
+        {
+          showPopup && (
+            <ul className="card">
+              <li onClick={() => navigate('/profile')}>
+                <i className="fa fa-user" aria-hidden="true"></i>
+                My Profile
+              </li>
+
+              <li onClick={logout}>
+                <i className="fa-solid fa-right-from-bracket"></i>
+                Logout
+              </li>
+            </ul>
+          )
+        }
       </div>
     </div>
   )

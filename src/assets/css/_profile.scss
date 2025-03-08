@@ -1,0 +1,63 @@
+.profile {
+  @extend .container;
+  @extend .flex;
+  @extend .flex-col;
+
+  height: calc(100vh - 80px);
+  gap: 20px;
+  overflow: auto;
+  padding: 20px 10px 25px 0;
+
+  &_section_label {
+    color: var(--secondary-color);
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+  }
+
+  &_row {
+    @extend .flex;
+    @extend .flex-col;
+    margin-bottom: 50px;
+
+    div {
+      @extend .flex;
+      flex-wrap: wrap;
+      gap: 20px;
+
+      span {
+        @extend .flex;
+        @extend .flex-col;
+        color: var(--primary-color);
+
+        label {
+          font-size: 14px;
+          text-indent: 3px;
+        }
+
+        input {
+          height: 45px;
+          border-radius: 10px;
+          border: 1px solid var(--primary-border);
+          text-indent: 12px;
+          font-size: 16px;
+          background: none;
+          cursor: text;
+          color: rgba(0,0,0,.7);
+          margin-top: 5px;
+          color: var(--primary-color);
+          width: 300px;
+
+          &:focus {
+            border-color: #f49531;
+          }
+        }
+      }
+    }
+
+    button {
+      width: fit-content;
+      height: 35px;
+      margin-top: 15px;
+    }
+  }
+}

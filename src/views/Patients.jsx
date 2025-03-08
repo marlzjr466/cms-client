@@ -1,10 +1,12 @@
 import { useEffect, useState, useRef } from 'react'
 import { useMeta } from '@opensource-dev/redux-meta'
 import { useNavigate, useParams } from 'react-router-dom'
+import { useReactToPrint } from "react-to-print"
 import moment from 'moment'
 import _ from 'lodash'
 
 // components
+import PrescriptionPad from '@components/PrescriptionPad'
 import Modal from '@components/Modal'
 import SideModal from '@components/SideModal'
 import Title from '@components/base/Title'
@@ -16,6 +18,7 @@ import { useAuth } from '@hooks'
 
 // utils
 import swal from '@utilities/swal'
+import { getAge } from '@utilities/helper'
 
 // composable
 import { headers } from '@composable/patients'
@@ -44,8 +47,17 @@ function Patients () {
   const [isDataLoading, setIsDataLoading] = useState(false)
   const [isRecordsDataLoading, setIsRecordsDataLoading] = useState(false)
   const [updateData, setUpdateData] = useState(null)
+  const [printInfo, setPrintInfo] = useState(null)
 
   const formRef = useRef(null)
+  const contentRef = useRef(null)
+  const reactToPrintFn = useReactToPrint({ contentRef })
+
+  useEffect(() => {
+    if (printInfo) {
+      reactToPrintFn()
+    }
+  }, [printInfo])
 
   useEffect(() => {
     loadPatients()
@@ -207,6 +219,11 @@ function Patients () {
 
   return (
     <div className="patients">
+      <PrescriptionPad
+        reference={contentRef}
+        data={printInfo}
+      />
+
       <Title title="Manage Patients" />
 
       <div className="flex-1">
@@ -264,6 +281,16 @@ function Patients () {
             onSearch={data => loadRecords(data)}
             isLoading={isRecordsDataLoading}
             disableButton
+            actions={[
+              {
+                label: 'Print prescription',
+                onAction: item => setPrintInfo({
+                  ...item,
+                  patient: row, 
+                  age: getAge(row.birth_date)
+                })
+              }
+            ]}
           />
         </div>
       </SideModal>

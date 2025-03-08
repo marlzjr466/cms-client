@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import moment from 'moment'
+import _ from 'lodash'
 
 // components
 import NoData from '@components/base/NoData'
@@ -65,21 +66,21 @@ function Table({
   const getPaginationRange = () => {
     // Total pages are less than or equal to maxVisiblePages, show all pages
     if (totalPages <= maxVisiblePages) {
-      return Array.from({ length: totalPages }, (_, i) => i + 1);
+      return Array.from({ length: totalPages }, (_, i) => i + 1)
     }
   
     // Determine the range of visible pages
-    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
-    let endPage = startPage + maxVisiblePages - 1;
+    let startPage = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2))
+    let endPage = startPage + maxVisiblePages - 1
   
     // Adjust the range if at the end of the pages
     if (endPage > totalPages) {
-      endPage = totalPages;
-      startPage = Math.max(1, totalPages - maxVisiblePages + 1);
+      endPage = totalPages
+      startPage = Math.max(1, totalPages - maxVisiblePages + 1)
     }
   
     // Return the range of pages to display
-    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
+    return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i)
   };
 
   const combineKeys = (keys, row) => {
@@ -244,7 +245,7 @@ function Table({
                         actions.map((item, index) => (
                           <button
                             key={index}
-                            className="btn info"
+                            className="btn success"
                             style={{ padding: 8 }}
                             onClick={e => {
                               e.stopPropagation()

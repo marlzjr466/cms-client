@@ -1,3 +1,4 @@
+import admins from "./admins"
 import theme from "./theme"
 import auth from "./auth"
 import doctors from "./doctors"
@@ -11,6 +12,7 @@ import records from "./records"
 import queues from "./queues"
 
 export default () => ([
+  admins(),
   auth(),
   theme(),
   doctors(),

@@ -65,7 +65,7 @@ export default () => ({
                 }
               ],
               is_first: true,
-              columns: ['id', 'first_name', 'last_name', 'gender', 'birth_date']
+              columns: ['id', 'first_name', 'last_name', 'gender', 'birth_date', 'address']
             }
           ]
         }

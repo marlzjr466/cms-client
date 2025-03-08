@@ -31,13 +31,13 @@ function Dashboard () {
           <span>{currentDate}</span>
         </div>
 
-        <div className="dashboard__action">
+        {/* <div className="dashboard__action">
           <DatePicker
             onChange={date => {
               console.log('date:', date)
             }}
           />
-        </div>
+        </div> */}
       </div>
 
       <div className="dashboard__body">

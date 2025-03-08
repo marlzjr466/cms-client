@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { useMeta } from '@opensource-dev/redux-meta'
+import { useReactToPrint } from "react-to-print"
 import moment from 'moment/moment'
 import _ from "lodash"
 
@@ -8,6 +9,7 @@ import { headers } from '@composable/doctor-dashboard'
 import { filters } from '@composable/filters'
 
 // components
+import PrescriptionPad from '@components/PrescriptionPad'
 import Modal from '@components/Modal'
 import Table from '@components/base/Table'
 import Title from '@components/base/Title'
@@ -16,6 +18,7 @@ import Loading from '@components/base/Loading'
 
 // utils
 import swal from '@utilities/swal'
+import { getAge } from '@utilities/helper'
 
 // hooks
 import { useAuth } from '@hooks'
@@ -26,8 +29,8 @@ function QueueManagement () {
   const { setPage, pagination, sort, page } = filters()
 
   const records = {
-    ...metaStates('records', ['list', 'count']),
-    ...metaActions('records', ['fetch', 'create', 'patch'])
+    ...metaStates('records', ['list', 'count', 'servePatientsCount']),
+    ...metaActions('records', ['fetch', 'create', 'patch', 'getServePatients'])
   }
 
   const queues = {
@@ -43,11 +46,22 @@ function QueueManagement () {
   const [isDataLoading, setIsDataLoading] = useState(false)
   const [updateData, setUpdateData] = useState(null)
   const [isGetQueueLoading, setIsGetQueueLoading] = useState(false)
+  const [printInfo, setPrintInfo] = useState(null)
 
   const formRef = useRef(null)
+  const contentRef = useRef(null)
+  const reactToPrintFn = useReactToPrint({ contentRef })
+
+  useEffect(() => {
+    if (printInfo) {
+      reactToPrintFn()
+    }
+  }, [printInfo])
+
 
   useEffect(() => {
     loadQueues()
+    loadServePatientsCount()
   }, [])
 
   useEffect(() => {
@@ -159,6 +173,27 @@ function QueueManagement () {
     setIsDataLoading(false)
   }
 
+  const loadServePatientsCount = async () => {
+    await records.getServePatients({
+      filters: [
+        {
+          field: 'created_at',
+          custom_operator: 'dateequal',
+          value: moment().format('YYYY-MM-DD')
+        },
+        {
+          field: 'doctor_id',
+          value: auth.doctor_id
+        },
+        {
+          field: 'deleted_at',
+          value: 'null'
+        }
+      ],
+      is_count: true
+    })
+  }
+
   const handleSetQueue = async () => {
     setIsGetQueueLoading(true)
     const [queue] =  queues.list
@@ -201,6 +236,7 @@ function QueueManagement () {
             throw new Error(error.message)
           }
           
+          loadServePatientsCount()
           queues.SET_CURRENT(null)
           swal.success()
         } catch (error) {
@@ -257,6 +293,11 @@ function QueueManagement () {
 
   return (
     <div className="dashboard">
+      <PrescriptionPad
+        reference={contentRef}
+        data={printInfo}
+      />
+
       <div className="flex flex-jc-sb">
         <div className="dashboard__title">
           <Title title="Hi! Welcome to Dashboard" icon={false} />
@@ -333,6 +374,16 @@ function QueueManagement () {
                       onSearch={data => loadRecords(data)}
                       isLoading={isDataLoading}
                       noDelete
+                      actions={[
+                        {
+                          label: 'Print prescription',
+                          onAction: item => setPrintInfo({
+                            ...item,
+                            patient: queues.current.patients, 
+                            age: getAge(queues.current.patients.birth_date)
+                          })
+                        }
+                      ]}
                     />
                   </div>
                 </>
@@ -347,7 +398,7 @@ function QueueManagement () {
 
             <div className="dashboard__statistics-row">
               Served Patients
-              <span>0</span>
+              <span>{records.servePatientsCount}</span>
             </div>
 
             {/* <div className="dashboard__statistics-row">

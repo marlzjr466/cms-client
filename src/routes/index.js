@@ -90,6 +90,12 @@ const routes = [
         name: 'categories',
         component: lazy(() => import('@views/Categories')),
         authRequired: true
+      },
+      {
+        path: 'profile',
+        name: 'profile',
+        component: lazy(() => import('@views/Profile')),
+        authRequired: true
       }
     ]
   }

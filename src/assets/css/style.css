@@ -12,6 +12,10 @@
   font-family: "Digital";
   src: local("Digital"), url(../fonts/Digital.ttf) format("truetype");
 }
+@font-face {
+  font-family: "KaushanScript";
+  src: local("KaushanScript"), url(../fonts/KaushanScript.ttf) format("truetype");
+}
 html {
   font-size: 100%;
   box-sizing: border-box;
@@ -89,6 +93,14 @@ button.danger, input.danger, select.danger {
 button.danger:hover, input.danger:hover, select.danger:hover {
   opacity: 1;
 }
+button.print, input.print, select.print {
+  background-color: #5a6570;
+  background: linear-gradient(to top, #191b1d, #5a6570);
+  opacity: 0.8;
+}
+button.print:hover, input.print:hover, select.print:hover {
+  opacity: 1;
+}
 button.disabled, input.disabled, select.disabled {
   cursor: not-allowed;
   opacity: 0.6;
@@ -107,16 +119,16 @@ ul, ol {
   list-style: none;
 }
 
-.flex, .categories, .products span.info, .products, .settings, .transactions, .patients .patient-records-new, .patients .patient-records, .patients .patient-info-item, .patients .patient-info, .patients, .inventory, .users, .dashboard__queue-item-left__info, .dashboard__queue-item-left, .dashboard__queue-item, .dashboard__queue-wrapper, .dashboard__online-item-left__info, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__queue-row, .dashboard__statistics, .dashboard__online, .dashboard__queue, .dashboard__right, .dashboard__manage_queue .patient-records-new, .dashboard__manage_queue .patient-records, .dashboard__manage_queue .patient-info-item, .dashboard__manage_queue .patient-info, .dashboard__manage_queue, .dashboard__table, .dashboard__totals .card__body, .dashboard__totals .card__header span, .dashboard__totals .card__header, .dashboard__totals, .dashboard__left, .dashboard__body, .dashboard__title, .dashboard, .side-modal_container .product-info .body .tab, .side-modal_container .product-info .buttons, .side-modal_container .product-info, .modal_container form .form-group, .datepicker__display, .table__pagination, .table__loader, .table__actions .search-filter, .table__actions, .table, .form-wrapper form .form-group, .form-wrapper form, .form-wrapper .greetings, .form, .title {
+.flex, .profile_row div span, .profile_row div, .profile_row, .profile, .categories, .products span.info, .products, .settings, .transactions, .patients .patient-records-new, .patients .patient-records, .patients .patient-info-item, .patients .patient-info, .patients, .inventory, .users, .dashboard__queue-item-left__info, .dashboard__queue-item-left, .dashboard__queue-item, .dashboard__queue-wrapper, .dashboard__online-item-left__info, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__queue-row, .dashboard__statistics, .dashboard__online, .dashboard__queue, .dashboard__right, .dashboard__manage_queue .patient-records-new, .dashboard__manage_queue .patient-records, .dashboard__manage_queue .patient-info-item, .dashboard__manage_queue .patient-info, .dashboard__manage_queue, .dashboard__table, .dashboard__totals .card__body, .dashboard__totals .card__header span, .dashboard__totals .card__header, .dashboard__totals, .dashboard__left, .dashboard__body, .dashboard__title, .dashboard, .side-modal_container .product-info .body .tab, .side-modal_container .product-info .buttons, .side-modal_container .product-info, .modal_container form .form-group, .datepicker__display, .table__pagination, .table__loader, .table__actions .search-filter, .table__actions, .table, .prescription_pad__footer .top .right div, .prescription_pad__footer .top .right, .prescription_pad__footer .top, .prescription_pad__footer, .prescription_pad__body .rx-logo, .prescription_pad__body, .prescription_pad__info div, .prescription_pad__info, .prescription_pad__header div, .prescription_pad__header, .form-wrapper form .form-group, .form-wrapper form, .form-wrapper .greetings, .form, .title {
   display: flex;
 }
-.flex-jc-sb, .dashboard__queue-item-left__info, .dashboard__queue-item, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__queue-row, .dashboard__totals .card__header {
+.flex-jc-sb, .dashboard__queue-item-left__info, .dashboard__queue-item, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__queue-row, .dashboard__totals .card__header, .prescription_pad__footer .top {
   justify-content: space-between;
 }
 .flex-jc-c, .table__pagination, .form {
   justify-content: center;
 }
-.flex-ai-c, .products span.info, .dashboard__queue-item-left__info, .dashboard__queue-item-left, .dashboard__queue-item, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__queue-row, .dashboard__totals .card__header, .datepicker__display, .table__pagination, .form-wrapper .greetings, .title {
+.flex-ai-c, .products span.info, .dashboard__queue-item-left__info, .dashboard__queue-item-left, .dashboard__queue-item, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__queue-row, .dashboard__totals .card__header, .datepicker__display, .table__pagination, .prescription_pad__footer .top, .form-wrapper .greetings, .title {
   align-items: center;
 }
 .flex-ai-sb {
@@ -128,7 +140,7 @@ ul, ol {
 .flex-ai-fe {
   align-items: flex-end;
 }
-.flex-col, .categories, .products, .settings, .transactions, .patients .patient-records-new, .patients .patient-records, .patients .patient-info-item, .patients, .inventory, .users, .dashboard__queue-wrapper, .dashboard__online-item-left__info, .dashboard__statistics, .dashboard__online, .dashboard__queue, .dashboard__right, .dashboard__manage_queue .patient-records-new, .dashboard__manage_queue .patient-records, .dashboard__manage_queue .patient-info-item, .dashboard__manage_queue, .dashboard__table, .dashboard__left, .dashboard__title, .dashboard, .side-modal_container .product-info, .modal_container form .form-group, .table, .form-wrapper form .form-group, .form-wrapper form, .form-wrapper .greetings {
+.flex-col, .profile_row div span, .profile_row, .profile, .categories, .products, .settings, .transactions, .patients .patient-records-new, .patients .patient-records, .patients .patient-info-item, .patients, .inventory, .users, .dashboard__queue-wrapper, .dashboard__online-item-left__info, .dashboard__statistics, .dashboard__online, .dashboard__queue, .dashboard__right, .dashboard__manage_queue .patient-records-new, .dashboard__manage_queue .patient-records, .dashboard__manage_queue .patient-info-item, .dashboard__manage_queue, .dashboard__table, .dashboard__left, .dashboard__title, .dashboard, .side-modal_container .product-info, .modal_container form .form-group, .table, .prescription_pad__footer .top .right, .prescription_pad__footer, .prescription_pad__info, .prescription_pad__header div, .form-wrapper form .form-group, .form-wrapper form, .form-wrapper .greetings {
   flex-direction: column;
 }
 .flex-end {
@@ -180,7 +192,7 @@ ul, ol {
   padding: 0 0 0 20px;
 }
 
-.container, .categories, .products, .settings, .transactions, .patients, .inventory, .users, .dashboard, .table {
+.container, .profile, .categories, .products, .settings, .transactions, .patients, .inventory, .users, .dashboard, .table {
   width: 100%;
   height: 100%;
 }
@@ -330,6 +342,131 @@ ul, ol {
   background: linear-gradient(to right, rgba(73, 229, 196, 0.1), #49E5C4, rgba(73, 229, 196, 0.1));
   border-top: 2px solid #49E5C4;
   border-bottom: 2px solid #49E5C4;
+}
+
+.prescription_pad {
+  background: white;
+  flex-direction: column;
+  justify-content: center;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 20px;
+  padding: 50px 80px;
+  padding-bottom: 0;
+  display: none;
+}
+@media print {
+  .prescription_pad {
+    display: flex;
+  }
+}
+.prescription_pad h3, .prescription_pad p {
+  text-align: center;
+}
+.prescription_pad p {
+  font-weight: 600;
+}
+.prescription_pad__header {
+  justify-content: space-between;
+  border-bottom: 4px solid #000;
+  font-size: 18px;
+  margin-top: 30px;
+  padding: 10px;
+  padding-top: 0;
+}
+.prescription_pad__header div {
+  gap: 2px;
+  justify-content: center;
+}
+.prescription_pad__header div .space {
+  opacity: 0;
+}
+.prescription_pad__info {
+  margin-top: 50px;
+  gap: 30px;
+}
+.prescription_pad__info div {
+  font-size: 16px;
+}
+.prescription_pad__info div span {
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.prescription_pad__info div p {
+  border-bottom: 1px solid #000;
+  text-align: left;
+  text-indent: 10px;
+}
+.prescription_pad__info div p.name {
+  width: 60%;
+}
+.prescription_pad__info div p.age, .prescription_pad__info div p.sex, .prescription_pad__info div p.date {
+  flex: 1;
+}
+.prescription_pad__info div p.address {
+  width: 57%;
+}
+.prescription_pad__body {
+  margin-top: 10px;
+  gap: 40px;
+  min-height: 300px;
+}
+.prescription_pad__body .rx-logo {
+  font-weight: 500;
+  font-size: 80px;
+  font-style: italic;
+}
+.prescription_pad__body .rx-logo span {
+  margin-left: -10px;
+  padding-top: 15px;
+}
+.prescription_pad__body .medication {
+  flex: 1;
+  font-size: 22px;
+  font-weight: 400;
+  margin-top: 50px;
+  text-align: left;
+}
+.prescription_pad__footer .top {
+  margin-top: 30px;
+}
+.prescription_pad__footer .top .left {
+  font-size: 18px;
+  border-bottom: 2px solid #000;
+  width: 300px;
+  text-align: left;
+  padding: 0 10px 40px 10px;
+}
+.prescription_pad__footer .top .right {
+  gap: 10px;
+  font-size: 18px;
+  padding: 0 10px;
+  width: 300px;
+}
+.prescription_pad__footer .top .right strong {
+  text-align: center;
+  border-bottom: 2px solid #000;
+  flex: 1;
+}
+.prescription_pad__footer .top .right div {
+  gap: 15px;
+  padding-left: 20px;
+}
+.prescription_pad__footer .top .right div strong {
+  text-align: left;
+}
+.prescription_pad__footer .bottom {
+  width: 100%;
+  margin-top: 40px;
+  display: grid;
+  place-items: center;
+}
+.prescription_pad__footer .bottom p {
+  width: 85%;
+  text-align: center;
+  font-size: 16px;
+  line-height: 1.5;
+  font-family: cursive;
+  font-weight: 500;
 }
 
 /* width */
@@ -523,11 +660,13 @@ ul, ol {
   cursor: pointer;
   height: 47px;
   color: var(--primary-color);
+  position: relative;
 }
 .nav__user-icon {
   width: 35px;
   height: 35px;
   border-radius: 50%;
+  pointer-events: none;
 }
 .nav__user-icon img {
   width: 100%;
@@ -538,6 +677,7 @@ ul, ol {
   align-items: center;
   font-weight: 500;
   gap: 15px;
+  pointer-events: none;
 }
 .nav__user-info div {
   display: flex;
@@ -551,6 +691,32 @@ ul, ol {
 .nav__user-info i {
   font-size: 18px;
   color: var(--secondary-color);
+  transition: transform 200ms ease-in-out;
+}
+.nav__user-info i.open {
+  transform: rotate(180deg);
+}
+.nav__user ul {
+  width: 100%;
+  position: absolute;
+  top: 50px;
+  left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 10px 0;
+}
+.nav__user ul li {
+  width: 100%;
+  font-size: 14px;
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.nav__user ul li:hover {
+  background: rgba(0, 0, 0, 0.1);
+  color: #f49531;
 }
 
 .sidemenu {
@@ -1738,6 +1904,54 @@ ul, ol {
   gap: 20px;
   overflow: auto;
   padding: 20px 10px 25px 0;
+}
+
+.profile {
+  height: calc(100vh - 80px);
+  gap: 20px;
+  overflow: auto;
+  padding: 20px 10px 25px 0;
+}
+.profile_section_label {
+  color: var(--secondary-color);
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+.profile_row {
+  margin-bottom: 50px;
+}
+.profile_row div {
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.profile_row div span {
+  color: var(--primary-color);
+}
+.profile_row div span label {
+  font-size: 14px;
+  text-indent: 3px;
+}
+.profile_row div span input {
+  height: 45px;
+  border-radius: 10px;
+  border: 1px solid var(--primary-border);
+  text-indent: 12px;
+  font-size: 16px;
+  background: none;
+  cursor: text;
+  color: rgba(0, 0, 0, 0.7);
+  margin-top: 5px;
+  color: var(--primary-color);
+  width: 300px;
+}
+.profile_row div span input:focus {
+  border-color: #f49531;
+}
+.profile_row button {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 35px;
+  margin-top: 15px;
 }
 
 :root {

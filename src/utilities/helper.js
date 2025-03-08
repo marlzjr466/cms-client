@@ -1,5 +1,6 @@
-import moment from 'moment'
 import { jwtDecode } from 'jwt-decode'
+import moment from 'moment'
+import _ from 'lodash'
 
 function decodeToken (token) {
   return jwtDecode(token)
@@ -23,9 +24,9 @@ function formattedNumber (number) {
 
 function formatWithCurrency(value, currency = 'PHP') {
   const formatter = new Intl.NumberFormat('en-PH', {
-      style: 'currency',
-      currency,
-  });
+    style: 'currency',
+    currency,
+  })
 
   const numericValue = parseFloat(value);
 
@@ -36,6 +37,23 @@ function formatWithCurrency(value, currency = 'PHP') {
   // Return the formatted currency string
   return formatter.format(numericValue);
 }
+
+function getAge (birthDate) {
+    const today = new Date()
+    const birth = new Date(birthDate)
+  
+    let age = _.subtract(today.getFullYear(), birth.getFullYear())
+
+    // Check if birthday has occurred this year
+    if (
+      _.gt(birth.getMonth(), today.getMonth()) ||
+      (_.eq(birth.getMonth(), today.getMonth()) && _.gte(birth.getDate(), today.getDate()))
+    ) {
+      --age
+    }
+
+    return age
+  }
 
 const storage = {
   set (name, value) {
@@ -58,5 +76,6 @@ export {
   storage,
   formattedNumber,
   formatWithCurrency,
-  decodeToken
+  decodeToken,
+  getAge
 }

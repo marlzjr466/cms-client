@@ -26,11 +26,13 @@
     cursor: pointer;
     height: 47px;
     color: var(--primary-color);
+    position: relative;
 
     &-icon {
       width: 35px;
       height: 35px;
       border-radius: 50%;
+      pointer-events: none;
 
       img {
         width: 100%;
@@ -43,6 +45,7 @@
       align-items: center;
       font-weight: 500;
       gap: 15px;
+      pointer-events: none;
 
       div {
         display: flex;
@@ -58,6 +61,36 @@
       i {
         font-size: 18px;
         color: var(--secondary-color);
+        transition: transform 200ms ease-in-out;
+
+        &.open {
+          transform: rotate(180deg);
+        }
+      }
+    }
+
+    ul {
+      width: 100%;
+      position: absolute;
+      top: 50px;
+      left: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      padding: 10px 0;
+
+      li {
+        width: 100%;
+        font-size: 14px;
+        padding: 10px 20px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        &:hover {
+          background: rgba(0,0,0,.1);
+          color: #f49531;
+        }
       }
     }
   }

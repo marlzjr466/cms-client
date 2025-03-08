@@ -6,7 +6,8 @@ export default () => ({
 
   metaStates: {
     list: [],
-    count: 0
+    count: 0,
+    profile: null
   },
   
   metaMutations: {
@@ -14,6 +15,12 @@ export default () => ({
       if (payload) {
         state.list = payload.list
         state.count = payload.count
+      }
+    },
+
+    SET_PROFILE: (state, { payload }) => {
+      if (payload) {
+        state.profile = payload
       }
     }
   },
@@ -53,6 +60,31 @@ export default () => ({
       try {
         const response = await baseApi.patch('/doctors', params)
         return response.data
+      } catch (error) {
+        return {
+          error: {
+            message: error.message
+          }
+        }
+      }
+    },
+
+    async getProfile ({ commit }, id) {
+      try {
+        const params = {
+          is_first: true,
+          filters: [
+            {
+              field: 'id',
+              value: id
+            }
+          ]
+        }
+
+        const data = btoa(JSON.stringify(params))
+        const response = await baseApi.get('/doctors', { params: { data } })
+        
+        commit('SET_PROFILE', response.data)
       } catch (error) {
         return {
           error: {

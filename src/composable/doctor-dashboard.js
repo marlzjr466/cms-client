@@ -22,8 +22,8 @@ export function headers () {
       key: 'complaints'
     },
     {
-      column: 'Remarks',
-      key: 'remarks'
+      column: 'Medication',
+      key: 'medication'
     }
   ]
 
