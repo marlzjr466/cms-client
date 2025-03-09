@@ -1,31 +1,37 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import { BrowserRouter } from 'react-router-dom';
-import { ReduxMeta } from '@opensource-dev/redux-meta';
+import { ReduxMeta } from '@opensource-dev/redux-meta'
 
 // css
 import '@assets/css/style.css'
+
+// config
+import socket from '@config/socket'
 
 // views
 import App from '@views/App'
 
 // components
-import AuthProvider from '@components/AuthProvider';
+import AuthProvider from '@components/AuthProvider'
 
 // modules
-import modules from '@modules';
+import modules from '@modules'
 
 // register all modules
-ReduxMeta.registerModules(modules());
+ReduxMeta.registerModules(modules())
+
+// init socket
+socket.connect()
 
 // Save the original methods
-const originalWarn = console.warn;
+const originalWarn = console.warn
 
 // Override console.warn
 console.warn = (...args) => {
   // Suppress specific warnings
   if (args[0]?.includes('Selector unknown returned the root state')) {
-    return; // Ignore this warning
+    return // Ignore this warning
   }
   originalWarn(...args) // Allow other warnings
 }
@@ -39,5 +45,5 @@ createRoot(document.getElementById('root')).render(
         </AuthProvider>
       </ReduxMeta.Provider>
     </BrowserRouter>
-  </StrictMode>,
+  </StrictMode>
 )

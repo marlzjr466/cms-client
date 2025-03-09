@@ -4,6 +4,9 @@ import { useReactToPrint } from "react-to-print"
 import moment from 'moment/moment'
 import _ from "lodash"
 
+// config
+import socket from '@config/socket'
+
 // composable
 import { headers } from '@composable/doctor-dashboard'
 import { filters } from '@composable/filters'
@@ -18,7 +21,7 @@ import Loading from '@components/base/Loading'
 
 // utils
 import swal from '@utilities/swal'
-import { getAge } from '@utilities/helper'
+import { getAge, storage } from '@utilities/helper'
 
 // hooks
 import { useAuth } from '@hooks'
@@ -47,6 +50,7 @@ function QueueManagement () {
   const [updateData, setUpdateData] = useState(null)
   const [isGetQueueLoading, setIsGetQueueLoading] = useState(false)
   const [printInfo, setPrintInfo] = useState(null)
+  const [isRecordAdded, setIsRecordAdded] = useState('false')
 
   const formRef = useRef(null)
   const contentRef = useRef(null)
@@ -58,10 +62,12 @@ function QueueManagement () {
     }
   }, [printInfo])
 
-
   useEffect(() => {
+    initSocketListeners()
     loadQueues()
     loadServePatientsCount()
+
+    setIsRecordAdded(storage.get('isRecordAdded') || false)
   }, [])
 
   useEffect(() => {
@@ -74,7 +80,7 @@ function QueueManagement () {
     if (queues.current) {
       loadRecords()
     }
-  }, [queues.current])
+  }, [queues.current, page])
 
   useEffect(() => {
     if (updateData) {
@@ -92,6 +98,14 @@ function QueueManagement () {
       formRef.current.querySelector('[name="remarks"]').value = updateData.remarks
     }
   }, [showCreateModal])
+
+  const initSocketListeners = () => {
+    socket.on('refresh', types => {
+      if (types.includes('queues')) {
+        loadQueues()
+      }
+    })
+  }
 
   const loadQueues = async () => {
     await queues.fetch({
@@ -127,7 +141,7 @@ function QueueManagement () {
     const filters = [
       {
         field: 'patient_id',
-        value: queues.current.patient_id
+        value: queues.current?.patient_id
       },
       {
         field: 'deleted_at',
@@ -236,6 +250,8 @@ function QueueManagement () {
             throw new Error(error.message)
           }
           
+          storage.set('isRecordAdded', false)
+          setIsRecordAdded('false')
           loadServePatientsCount()
           queues.SET_CURRENT(null)
           swal.success()
@@ -272,6 +288,8 @@ function QueueManagement () {
       var response = await records.create(obj)
     }
 
+    storage.set('isRecordAdded', true)
+    setIsRecordAdded('true')
     setUpdateData(null)
     setIsLoading(false)
     setShowCreateModal(false)
@@ -314,14 +332,17 @@ function QueueManagement () {
               <div className="flex gap-2">
                 {
                   queues.current && (
-                    <button className="btn info" onClick={handleDoneServe}>
+                    <button
+                      className="btn info" onClick={handleDoneServe}
+                      disabled={!eval(isRecordAdded)}
+                    >
                       Done
                     </button>
                   )
                 }
                 
                 <button
-                  className={`btn info ${!queues.count || isGetQueueLoading || queues.current ? 'disabled' : ''}`}
+                  className="btn info"
                   disabled={!queues.count || isGetQueueLoading || queues.current}
                   onClick={handleSetQueue}
                 >
@@ -373,6 +394,7 @@ function QueueManagement () {
                       }}
                       onSearch={data => loadRecords(data)}
                       isLoading={isDataLoading}
+                      itemsPerPage={pagination.rows}
                       noDelete
                       actions={[
                         {

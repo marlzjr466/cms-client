@@ -17,7 +17,7 @@ function Table({
   disableButton,
   isLoading,
   actions,
-  countPerPage = 10,
+  itemsPerPage = 10,
   noDelete,
   onSelect = () => {},
   onRowClick = () => {},
@@ -27,7 +27,7 @@ function Table({
   onDelete = () => {},
   onSearch = () => {}
 }) {
-  const totalPages = Math.ceil(totalRowsCount / countPerPage) // Total pages based on the row count
+  const totalPages = Math.ceil(totalRowsCount / itemsPerPage) // Total pages based on the row count
   const maxVisiblePages = 5 // Maximum number of page buttons to show at once
 
   const [selectedRows, setSelectedRows] = useState([])
@@ -58,10 +58,10 @@ function Table({
     setCurrentPage(page)
   }
 
-  const getPageRows = () => {
-    const startIndex = (currentPage - 1) * countPerPage
-    return rows.slice(startIndex, startIndex + countPerPage)
-  }
+  // const getPageRows = () => {
+  //   const startIndex = (currentPage - 1) * countPerPage
+  //   return rows.slice(startIndex, startIndex + countPerPage)
+  // }
 
   const getPaginationRange = () => {
     // Total pages are less than or equal to maxVisiblePages, show all pages
@@ -81,7 +81,7 @@ function Table({
   
     // Return the range of pages to display
     return Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i)
-  };
+  }
 
   const combineKeys = (keys, row) => {
     const value = keys.map(key => {
@@ -199,7 +199,7 @@ function Table({
           </thead>
 
           <tbody>
-            {getPageRows().map((row, i) => (
+            {rows.map((row, i) => (
               <tr key={row.id}>
                 {
                   !disableButton && !noDelete && (
@@ -208,8 +208,8 @@ function Table({
                         type="checkbox"
                         checked={selectedRows.includes(key ? row[key] : i)}
                         onChange={(e) => {
-                          e.stopPropagation();
-                          handleSelectRow(key ? row[key] : i);
+                          e.stopPropagation()
+                          handleSelectRow(key ? row[key] : i)
                         }}
                       />
                     </td>
@@ -220,9 +220,7 @@ function Table({
                   <td
                     key={index}
                     onClick={() => onRowClick(row)}
-                    className={`
-                      ${header.key === 'description' ? 'truncate' : ''}
-                    `}
+                    className="truncate"
                   >
                     {
                       typeof header.key === 'object'
@@ -284,7 +282,7 @@ function Table({
       {rows.length && !isLoading ? (
         <div className="table__pagination">
           <button
-            className={`btn default ${currentPage === totalPages ? 'disabled' : ''}`}
+            className={`btn default ${currentPage === totalPages ? '' : 'disabled'}`}
             onClick={() => goToPage(1)}
             disabled={currentPage === 1}
           >
@@ -292,7 +290,7 @@ function Table({
           </button>
 
           <button
-            className={`btn default ${currentPage === totalPages ? 'disabled' : ''}`}
+            className={`btn default ${currentPage === totalPages ? '' : 'disabled'}`}
             onClick={() => goToPage(currentPage - 1)}
             disabled={currentPage === 1}
           >
@@ -327,7 +325,7 @@ function Table({
         </div>
       ) : null}
     </div>
-  );
+  )
 }
 
-export default Table;
+export default Table

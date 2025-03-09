@@ -143,6 +143,7 @@ function Dashboard () {
                   console.log('page:', page)
                 }}
                 disableButton
+                itemsPerPage={pagination.rows}
               />
             </div>
           </div>

@@ -31,6 +31,7 @@ function Patients () {
   const { auth } = useAuth()
   const { metaStates, metaActions } = useMeta()
   const { setPage, pagination, sort, page } = filters()
+  const { setPage: setRecordsPage, page: recordsPage, pagination: recordsPagination } = filters()
 
   const patients = {
     ...metaStates('patients', ['list', 'count']),
@@ -62,6 +63,10 @@ function Patients () {
   useEffect(() => {
     loadPatients()
   }, [page])
+
+  useEffect(() => {
+    loadRecords()
+  }, [recordsPage])
 
   useEffect(() => {
     if (urlParams.id) {
@@ -176,7 +181,7 @@ function Patients () {
         }
       ],
       is_count: true,
-      pagination,
+      pagination: recordsPagination,
       sort
     })
     
@@ -241,6 +246,7 @@ function Patients () {
           onPageChance={value => setPage(value)}
           onSearch={data => loadPatients(data)}
           isLoading={isDataLoading}
+          itemsPerPage={pagination.rows}
         />
       </div>
 
@@ -277,9 +283,10 @@ function Patients () {
             totalRowsCount={records.count}
             onRefresh={() => loadRecords()}
             onRowClick={row => setUpdateData(row)}
-            onPageChance={value => setPage(value)}
+            onPageChance={value => setRecordsPage(value)}
             onSearch={data => loadRecords(data)}
             isLoading={isRecordsDataLoading}
+            itemsPerPage={recordsPagination.rows}
             disableButton
             actions={[
               {

@@ -197,6 +197,7 @@ function Attendants () {
           }}
           onSearch={data => loadAttendants(data)}
           isLoading={isDataLoading}
+          itemsPerPage={pagination.rows}
         />
       </div>
 

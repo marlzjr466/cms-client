@@ -173,6 +173,7 @@ function Categories () {
           }}
           onSearch={data => loadCategories(data)}
           isLoading={isDataLoading}
+          itemsPerPage={pagination.rows}
         />
       </div>
 

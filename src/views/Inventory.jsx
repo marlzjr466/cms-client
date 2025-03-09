@@ -29,6 +29,7 @@ function Inventory () {
           onPageChance={page => {
             console.log('page:', page)
           }}
+          itemsPerPage={pagination.rows}
         />
       </div>
     </div>

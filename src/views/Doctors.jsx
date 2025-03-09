@@ -193,6 +193,7 @@ function Doctors () {
           }}
           onSearch={data => loadDoctors(data)}
           isLoading={isDataLoading}
+          itemsPerPage={pagination.rows}
         />
       </div>
 

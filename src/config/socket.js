@@ -14,7 +14,7 @@ class Socket {
       transports: ["websocket", "polling"]
     })
 
-    this.socket = this.manager.socket('/qms')
+    this.socket = this.manager.socket('/cms')
     
     this.socket.on('connect', () =>  {
       console.log('socket connected to server')
@@ -27,6 +27,10 @@ class Socket {
 
   on (eventName, fn) {
     this.socket.on(eventName, fn)
+  }
+
+  off (eventName, fn) {
+    this.socket.off(eventName, fn)
   }
 
   emit (eventName, data) {

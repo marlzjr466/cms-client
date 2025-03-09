@@ -527,6 +527,7 @@ function Products () {
               }}
               onSearch={data => loadProducts(data)}
               isLoading={isDataLoading}
+              itemsPerPage={pagination.rows}
               actions={[
                 {
                   label: 'View',
@@ -674,7 +675,7 @@ function Products () {
                 }}
                 onSearch={data => loadItems(data)}
                 isLoading={false}
-                countPerPage={8}
+                itemsPerPage={pagination.rows}
               />
             </div>
           </div>
