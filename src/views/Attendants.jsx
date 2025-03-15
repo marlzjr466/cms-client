@@ -10,6 +10,7 @@ import Loading from '@components/base/Loading'
 
 // composable
 import { headers } from '@composable/users'
+import { filters } from '@composable/filters'
 
 // hooks
 import { useAuth } from '@hooks'
@@ -20,6 +21,7 @@ import swal from '@utilities/swal'
 function Attendants () {
   const { auth } = useAuth()
   const { metaActions, metaStates } = useMeta()
+  const { setPage, pagination, sort, page } = filters()
 
   const attendants = {
     ...metaStates('attendants', ['list', 'count']),
@@ -29,7 +31,6 @@ function Attendants () {
   const [showCreateModal, setShowCreateModal] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [updateData, setUpdateData] = useState(null)
-  const [page, setPage] = useState(1)
   const [isDataLoading, setIsDataLoading] = useState(false)
 
   const formRef = useRef(null)
@@ -83,13 +84,8 @@ function Attendants () {
     await attendants.fetch({
       filters,
       is_count: true,
-      pagination: {
-        rows: 10,
-        page
-      },
-      sort: [
-        { field: 'created_at', direction: 'desc' }
-      ],
+      pagination,
+      sort,
       aggregate: [
         {
           table: 'authentications',

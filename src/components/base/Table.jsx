@@ -144,7 +144,8 @@ function Table({
               {
                 !noDelete && (
                   <button
-                    className={`btn danger ${!selectedRows.length ? 'disabled' : ''}`}
+                    className="btn danger"
+                    disabled={!selectedRows.length}
                     onClick={() => {
                       if (!selectedRows.length) {
                         return null

@@ -15,20 +15,16 @@ export function headers () {
     },
     {
       column: 'Full Name',
-      key: ['first_name', 'last_name']
+      key: ['patients.first_name', 'patients.last_name']
     },
-    // {
-    //   column: 'Last Name',
-    //   key: 'last_name'
-    // },
     {
       column: 'Queue Number',
-      key: 'queue_number'
+      key: 'number'
     },
-    {
-      column: 'Transaction ID',
-      key: 'txn_id'
-    },
+    // {
+    //   column: 'Transaction ID',
+    //   key: 'txn_id'
+    // },
     {
       column: 'Status',
       key: 'status'

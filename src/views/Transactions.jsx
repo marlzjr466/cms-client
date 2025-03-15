@@ -9,8 +9,10 @@ import Table from '@components/base/Table'
 
 // composable
 import { headers } from '@composable/transactions'
+import { filters } from '@composable/filters'
 
 function Transactions () {
+  const { setPage, pagination, sort, page } = filters()
   const data = []
 
   return (

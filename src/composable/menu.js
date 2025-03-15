@@ -34,13 +34,12 @@ export default () => {
       icon: 'fa fa-pills',
       is_hidden: auth.role !== 'admin'
     },
-    {
-      name: 'Inventory',
-      route: '/inventory',
-      icon: 'fa fa-box',
-      is_hidden: true,
-      is_hidden: auth.role !== 'admin'
-    },
+    // {
+    //   name: 'Inventory',
+    //   route: '/inventory',
+    //   icon: 'fa fa-box',
+    //   is_hidden: auth.role !== 'admin'
+    // },
     {
       name: 'Dashboard',
       route: '/doctor/dashboard',

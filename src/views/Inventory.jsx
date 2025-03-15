@@ -6,8 +6,10 @@ import Table from '@components/base/Table'
 
 // composable
 import { headers } from '@composable/inventory'
+import { filters } from '@composable/filters'
 
 function Inventory () {
+  const { setPage, pagination, sort, page } = filters()
   const data = []
 
   return (

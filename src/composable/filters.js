@@ -12,7 +12,7 @@ export function filters () {
     ],
     
     pagination: {
-      rows: 2,
+      rows: 10,
       page
     }
   }

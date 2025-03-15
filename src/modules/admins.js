@@ -7,7 +7,15 @@ export default () => ({
   metaStates: {
     list: [],
     count: 0,
-    profile: null
+    profile: null,
+    onlineStaff: [],
+    dashboardData: {
+      patientsCount: 0,
+      inventoryCount: 0,
+      overallSales: 0,
+      todaysPatientsCount: 0,
+      todaysTotalSales: 0
+    }
   },
   
   metaMutations: {
@@ -21,6 +29,22 @@ export default () => ({
     SET_PROFILE: (state, { payload }) => {
       if (payload) {
         state.profile = payload
+      }
+    },
+
+    SET_DASHBOARD_DATA: (state, { payload }) => {
+      if (payload) {
+        state.dashboardData.patientsCount = payload.patientsCount || 0
+        state.dashboardData.inventoryCount = payload.inventoryCount || 0
+        state.dashboardData.overallSales = payload.overallSales || 0
+        state.dashboardData.todaysPatientsCount = payload.todaysPatientsCount || 0
+        state.dashboardData.todaysTotalSales = payload.todaysTotalSales || 0
+      }
+    },
+
+    SET_ONLINE_STAFF: (state, { payload }) => {
+      if (payload) {
+        state.onlineStaff = payload
       }
     }
   },
@@ -85,6 +109,34 @@ export default () => ({
         const response = await baseApi.get('/admins', { params: { data } })
         
         commit('SET_PROFILE', response.data)
+      } catch (error) {
+        return {
+          error: {
+            message: error.message
+          }
+        }
+      }
+    },
+
+    async getDashboardData ({ commit }) {
+      try {
+        const response = await baseApi.get('/admins/dashboard-data')
+        
+        commit('SET_DASHBOARD_DATA', response.data)
+      } catch (error) {
+        return {
+          error: {
+            message: error.message
+          }
+        }
+      }
+    },
+
+    async getOnlineStaff ({ commit }) {
+      try {
+        const response = await baseApi.get('/admins/online-staff')
+        
+        commit('SET_ONLINE_STAFF', response.data)
       } catch (error) {
         return {
           error: {
