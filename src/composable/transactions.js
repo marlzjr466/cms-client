@@ -15,15 +15,16 @@ export function headers () {
     },
     {
       column: 'Patient',
-      key: 'patient'
+      key: ['records.patients.first_name', 'records.patients.last_name']
     },
-    {
-      column: 'Diagnosis',
-      key: 'diagnosis'
-    },
+    // {
+    //   column: 'Diagnosis',
+    //   key: 'records.diagnosis'
+    // },
     {
       column: 'Prescription',
-      key: 'prescription'
+      key: 'records.medication',
+      no_truncate: true
     },
     {
       column: 'Amount',

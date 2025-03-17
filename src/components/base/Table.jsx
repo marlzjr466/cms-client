@@ -7,7 +7,7 @@ import NoData from '@components/base/NoData'
 import Loading from '@components/base/Loading'
 
 // utils
-import { formatWithCurrency } from '@utilities/helper'
+import { formatWithCurrency, formatQueueNumber } from '@utilities/helper'
 
 function Table({
   headers = [],
@@ -19,6 +19,7 @@ function Table({
   actions,
   itemsPerPage = 10,
   noDelete,
+  disableAllActions,
   onSelect = () => {},
   onRowClick = () => {},
   onPageChance = () => {},
@@ -112,59 +113,63 @@ function Table({
 
   return (
     <div className="table">
-      <div className="table__actions">
-        <button
-          className="btn default"
-          onClick={() => {
-            onRefresh()
-            searchFormRef.current.reset()
-          }}
-        >
-          <i className="fas fa-sync"></i>
-        </button>
+      {
+        !disableAllActions && (
+          <div className="table__actions">
+            <button
+              className="btn default"
+              onClick={() => {
+                onRefresh()
+                searchFormRef.current.reset()
+              }}
+            >
+              <i className="fas fa-sync"></i>
+            </button>
 
-        <form
-          ref={searchFormRef}
-          className="search-filter"
-          onSubmit={handleSearch}
-        >
-          <input type="text" name="search" placeholder="Search here..." />
-          <button className="btn ghost negative" type="submit">
-            <i className="fas fa-search"></i>
-          </button>
-        </form>
-
-        {
-          !disableButton && (
-            <>
-              <button className="btn info" onClick={onCreate}>
-                <i className="fas fa-plus"></i>
+            <form
+              ref={searchFormRef}
+              className="search-filter"
+              onSubmit={handleSearch}
+            >
+              <input type="text" name="search" placeholder="Search here..." />
+              <button className="btn ghost negative" type="submit">
+                <i className="fas fa-search"></i>
               </button>
+            </form>
 
-              {
-                !noDelete && (
-                  <button
-                    className="btn danger"
-                    disabled={!selectedRows.length}
-                    onClick={() => {
-                      if (!selectedRows.length) {
-                        return null
-                      }
-
-                      onDelete(
-                        selectedRows,
-                        () => setSelectedRows([]) // reset selected rows
-                      )
-                    }}
-                  >
-                    <i className="fas fa-trash"></i>
+            {
+              !disableButton && (
+                <>
+                  <button className="btn info" onClick={onCreate}>
+                    <i className="fas fa-plus"></i>
                   </button>
-                )
-              }
-            </>
-          )
-        }
-      </div>
+
+                  {
+                    !noDelete && (
+                      <button
+                        className="btn danger"
+                        disabled={!selectedRows.length}
+                        onClick={() => {
+                          if (!selectedRows.length) {
+                            return null
+                          }
+
+                          onDelete(
+                            selectedRows,
+                            () => setSelectedRows([]) // reset selected rows
+                          )
+                        }}
+                      >
+                        <i className="fas fa-trash"></i>
+                      </button>
+                    )
+                  }
+                </>
+              )
+            }
+          </div>
+        )
+      }
 
       <div className="table__container">
         <table>
@@ -221,18 +226,22 @@ function Table({
                   <td
                     key={index}
                     onClick={() => onRowClick(row)}
-                    className="truncate"
+                    className={!header.no_truncate ? 'truncate' : ''}
                   >
                     {
                       typeof header.key === 'object'
                         ? combineKeys(header.key, row)
                         : header.key.includes('.')
                           ? objectKey(row, header.key)
-                          : header.key.includes('_at') || header.key.includes('_date')
-                            ? moment(row[header.key]).format('MMM DD, YYYY')
-                            : ['price', 'amount'].includes(header.key)
-                              ? formatWithCurrency(row[header.key])
-                              : row[header.key] || '-'
+                          : header.key.includes('_at')
+                            ? moment(row[header.key]).format('MMM DD, YYYY | hh:mm A')
+                            : header.key.includes('_date')
+                              ? moment(row[header.key]).format('MMM DD, YYYY')
+                              : ['price', 'amount'].includes(header.key)
+                                ? formatWithCurrency(row[header.key])
+                                : header.key === 'number'
+                                  ? formatQueueNumber(row[header.key])
+                                  : row[header.key] || '-'
                     }
                   </td>
                 ))}

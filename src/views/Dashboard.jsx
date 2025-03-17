@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom'
 import moment from 'moment/moment'
 import _ from 'lodash'
 
+import socket from '@config/socket'
+
 // import utils
 import { formattedNumber, formatWithCurrency, formatQueueNumber } from '@utilities/helper'
 
@@ -36,12 +38,31 @@ function Dashboard () {
     ...metaActions('queues', ['fetch'])
   }
 
+  const records = {
+    ...metaStates('records', ['list', 'count']),
+    ...metaActions('records', ['fetch'])
+  }
+
   const currentDate = moment().format("dddd, MMMM D, YYYY")
 
   useEffect(() => {
     admins.getDashboardData()
     admins.getOnlineStaff()
     loadQueues()
+
+    socket.on('refresh', types => {
+      if (types.includes('queues')) {
+        loadQueues()
+      }
+
+      if (types.includes('transactions') || types.includes('patients')) {
+        admins.getDashboardData()
+      }
+
+      if (types.includes('users')) {
+        admins.getOnlineStaff()
+      }
+    })
   }, [])
 
   useEffect(() => {
@@ -209,6 +230,7 @@ function Dashboard () {
                 onPageChance={page => setPage(page)}
                 disableButton
                 itemsPerPage={pagination.rows}
+                disableAllActions
               />
             </div>
           </div>
@@ -242,7 +264,7 @@ function Dashboard () {
                       </span>
 
                       <div className="dashboard__online-item-left__info">
-                        {staff.first_name} {staff.last_name}
+                        <p>{staff.first_name} {staff.last_name}</p>
                         <span>{_.capitalize(staff.role)}</span>
                       </div>
                     </div>

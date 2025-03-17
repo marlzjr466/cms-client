@@ -21,7 +21,7 @@ import Loading from '@components/base/Loading'
 
 // utils
 import swal from '@utilities/swal'
-import { getAge, storage } from '@utilities/helper'
+import { getAge, storage, formatQueueNumber } from '@utilities/helper'
 
 // hooks
 import { useAuth } from '@hooks'
@@ -34,6 +34,10 @@ function QueueManagement () {
   const records = {
     ...metaStates('records', ['list', 'count', 'servePatientsCount']),
     ...metaActions('records', ['fetch', 'create', 'patch', 'getServePatients'])
+  }
+
+  const transactions = {
+    ...metaActions('transactions', ['create'])
   }
 
   const queues = {
@@ -51,6 +55,7 @@ function QueueManagement () {
   const [isGetQueueLoading, setIsGetQueueLoading] = useState(false)
   const [printInfo, setPrintInfo] = useState(null)
   const [isRecordAdded, setIsRecordAdded] = useState('false')
+  const [recordId, setRecordId] = useState(null)
 
   const formRef = useRef(null)
   const contentRef = useRef(null)
@@ -238,15 +243,18 @@ function QueueManagement () {
       text: 'Are you sure?',
       async onConfirm () {
         try {
-          const res = await queues.patch({
-            key: 'id',
-            data: {
-              id: queues.current.id,
-              status: 'for-transaction'
-            }
-          })
+          const [res, resTxn] = await Promise.all([
+            queues.patch({
+              key: 'id',
+              data: {
+                id: queues.current.id,
+                status: 'completed'
+              }
+            }),
+            transactions.create({ record_id: recordId })
+          ])
 
-          if (res.error) {
+          if (res.error || resTxn.error) {
             throw new Error(error.message)
           }
           
@@ -286,6 +294,7 @@ function QueueManagement () {
       obj.patient_id = queues.current.patient_id
       obj.queue_id = queues.current.id
       var response = await records.create(obj)
+      setRecordId(response[0])
     }
 
     storage.set('isRecordAdded', true)
@@ -375,7 +384,7 @@ function QueueManagement () {
 
                     <div className="patient-info-item">
                       <span>Queue Number</span>
-                      {queues.current.number}
+                      {formatQueueNumber(queues.current.number)}
                     </div>
                   </div>
 
@@ -440,7 +449,7 @@ function QueueManagement () {
                       <div className="dashboard__queue-item-left">
                         <div className="dashboard__queue-item-left__info">
                           <span>{queue.patients.first_name} {queue.patients.last_name}</span>
-                          {queue.number}
+                          {formatQueueNumber(queue.number)}
                         </div>
                       </div>
                     </div>

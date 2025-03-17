@@ -1691,6 +1691,7 @@ ul, ol {
 }
 .dashboard__online-item {
   padding: 5px 10px;
+  position: relative;
 }
 .dashboard__online-item:not(:last-child) {
   border-bottom: 1px solid var(--primary-border);
@@ -1711,6 +1712,12 @@ ul, ol {
   color: var(--menu-color);
   gap: 2px;
 }
+.dashboard__online-item-left__info p {
+  width: 80%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
 .dashboard__online-item-left__info span {
   font-size: 13px;
   opacity: 0.6;
@@ -1721,6 +1728,10 @@ ul, ol {
   border-radius: 50%;
   background-color: #a9a9a9;
   opacity: 0.2;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 10px;
 }
 .dashboard__online-item-indicator.active {
   opacity: 1;

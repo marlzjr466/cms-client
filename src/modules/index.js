@@ -10,6 +10,7 @@ import productVariants from "./variants"
 import patients from "./patients"
 import records from "./records"
 import queues from "./queues"
+import transactions from "./transactions"
 
 export default () => ([
   admins(),
@@ -23,5 +24,6 @@ export default () => ([
   productItems(),
   patients(),
   records(),
-  queues()
+  queues(),
+  transactions()
 ])
