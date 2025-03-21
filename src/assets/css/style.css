@@ -119,7 +119,7 @@ ul, ol {
   list-style: none;
 }
 
-.flex, .profile_row div span, .profile_row div, .profile_row, .profile, .categories, .products span.info, .products, .settings, .transactions, .patients .patient-records-new, .patients .patient-records, .patients .patient-info-item, .patients .patient-info, .patients, .inventory, .users, .dashboard__queue-item-left__info, .dashboard__queue-item-left, .dashboard__queue-item, .dashboard__queue-wrapper, .dashboard__online-item-left__info, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__queue-row, .dashboard__statistics, .dashboard__online, .dashboard__queue, .dashboard__right, .dashboard__manage_queue .patient-records-new, .dashboard__manage_queue .patient-records, .dashboard__manage_queue .patient-info-item, .dashboard__manage_queue .patient-info, .dashboard__manage_queue, .dashboard__table, .dashboard__totals .card__body, .dashboard__totals .card__header span, .dashboard__totals .card__header, .dashboard__totals, .dashboard__left, .dashboard__body, .dashboard__title, .dashboard, .side-modal_container .product-info .body .tab, .side-modal_container .product-info .buttons, .side-modal_container .product-info, .modal_container form .form-group, .datepicker__display, .table__pagination, .table__loader, .table__actions .search-filter, .table__actions, .table, .prescription_pad__footer .top .right div, .prescription_pad__footer .top .right, .prescription_pad__footer .top, .prescription_pad__footer, .prescription_pad__body .rx-logo, .prescription_pad__body, .prescription_pad__info div, .prescription_pad__info, .prescription_pad__header div, .prescription_pad__header, .form-wrapper form .form-group, .form-wrapper form, .form-wrapper .greetings, .form, .title {
+.flex, .profile_row div span, .profile_row div, .profile_row, .profile, .categories, .products span.info, .products, .settings_row div span, .settings_row div, .settings_row, .settings, .transactions, .patients .patient-records-new, .patients .patient-records, .patients .patient-info-item, .patients .patient-info, .patients, .inventory, .users, .dashboard__queue-item-left__info, .dashboard__queue-item-left, .dashboard__queue-item, .dashboard__queue-wrapper, .dashboard__online-item-left__info, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__queue-row, .dashboard__statistics, .dashboard__online, .dashboard__queue, .dashboard__right, .dashboard__manage_queue .patient-records-new, .dashboard__manage_queue .patient-records, .dashboard__manage_queue .patient-info-item, .dashboard__manage_queue .patient-info, .dashboard__manage_queue, .dashboard__table, .dashboard__totals .card__body, .dashboard__totals .card__header span, .dashboard__totals .card__header, .dashboard__totals, .dashboard__left, .dashboard__body, .dashboard__title, .dashboard, .side-modal_container .product-info .body .tab, .side-modal_container .product-info .buttons, .side-modal_container .product-info, .modal_container form .form-group, .datepicker__display, .table__pagination, .table__loader, .table__actions .search-filter, .table__actions, .table, .prescription_pad__footer .top .right div, .prescription_pad__footer .top .right, .prescription_pad__footer .top, .prescription_pad__footer, .prescription_pad__body .rx-logo, .prescription_pad__body, .prescription_pad__info div, .prescription_pad__info, .prescription_pad__header div, .prescription_pad__header, .form-wrapper form .form-group, .form-wrapper form, .form-wrapper .greetings, .form, .title {
   display: flex;
 }
 .flex-jc-sb, .dashboard__queue-item-left__info, .dashboard__queue-item, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__queue-row, .dashboard__totals .card__header, .prescription_pad__footer .top {
@@ -140,7 +140,7 @@ ul, ol {
 .flex-ai-fe {
   align-items: flex-end;
 }
-.flex-col, .profile_row div span, .profile_row, .profile, .categories, .products, .settings, .transactions, .patients .patient-records-new, .patients .patient-records, .patients .patient-info-item, .patients, .inventory, .users, .dashboard__queue-wrapper, .dashboard__online-item-left__info, .dashboard__statistics, .dashboard__online, .dashboard__queue, .dashboard__right, .dashboard__manage_queue .patient-records-new, .dashboard__manage_queue .patient-records, .dashboard__manage_queue .patient-info-item, .dashboard__manage_queue, .dashboard__table, .dashboard__left, .dashboard__title, .dashboard, .side-modal_container .product-info, .modal_container form .form-group, .table, .prescription_pad__footer .top .right, .prescription_pad__footer, .prescription_pad__info, .prescription_pad__header div, .form-wrapper form .form-group, .form-wrapper form, .form-wrapper .greetings {
+.flex-col, .profile_row div span, .profile_row, .profile, .categories, .products, .settings_row div span, .settings_row, .settings, .transactions, .patients .patient-records-new, .patients .patient-records, .patients .patient-info-item, .patients, .inventory, .users, .dashboard__queue-wrapper, .dashboard__online-item-left__info, .dashboard__statistics, .dashboard__online, .dashboard__queue, .dashboard__right, .dashboard__manage_queue .patient-records-new, .dashboard__manage_queue .patient-records, .dashboard__manage_queue .patient-info-item, .dashboard__manage_queue, .dashboard__table, .dashboard__left, .dashboard__title, .dashboard, .side-modal_container .product-info, .modal_container form .form-group, .table, .prescription_pad__footer .top .right, .prescription_pad__footer, .prescription_pad__info, .prescription_pad__header div, .form-wrapper form .form-group, .form-wrapper form, .form-wrapper .greetings {
   flex-direction: column;
 }
 .flex-end {
@@ -171,7 +171,15 @@ ul, ol {
 }
 
 .p-2 {
-  padding: 4px;
+  padding: 4px !important;
+}
+
+.py-2 {
+  padding: 4px !important;
+}
+
+.px-4 {
+  padding: 8px !important;
 }
 
 .truncate {
@@ -1213,6 +1221,7 @@ ul, ol {
 
 .theme-selector {
   width: 100%;
+  margin-bottom: 30px;
 }
 .theme-selector__description {
   color: var(--secondary-color);
@@ -1900,6 +1909,50 @@ ul, ol {
   overflow: auto;
   padding: 20px 10px 25px 0;
 }
+.settings_section_label {
+  color: var(--secondary-color);
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+.settings_row {
+  margin-bottom: 50px;
+}
+.settings_row div {
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.settings_row div span {
+  color: var(--primary-color);
+}
+.settings_row div span label {
+  font-size: 14px;
+  text-indent: 3px;
+}
+.settings_row div span input {
+  height: 45px;
+  border-radius: 10px;
+  border: 1px solid var(--primary-border);
+  text-indent: 12px;
+  font-size: 16px;
+  background: none;
+  cursor: text;
+  color: rgba(0, 0, 0, 0.7);
+  margin-top: 5px;
+  color: var(--primary-color);
+  width: 400px;
+}
+.settings_row div span input:focus {
+  border-color: #f49531;
+}
+.settings_row div span input.address {
+  width: 600px;
+}
+.settings_row button {
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 35px;
+  margin-top: 15px;
+}
 
 .products {
   height: calc(100vh - 80px);
@@ -1932,7 +1985,6 @@ ul, ol {
 .profile_section_label {
   color: var(--secondary-color);
   font-size: 0.9rem;
-  margin-bottom: 20px;
 }
 .profile_row {
   margin-bottom: 50px;

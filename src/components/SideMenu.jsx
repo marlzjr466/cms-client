@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
 import { useMeta } from '@opensource-dev/redux-meta'
 
@@ -15,7 +15,7 @@ function SideMenu () {
   const location = useLocation()
   const navigate = useNavigate()
 
-  const { metaStates, metaMutations } = useMeta()
+  const { metaStates, metaMutations, metaActions } = useMeta()
   const { logout, auth } = useAuth()
   const { list } = menu()
 
@@ -25,6 +25,15 @@ function SideMenu () {
     ...metaStates('theme', ['mode']),
     ...metaMutations('theme', ['SET_MODE'])
   }
+
+  const clinic = {
+    ...metaStates('clinic', ['info']),
+    ...metaActions('clinic', ['fetch'])
+  }
+
+  useEffect(() => {
+    clinic.fetch()
+  }, [])
 
   const handleNavigate = route => navigate(route)
 
@@ -43,8 +52,8 @@ function SideMenu () {
           {
             !isNavCollapse && (
               <div>
-                {auth.clinic_name}
-                <span>{auth.clinic_address}</span>
+                {clinic.info?.name}
+                <span>{clinic.info?.address}</span>
               </div>
             )
           }

@@ -204,7 +204,15 @@ ul, ol {
 }
 
 .p-2 {
-  padding: 4px;
+  padding: 4px !important;
+}
+
+.py-2 {
+  padding: 4px !important;
+}
+
+.px-4 {
+  padding: 8px !important;
 }
 
 .truncate {

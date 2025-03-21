@@ -11,6 +11,7 @@ import patients from "./patients"
 import records from "./records"
 import queues from "./queues"
 import transactions from "./transactions"
+import clinic from "./clinic"
 
 export default () => ([
   admins(),
@@ -25,5 +26,6 @@ export default () => ([
   patients(),
   records(),
   queues(),
-  transactions()
+  transactions(),
+  clinic()
 ])

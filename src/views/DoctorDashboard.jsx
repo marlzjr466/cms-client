@@ -213,9 +213,11 @@ function QueueManagement () {
     })
   }
 
-  const handleSetQueue = async () => {
+  const handleSetQueue = async (item = null) => {
     setIsGetQueueLoading(true)
-    const [queue] =  queues.list
+    const [queue] =  item ? [item] : queues.list
+
+    console.log('queue', queue)
     
     const res = await queues.patch({
       key: 'id',
@@ -353,10 +355,14 @@ function QueueManagement () {
                 <button
                   className="btn info"
                   disabled={!queues.count || isGetQueueLoading || queues.current}
-                  onClick={handleSetQueue}
+                  onClick={() => handleSetQueue()}
                 >
                   {
-                    isGetQueueLoading ? <Loading size={15} thick={2} auto noBackground /> : 'Serve Patient'
+                    isGetQueueLoading 
+                      ? <Loading size={15} thick={2} auto noBackground />
+                      : !records.servePatientsCount
+                        ? 'Serve Patient'
+                        : 'Next Patient'
                   }
                 </button>
               </div>
@@ -448,8 +454,17 @@ function QueueManagement () {
                     <div key={i} className="dashboard__queue-item">
                       <div className="dashboard__queue-item-left">
                         <div className="dashboard__queue-item-left__info">
-                          <span>{queue.patients.first_name} {queue.patients.last_name}</span>
-                          {formatQueueNumber(queue.number)}
+                          <div className="flex flex-col">
+                            <span>{queue.patients.first_name} {queue.patients.last_name}</span>
+                            {formatQueueNumber(queue.number)}
+                          </div>
+
+                          <button
+                            className="btn success py-2 px-4"
+                            onClick={() => handleSetQueue(queue)}
+                          >
+                            Priority
+                          </button>
                         </div>
                       </div>
                     </div>

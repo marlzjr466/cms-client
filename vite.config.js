@@ -22,6 +22,7 @@ export default defineConfig({
     },
   },
   server: {
-    port: 6173, // specify the desired port number
+    host: 'cms.com',
+    port: 80, // specify the desired port number
   }
 })
