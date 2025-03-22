@@ -177,6 +177,41 @@
       @extend .full-width;
       @extend .flex-col;
       gap: 10px;
+      position: relative;
+
+      .consultation {
+        @extend .flex;
+        @extend .flex-ai-c;
+        gap: 10px;
+  
+        position: absolute;
+        right: 10px;
+        color: var(--menu-color);
+        font-size: 14px;
+
+        input {
+          width: 150px;
+          height: 35px;
+          border-radius: 5px;
+          border: 1px solid var(--primary-border);
+          text-indent: 25px;
+          font-size: 15px;
+          background: none;
+          cursor: text;
+          color: var(--primary-color);
+
+          &:focus {
+            border-color: #00a6d6;
+          }
+        }
+
+        &_sign {
+          margin-top: -1px;
+          margin-right: -30px;
+          margin-left: 10px;
+          font-size: 18px;
+        }
+      }
 
       &-new {
         @extend .flex; 
