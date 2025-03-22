@@ -6,6 +6,9 @@ import _ from 'lodash'
 import NoData from '@components/base/NoData'
 import Loading from '@components/base/Loading'
 
+// hooks
+import { useCsvImport } from '@hooks'
+
 // utils
 import { formatWithCurrency, formatQueueNumber } from '@utilities/helper'
 
@@ -20,14 +23,19 @@ function Table({
   itemsPerPage = 10,
   noDelete,
   disableAllActions,
+  enableImport,
+  isImportLoading,
   onSelect = () => {},
   onRowClick = () => {},
   onPageChance = () => {},
   onCreate = () => {},
   onRefresh = () => {},
   onDelete = () => {},
-  onSearch = () => {}
+  onSearch = () => {},
+  onImport = () => {}
 }) {
+  const { importData } = useCsvImport()
+  
   const totalPages = Math.ceil(totalRowsCount / itemsPerPage) // Total pages based on the row count
   const maxVisiblePages = 5 // Maximum number of page buttons to show at once
 
@@ -164,6 +172,25 @@ function Table({
                       </button>
                     )
                   }
+
+                  {
+                    enableImport && (
+                      <button
+                        className="btn success ml-auto"
+                        disabled={isImportLoading}
+                        onClick={async () => {
+                          const data = await importData()
+                          onImport(data)
+                        }}
+                      >
+                        {
+                          isImportLoading
+                            ? <Loading size={20} thick={3} auto noBackground />
+                            : 'Import CSV'
+                        }
+                      </button>
+                    )
+                  } 
                 </>
               )
             }
@@ -234,14 +261,16 @@ function Table({
                         : header.key.includes('.')
                           ? objectKey(row, header.key)
                           : header.key.includes('_at')
-                            ? moment(row[header.key]).format('MMM DD, YYYY | hh:mm A')
+                            ? (row[header.key] ? moment(row[header.key]).format('MMM DD, YYYY | hh:mm A') : '---')
                             : header.key.includes('_date')
-                              ? moment(row[header.key]).format('MMM DD, YYYY')
+                              ? (row[header.key] ? moment(row[header.key]).format('MMM DD, YYYY') : '---')
                               : ['price', 'amount'].includes(header.key)
                                 ? formatWithCurrency(row[header.key])
                                 : header.key === 'number'
                                   ? formatQueueNumber(row[header.key])
-                                  : row[header.key] || '-'
+                                  : row[header.key] ?
+                                    _.capitalize(row[header.key])
+                                    : '---'
                     }
                   </td>
                 ))}

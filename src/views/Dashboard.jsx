@@ -143,7 +143,7 @@ function Dashboard () {
               </div>
 
               <div className="card__body">
-                <span>{admins.dashboardData.patientsCount}</span>
+                <span>{Number(admins.dashboardData.patientsCount).toLocaleString()}</span>
               </div>
 
               <div className="card__chart">
@@ -174,7 +174,7 @@ function Dashboard () {
               </div>
 
               <div className="card__body">
-                <span>{admins.dashboardData.inventoryCount}</span>
+                <span>{Number(admins.dashboardData.inventoryCount).toLocaleString()}</span>
               </div>
 
               <div className="card__chart">

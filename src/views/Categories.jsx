@@ -78,7 +78,10 @@ function Categories () {
       filters,
       is_count: true,
       pagination,
-      sort,
+      sort: [
+        ...sort,
+        { field: 'id', direction: 'desc' }
+      ]
     })
 
     setIsDataLoading(false)

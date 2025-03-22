@@ -35,7 +35,7 @@ function Patients () {
 
   const patients = {
     ...metaStates('patients', ['list', 'count']),
-    ...metaActions('patients', ['fetch'])
+    ...metaActions('patients', ['fetch', 'create'])
   }
 
   const records = {
@@ -49,8 +49,12 @@ function Patients () {
   const [isRecordsDataLoading, setIsRecordsDataLoading] = useState(false)
   const [updateData, setUpdateData] = useState(null)
   const [printInfo, setPrintInfo] = useState(null)
+  const [showPatientModal, setShowPatientModal] = useState(null)
+  const [isPatientLoading, setIsPatientLoading] = useState(false)
+  const [isImportLoading, setIsImportLoading] = useState(false)
 
   const formRef = useRef(null)
+  const formPatientRef = useRef(null)
   const contentRef = useRef(null)
   const reactToPrintFn = useReactToPrint({ contentRef })
 
@@ -188,6 +192,36 @@ function Patients () {
     setIsRecordsDataLoading(false)
   }
 
+  const handleSubmitPatient = async e => {
+    e.preventDefault() // Prevent page refresh
+    setIsPatientLoading(true)
+
+    // Use FormData to access the submitted values
+    const formData = new FormData(formPatientRef.current)
+    const obj = Object.fromEntries(formData.entries())
+
+    const response = await patients.create({
+      ...obj,
+      admin_id: auth.admin_id
+    })
+    setShowPatientModal(false)
+    setIsPatientLoading(false)
+    formPatientRef.current.reset()
+    loadPatients()
+
+    if (response.error) {
+      return swal.error({
+        title: 'Error',
+        text: response.error.message
+      })
+    }
+    
+    swal.success({
+      title: 'Success',
+      text: 'Patient added successfully!'
+    })
+  }
+
   const handleSubmit = async e => {
     e.preventDefault() // Prevent page refresh
     setIsRecordsDataLoading(true)
@@ -222,6 +256,49 @@ function Patients () {
     })
   }
 
+  const handleImport = async data => {
+    // setIsImportLoading(true)
+
+    const extractName = fullname => {
+      const [lname, fname] = fullname.split(',')
+
+      return {
+        first_name: fname?.trim() || '',
+        last_name: lname?.trim() || ''
+      }
+    }
+
+    const importedData = data.list.map(item => {
+      const patient = {
+        admin_id: auth.admin_id,
+        first_name: item.customer_name ? extractName(item.customer_name).first_name : item.first_name,
+        last_name: item.customer_name ? extractName(item.customer_name).last_name : item.last_name,
+        address: item.address || null,
+        gender: item.gender || null,
+        phone_number: item.phone || item.phone_number || null,
+        birth_date: item.birth_date ? moment(item.birth_date, "DD/MM/YYYY").format("YYYY-MM-DD") : null,
+      }
+
+      return patient
+    })
+
+    const response = await patients.create(importedData)
+    setIsImportLoading(false)
+    loadPatients()
+
+    if (response.error) {
+      return swal.error({
+        title: 'Error',
+        text: response.error.message
+      })
+    }
+    
+    swal.success({
+      title: 'Success',
+      text: 'Patient imported successfully!'
+    })
+  }
+
   return (
     <div className="patients">
       <PrescriptionPad
@@ -238,7 +315,11 @@ function Patients () {
           selectedValue="id"
           totalRowsCount={patients.count}
           onRefresh={() => loadPatients()}
-          disableButton
+          onCreate={() => setShowPatientModal(true)}
+          noDelete
+          enableImport
+          onImport={handleImport}
+          isImportLoading={isImportLoading}
           onRowClick={row => {
             setRow(row)
             navigate(`/patients/${row.id}`)
@@ -265,13 +346,23 @@ function Patients () {
           </div>
 
           <div className="patient-info-item">
+            <span>Phone Number</span>
+            {row?.phone_number || '---'}
+          </div>
+
+          <div className="patient-info-item">
             <span>Birthdate</span>
-            {moment(row?.birth_date).format('MMMM D, YYYY')}
+            {row?.birth_date ? moment(row?.birth_date).format('MMMM D, YYYY') : '---'}
           </div>
 
           <div className="patient-info-item">
             <span>Gender</span>
-            {_.capitalize(row?.gender)}
+            {row?.gender ? _.capitalize(row?.gender) : '---'}
+          </div>
+
+          <div className="patient-info-item">
+            <span>Address</span>
+            {row?.address || '---'}
           </div>
         </div>
 
@@ -346,6 +437,63 @@ function Patients () {
             >
               {
                 isLoading ? <Loading size={20} thick={3} auto noBackground /> : (updateData ? 'Update' : 'Add')
+              }
+            </button>
+          </div>
+        </form>
+      </Modal>
+
+      <Modal
+        visible={showPatientModal}
+        title="Add Patient"
+        onClose={() => setShowPatientModal(false)}
+      >
+        <form className="grid" ref={formPatientRef} onSubmit={handleSubmitPatient}>
+          <div className="form-group" style={{width: '400px'}}>
+            <label>First Name</label>
+            <input type="text" name="first_name" required />
+          </div>
+
+          <div className="form-group">
+            <label>Last Name</label>
+            <input type="text" name="last_name" required />
+          </div>
+
+          <div className="form-group">
+            <label>Gender</label>
+            <select name="gender" required>
+              <option value="">&nbsp;&nbsp;&nbsp;Select here</option>
+              <option value="male">&nbsp;&nbsp;&nbsp;Male</option>
+              <option value="female">&nbsp;&nbsp;&nbsp;Female</option>
+            </select>
+            <span>
+              <i className="fa fa-angle-down" aria-hidden="true"></i>
+            </span>
+          </div>
+
+          <div className="form-group">
+            <label>Phone Number</label>
+            <input type="text" name="phone_number" required />
+          </div>
+
+          <div className="form-group">
+            <label>Address</label>
+            <input type="text" name="address" required />
+          </div>
+
+          <div className="form-group">
+            <label>Birthdate</label>
+            <input type="date" name="birth_date" required />
+          </div>
+
+          <div className="form-group">
+            <button
+              type="submit"
+              className={`submit ${isPatientLoading ? 'disabled' : ''}`}
+              disabled={isPatientLoading}
+            >
+              {
+                isPatientLoading ? <Loading size={20} thick={3} auto noBackground /> : 'Add Patient'
               }
             </button>
           </div>

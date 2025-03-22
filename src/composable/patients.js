@@ -18,13 +18,17 @@ export function headers () {
       key: ['first_name', 'last_name']
     },
     {
-      column: 'Gender',
-      key: 'gender'
+      column: 'Phone Number',
+      key: 'phone_number'
     },
-    {
-      column: 'Birth Date',
-      key: 'birth_date'
-    },
+    // {
+    //   column: 'Gender',
+    //   key: 'gender'
+    // },
+    // {
+    //   column: 'Birth Date',
+    //   key: 'birth_date'
+    // },
     {
       column: 'Last Visit',
       key: 'records.created_at'

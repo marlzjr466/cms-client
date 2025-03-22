@@ -1,7 +1,8 @@
 import { useEffect, useState, useRef } from 'react'
 import { useMeta } from '@opensource-dev/redux-meta'
-import moment from 'moment'
 import { useNavigate, useParams } from 'react-router-dom'
+import moment from 'moment'
+import _ from 'lodash'
 
 // components
 import Modal from '@components/Modal'
@@ -20,6 +21,7 @@ import { filters } from '@composable/filters'
 
 // utils
 import swal from '@utilities/swal'
+import { sleep } from '@utilities/helper'
 
 function Products () {
   const navigate = useNavigate()
@@ -31,7 +33,7 @@ function Products () {
 
   const categories = {
     ...metaStates('categories', ['list', 'count']),
-    ...metaActions('categories', ['fetch'])
+    ...metaActions('categories', ['fetch', 'create', 'find'])
   }
 
   const products = {
@@ -59,6 +61,8 @@ function Products () {
   const [isDataLoading, setIsDataLoading] = useState(false)
   const [showVariantModal, setShowVariantModal] = useState(false)
   const [showItemModal, setShowItemModal] = useState(false)
+  const [isImportLoading, setIsImportLoading] = useState(false)
+  const [productItmesPage, setProductItemsPage] = useState(1)
 
   const formRef = useRef(null)
   const formVariantRef = useRef(null)
@@ -169,7 +173,10 @@ function Products () {
         }
       ],
       is_count: true,
-      pagination,
+      pagination: {
+        ...pagination,
+        page: productItmesPage
+      },
       sort
     })
   }
@@ -196,22 +203,18 @@ function Products () {
   }
 
   const loadCategories = async () => {
-    let filters = [
-      {
-        field: 'admin_id',
-        value: auth.id
-      },
-      {
-        field: 'deleted_at',
-        value: 'null'
-      }
-    ]
-
     await categories.fetch({
-      filters,
       is_count: true,
-      pagination,
-      sort,
+      filters: [
+        {
+          field: 'admin_id',
+          value: auth.id
+        },
+        {
+          field: 'deleted_at',
+          value: 'null'
+        }
+      ]
     })
   }
 
@@ -233,6 +236,11 @@ function Products () {
         {
           field: 'name',
           operator: 'like',
+          value: data
+        },
+        {
+          field: 'id',
+          operator: 'orlike',
           value: data
         },
         {
@@ -270,7 +278,10 @@ function Products () {
       ],
       is_count: true,
       pagination,
-      sort
+      sort: [
+        ...sort,
+        { field: 'id', direction: 'desc' }
+      ]
     })
 
     setIsDataLoading(false)
@@ -491,6 +502,123 @@ function Products () {
     return tab.split(' ').join('-').toLowerCase()
   }
 
+  const removeDuplicates = arr => [...new Set(arr)].filter(Boolean)
+
+  // Extract name, dosage, volume, and brand
+  const extractProductInfo = str => {
+    const match = str.match(/^([\w\s\-]+?)\s([\d]+\s?(?:mg|g)?)?\s?(?:\((.*?)\))?\s?,?\s?([\d]+\s?mL)?$/)
+
+    return {
+      name: match?.[1]?.trim() || null,
+      dosage: match?.[2]?.replace(/\s+/g, '') || null,
+      brand: match?.[3]?.trim() || null,
+      volume: match?.[4]?.replace(/\s+/g, '') || null
+    }
+  }
+
+  const isNumberStrict = str => Number.isFinite(Number(str))
+  const handleImport = async data => {
+    try {
+      if (!data.list.length) {
+        throw new Error('No data in the file can be imported.')
+      }
+      
+      setIsImportLoading(true)
+      const normalizeCategory = (category) => category.replace(/\s*\/\s*/g, "/")
+      const groupedByCategory = _.groupBy(data.list, (item) => normalizeCategory(item.category))
+      const nestedGrouping = _.mapValues(groupedByCategory, (items) =>
+        _.groupBy(items, (item) => item.name.match(/^[^\d]+/)?.[0].trim())
+      )
+      
+      let importedCategories = []
+      for (const item of Object.keys(nestedGrouping)) {
+        const category = item || 'Others'
+        importedCategories = [
+          ...importedCategories,
+          {
+            admin_id: auth.admin_id,
+            name: category
+          }
+        ]
+      }
+
+      // filter existing category
+      importedCategories = importedCategories.filter(ic => !categories?.list.find(x => x.name === ic.name))
+      if (importedCategories.length) {
+        const res = await categories.create(importedCategories)
+
+        if (res.error) {
+          setIsImportLoading(false)
+          throw new Error(res.error.message)
+        }
+
+        await loadCategories()
+        await sleep(300)
+      }
+
+      for await (const item of Object.keys(nestedGrouping)) {
+        const category = await categories.find({
+          is_first: true,
+          filters: [
+            { field: 'name', value: item },
+            {
+              field: 'admin_id',
+              value: auth.id
+            }
+          ]
+        })
+
+        if (category.error) {
+          setIsImportLoading(false)
+          throw new Error(category.error.message)
+        }
+
+        for await (const productName of Object.keys(nestedGrouping[item])) {
+          const [productId] = await products.create({
+            admin_id: auth.admin_id,
+            category_id: category.id,
+            name: productName.replace(/,/g, '')
+          })
+
+          await productItems.create(
+            nestedGrouping[item][productName].map(productItem => {
+              const stock = productItem.in_stock_fammed_pharmac &&
+                isNumberStrict(productItem.in_stock_fammed_pharmac) && 
+                parseInt(productItem.in_stock_fammed_pharmac) > 0
+                  ? parseInt(productItem.in_stock_fammed_pharmac)
+                  : 0
+
+              const price = productItem.default_price &&
+                isNumberStrict(productItem.default_price) &&
+                parseFloat(productItem.default_price) > 0
+                  ? parseInt(productItem.default_price)
+                  : 0
+
+              return {
+                product_id: productId,
+                name: productItem.name.replace(/,/g, ''),
+                sku: productItem.sku,
+                price,
+                stock
+              }
+            })
+          )
+        }
+      }
+
+      await loadProducts()
+      setIsImportLoading(false)
+      swal.success({
+        title: 'Success',
+        text: 'Products imported successfully!'
+      })
+    } catch (error) {
+      swal.error({
+        text: error.message
+      })
+    }
+  }
+
   const getVariantOption = () => {
     if (urlParams.tab !== 'all') {
       const variant = productVariants.list.find(x => getSlug(x.name) === urlParams.tab)
@@ -521,6 +649,9 @@ function Products () {
               onRefresh={() => loadProducts()}
               onRowClick={row => setUpdateData(row)}
               onPageChance={value => setPage(value)}
+              enableImport
+              isImportLoading={isImportLoading}
+              onImport={handleImport}
               onCreate={() => {
                 setUpdateData(null)
                 setShowCreateModal(true)
@@ -532,6 +663,7 @@ function Products () {
                 {
                   label: 'View',
                   onAction: item => {
+                    setProductItemsPage(1)
                     setRow(item)
                     navigate(`${item.id}/all`)
                   }
@@ -556,7 +688,7 @@ function Products () {
             <select name="category_id" required>
               <option value="">&nbsp;&nbsp;&nbsp;Select here</option>
               {
-                categories.list.map((list, index) => (
+                categories?.list?.map((list, index) => (
                   <option key={index} value={list.id}>&nbsp;&nbsp;&nbsp;{list.name}</option>
                 ))
               }
@@ -668,7 +800,7 @@ function Products () {
                 onDelete={(ids, reset) => handleItemBulkDelete(ids, reset)}
                 onRefresh={() => loadItems()}
                 onRowClick={row => setUpdateItemData(row)}
-                onPageChance={value => {}}
+                onPageChance={value => setProductItemsPage(value)}
                 onCreate={() => {
                   setUpdateItemData(null)
                   setShowItemModal(true)

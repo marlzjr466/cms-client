@@ -56,6 +56,7 @@ function QueueManagement () {
   const [printInfo, setPrintInfo] = useState(null)
   const [isRecordAdded, setIsRecordAdded] = useState('false')
   const [recordId, setRecordId] = useState(null)
+  const [consultationPrice, setConsultationPrice] = useState(null)
 
   const formRef = useRef(null)
   const contentRef = useRef(null)
@@ -134,7 +135,7 @@ function QueueManagement () {
             }
           ],
           is_first: true,
-          columns: ['id', 'first_name', 'last_name', 'gender', 'birth_date']
+          columns: ['id', 'first_name', 'last_name', 'gender', 'birth_date', 'address', 'phone_number']
         }
       ],
       is_count: true
@@ -216,8 +217,6 @@ function QueueManagement () {
   const handleSetQueue = async (item = null) => {
     setIsGetQueueLoading(true)
     const [queue] =  item ? [item] : queues.list
-
-    console.log('queue', queue)
     
     const res = await queues.patch({
       key: 'id',
@@ -241,6 +240,13 @@ function QueueManagement () {
   }
 
   const handleDoneServe = async () => {
+    if (!consultationPrice) {
+      return swal.info({
+        title: 'Missing price',
+        text: 'Please add a consultation price.'
+      })
+    }
+
     swal.prompt({
       text: 'Are you sure?',
       async onConfirm () {
@@ -253,7 +259,10 @@ function QueueManagement () {
                 status: 'completed'
               }
             }),
-            transactions.create({ record_id: recordId })
+            transactions.create({
+              record_id: recordId,
+              consultation_price: consultationPrice
+            })
           ])
 
           if (res.error || resTxn.error) {
@@ -263,6 +272,7 @@ function QueueManagement () {
           storage.set('isRecordAdded', false)
           setIsRecordAdded('false')
           loadServePatientsCount()
+          setConsultationPrice(null)
           queues.SET_CURRENT(null)
           swal.success()
         } catch (error) {
@@ -380,12 +390,22 @@ function QueueManagement () {
 
                     <div className="patient-info-item">
                       <span>Birthdate</span>
-                      {moment(queues.current.patients.birth_date).format('MMMM D, YYYY')}
+                      {queues.current.patients.birth_date ? moment(queues.current.patients.birth_date).format('MMMM D, YYYY') : '---'}
                     </div>
 
                     <div className="patient-info-item">
                       <span>Gender</span>
-                      {_.capitalize(queues.current.patients.gender)}
+                      {queues.current.patients.gender ? _.capitalize(queues.current.patients.gender) : '---'}
+                    </div>
+
+                    <div className="patient-info-item">
+                      <span>Phone Number</span>
+                      {queues.current.patients.phone_number ? _.capitalize(queues.current.patients.phone_number) : '---'}
+                    </div>
+
+                    <div className="patient-info-item">
+                      <span>Address</span>
+                      {queues.current.patients.address ? _.capitalize(queues.current.patients.address) : '---'}
                     </div>
 
                     <div className="patient-info-item">
@@ -422,6 +442,21 @@ function QueueManagement () {
                         }
                       ]}
                     />
+                    
+                    <div className="consultation">
+                      <div>Consultation price:</div>
+
+                      <div className="consultation_sign">₱</div>
+                      <input
+                        type="text"
+                        value={consultationPrice || ''}
+                        onChange={e => {
+                          const inputValue = e.target.value
+                          const numericValue = inputValue.replace(/\D/g, "")
+                          setConsultationPrice(numericValue)
+                        }}
+                      />
+                    </div>
                   </div>
                 </>
               ) : <NoData label="No active queue number" />
@@ -437,11 +472,6 @@ function QueueManagement () {
               Served Patients
               <span>{records.servePatientsCount}</span>
             </div>
-
-            {/* <div className="dashboard__statistics-row">
-              Current Queue
-              <span>----</span>
-            </div> */}
           </div>
 
           <div className="dashboard__queue">
