@@ -43,6 +43,21 @@ export default () => ({
       }
     },
 
+    async find ({}, params) {
+      try {
+        const data = btoa(JSON.stringify(params))
+        const response = await baseApi.get('/records', { params: { data } })
+        
+        return response.data
+      } catch (error) {
+        return {
+          error: {
+            message: error.message
+          }
+        }
+      }
+    },
+
     async create ({}, params) {
       try {
         const response = await baseApi.post('/records', params)

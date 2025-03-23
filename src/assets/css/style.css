@@ -399,7 +399,7 @@ ul, ol {
   opacity: 0;
 }
 .prescription_pad__info {
-  margin-top: 50px;
+  margin-top: 15px;
   gap: 30px;
 }
 .prescription_pad__info div {
@@ -426,7 +426,7 @@ ul, ol {
 .prescription_pad__body {
   margin-top: 10px;
   gap: 40px;
-  min-height: 300px;
+  min-height: 400px;
 }
 .prescription_pad__body .rx-logo {
   font-weight: 500;
@@ -443,6 +443,7 @@ ul, ol {
   font-weight: 400;
   margin-top: 50px;
   text-align: left;
+  white-space: pre-line;
 }
 .prescription_pad__footer .top {
   margin-top: 30px;

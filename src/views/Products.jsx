@@ -177,7 +177,10 @@ function Products () {
         ...pagination,
         page: productItmesPage
       },
-      sort
+      sort: [
+        ...sort,
+        { field: 'id', direction: 'desc' }
+      ]
     })
   }
 
@@ -766,7 +769,7 @@ function Products () {
 
           <div className="desc">
             <span>Description:</span>
-            {row?.description}
+            {row?.description || '---'}
           </div>
 
           <div className="body">

@@ -20,10 +20,6 @@ export function headers () {
       key: 'id'
     },
     {
-      column: 'Date',
-      key: 'created_at'
-    },
-    {
       column: 'Variant',
       key: 'product_variants.name',
       is_hidden: urlParams.tab !== 'all' || !productVariants.count
@@ -33,8 +29,8 @@ export function headers () {
       key: 'name'
     },
     {
-      column: 'Expiry Date',
-      key: 'expired_at'
+      column: 'SKU',
+      key: 'sku'
     },
     {
       column: 'Stock',
@@ -43,6 +39,14 @@ export function headers () {
     {
       column: 'Price',
       key: 'price'
+    },
+    {
+      column: 'Expiry Date',
+      key: 'expired_at'
+    },
+    {
+      column: 'Date',
+      key: 'created_at'
     }
   ]
 

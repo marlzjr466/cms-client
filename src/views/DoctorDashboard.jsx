@@ -33,7 +33,7 @@ function QueueManagement () {
 
   const records = {
     ...metaStates('records', ['list', 'count', 'servePatientsCount']),
-    ...metaActions('records', ['fetch', 'create', 'patch', 'getServePatients'])
+    ...metaActions('records', ['fetch', 'create', 'patch', 'getServePatients', 'find'])
   }
 
   const transactions = {
@@ -85,6 +85,17 @@ function QueueManagement () {
   useEffect(() => {
     if (queues.current) {
       loadRecords()
+      records.find({
+        is_first: true,
+        filters: [
+          {
+            field: 'queue_id',
+            value: queues.current.id
+          }
+        ]
+      }).then(res => {
+        setRecordId(res?.id || null)
+      })
     }
   }, [queues.current, page])
 
@@ -388,25 +399,41 @@ function QueueManagement () {
                       {queues.current.patients.first_name} {queues.current.patients.last_name}
                     </div>
 
-                    <div className="patient-info-item">
-                      <span>Birthdate</span>
-                      {queues.current.patients.birth_date ? moment(queues.current.patients.birth_date).format('MMMM D, YYYY') : '---'}
-                    </div>
+                    {
+                      queues.current.patients.birth_date && (
+                        <div className="patient-info-item">
+                          <span>Birthdate</span>
+                          {moment(queues.current.patients.birth_date).format('MMMM D, YYYY')}
+                        </div>
+                      )
+                    }
 
-                    <div className="patient-info-item">
-                      <span>Gender</span>
-                      {queues.current.patients.gender ? _.capitalize(queues.current.patients.gender) : '---'}
-                    </div>
+                    {
+                      queues.current.patients.gender && (
+                        <div className="patient-info-item">
+                          <span>Gender</span>
+                          { _.capitalize(queues.current.patients.gender)}
+                        </div>
+                      )
+                    }
 
-                    <div className="patient-info-item">
-                      <span>Phone Number</span>
-                      {queues.current.patients.phone_number ? _.capitalize(queues.current.patients.phone_number) : '---'}
-                    </div>
+                    {
+                      queues.current.patients.phone_number && (
+                        <div className="patient-info-item">
+                          <span>Phone Number</span>
+                          {_.capitalize(queues.current.patients.phone_number)}
+                        </div>
+                      )
+                    }
 
-                    <div className="patient-info-item">
-                      <span>Address</span>
-                      {queues.current.patients.address ? _.capitalize(queues.current.patients.address) : '---'}
-                    </div>
+                    {
+                      queues.current.patients.address && (
+                        <div className="patient-info-item">
+                          <span>Address</span>
+                          {_.capitalize(queues.current.patients.address)}
+                        </div>
+                      )
+                    }
 
                     <div className="patient-info-item">
                       <span>Queue Number</span>
@@ -437,7 +464,7 @@ function QueueManagement () {
                           onAction: item => setPrintInfo({
                             ...item,
                             patient: queues.current.patients, 
-                            age: getAge(queues.current.patients.birth_date)
+                            age: queues.current.patients.birth_date ? getAge(queues.current.patients.birth_date) : ''
                           })
                         }
                       ]}

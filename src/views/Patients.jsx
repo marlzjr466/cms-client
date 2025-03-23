@@ -135,7 +135,10 @@ function Patients () {
       ],
       is_count: true,
       pagination,
-      sort
+      sort: [
+        ...sort,
+        { field: 'id', direction: 'desc' }
+      ]
     })
     
     setIsDataLoading(false)
@@ -385,7 +388,7 @@ function Patients () {
                 onAction: item => setPrintInfo({
                   ...item,
                   patient: row, 
-                  age: getAge(row.birth_date)
+                  age: row.birth_date ? getAge(row.birth_date) : ''
                 })
               }
             ]}

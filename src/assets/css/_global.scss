@@ -482,7 +482,7 @@ ul, ol {
     @extend .flex;
     @extend .flex-col;
 
-    margin-top: 50px;
+    margin-top: 15px;
     gap: 30px;
 
     div {
@@ -517,7 +517,7 @@ ul, ol {
     @extend .flex;
     margin-top: 10px;
     gap: 40px;
-    min-height: 300px;
+    min-height: 400px;
 
     .rx-logo {
       @extend .flex;
@@ -537,6 +537,7 @@ ul, ol {
       font-weight: 400;
       margin-top: 50px;
       text-align: left;
+      white-space: pre-line;
     }
   }
 

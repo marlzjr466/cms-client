@@ -13,8 +13,7 @@ const PrescriptionPad = ({ reference, data }) => {
           <span>Monday - Saturday</span>
           <span>9:00 AM - 4:00 PM</span>
 
-          <span>Sunday</span>
-          <span>By Appointment</span>
+          <span>Sunday: By Appointment</span>
         </div>
 
         <div>
@@ -38,7 +37,7 @@ const PrescriptionPad = ({ reference, data }) => {
 
           <span>Sex:</span>
           <p className="sex">
-            {_.capitalize(data?.patient?.gender)}
+            {data?.patient?.gender ? _.capitalize(data?.patient?.gender) : ''}
           </p>
         </div>
 
