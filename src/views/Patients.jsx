@@ -93,11 +93,11 @@ function Patients () {
     setIsDataLoading(true)
     const filters = [
       {
-        field: 'admin_id',
+        field: 'patients.admin_id',
         value: auth.admin_id
       },
       {
-        field: 'deleted_at',
+        field: 'patients.deleted_at',
         value: 'null'
       }
     ]
@@ -105,12 +105,12 @@ function Patients () {
     if (data) {
       filters.push(...[
         {
-          field: 'first_name',
+          field: 'patients.first_name',
           operator: 'like',
           value: data
         },
         {
-          field: 'last_name',
+          field: 'patients.last_name',
           operator: 'orlike',
           value: data
         }
@@ -119,25 +119,30 @@ function Patients () {
 
     await patients.fetch({
       filters,
-      aggregate: [
+      leftJoin: [
         {
           table: 'records',
-          filters: [
-            {
-              field: 'patient_id',
-              key: 'id'
-            }
-          ],
-          is_first: true,
-          columns: ['id', 'created_at'],
-          sort
+          field: 'records.patient_id',
+          key: 'patients.id'
         }
       ],
+      columns: [
+        'patients.*',
+        {
+          raw: `
+            JSON_OBJECT(
+              'id', records.id,
+              'created_at', records.created_at
+            ) AS records
+          `
+        }
+      ],
+      groupBy: ['patients.id', 'records.id'],
       is_count: true,
       pagination,
       sort: [
-        ...sort,
-        { field: 'id', direction: 'desc' }
+        { field: 'records.created_at', direction: 'desc' },
+        { field: 'patients.id', direction: 'desc' },
       ]
     })
     

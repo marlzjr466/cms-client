@@ -7,4 +7,104 @@
   gap: 20px;
   overflow: auto;
   padding: 20px 10px 25px 0;
+
+  .txn-info {
+    @extend .flex;  
+    @extend .full-width;  
+
+    gap: 50px;
+    align-items: flex-end;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--primary-border);
+    margin-bottom: 10px;
+
+    &-item {
+      @extend .flex; 
+      @extend .flex-col; 
+
+      // width: inherit;
+      color: var(--primary-color);
+      font-size: 16px;
+      font-weight: 500;
+
+      span {
+        opacity: .7;
+        font-size: 12px;
+        font-weight: 300;
+      }
+      
+      button {
+        height: 30px;
+      }
+    }
+  }
+
+  .txn-metadata {
+    @extend .flex;
+    width: 100%;
+
+    &-left {
+      @extend .flex;
+      @extend .flex-col; 
+      padding: 10px 0;
+
+      color: var(--primary-color);
+      flex: 1;
+      border-right: 1px solid var(--primary-border);
+
+      span {
+        opacity: .5;
+        font-size: 13px;
+      }
+
+      p {
+        white-space: pre;
+        margin-top: 10px;
+        line-height: 1.5;
+        font-size: 15px;
+      }
+    }
+
+    &-right {
+      @extend .flex;
+      @extend .flex-col; 
+
+      color: var(--primary-color);
+      flex: 1;
+      padding: 10px 20px;
+
+      span {
+        opacity: .5;
+        font-size: 13px;
+      }
+
+      div {
+        @extend .flex;
+        @extend .flex-jc-sb;
+
+        width: 100%;
+        font-size: 15px;
+        margin-top: 10px;
+
+        &.separator {
+          border-top: 2px dashed var(--primary-border);
+          margin-top: 20px;
+          padding-top: 10px;
+        }
+
+        &:last-child {
+          border-top: 2px dashed var(--primary-border);
+          padding-top: 10px;
+
+          p {
+            font-weight: bold;
+          }
+        }
+
+        b {
+          text-align: right;
+        }
+      }
+    }
+  }
 }

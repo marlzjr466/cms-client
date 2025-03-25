@@ -23,8 +23,7 @@ export function headers () {
     // },
     {
       column: 'Prescription',
-      key: 'records.medication',
-      no_truncate: true
+      key: 'records.medication'
     },
     {
       column: 'Amount',
