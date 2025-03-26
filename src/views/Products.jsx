@@ -659,7 +659,10 @@ function Products () {
                 setUpdateData(null)
                 setShowCreateModal(true)
               }}
-              onSearch={data => loadProducts(data)}
+              onSearch={data => {
+                setPage(1)
+                loadProducts(data)
+              }}
               isLoading={isDataLoading}
               itemsPerPage={pagination.rows}
               actions={[
