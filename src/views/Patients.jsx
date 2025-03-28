@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef } from 'react'
 import { useMeta } from '@opensource-dev/redux-meta'
 import { useNavigate, useParams } from 'react-router-dom'
-import { useReactToPrint } from "react-to-print"
 import moment from 'moment'
 import _ from 'lodash'
 
@@ -55,14 +54,6 @@ function Patients () {
 
   const formRef = useRef(null)
   const formPatientRef = useRef(null)
-  const contentRef = useRef(null)
-  const reactToPrintFn = useReactToPrint({ contentRef })
-
-  useEffect(() => {
-    if (printInfo) {
-      reactToPrintFn()
-    }
-  }, [printInfo])
 
   useEffect(() => {
     loadPatients()
@@ -310,8 +301,8 @@ function Patients () {
   return (
     <div className="patients">
       <PrescriptionPad
-        reference={contentRef}
         data={printInfo}
+        onFinish={() => setPrintInfo(null)}
       />
 
       <Title title="Manage Patients" />

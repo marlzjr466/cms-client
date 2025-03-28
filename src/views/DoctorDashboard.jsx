@@ -1,6 +1,5 @@
 import { useEffect, useState, useRef } from 'react'
 import { useMeta } from '@opensource-dev/redux-meta'
-import { useReactToPrint } from "react-to-print"
 import moment from 'moment/moment'
 import _ from "lodash"
 
@@ -59,14 +58,6 @@ function QueueManagement () {
   const [consultationPrice, setConsultationPrice] = useState(null)
 
   const formRef = useRef(null)
-  const contentRef = useRef(null)
-  const reactToPrintFn = useReactToPrint({ contentRef })
-
-  useEffect(() => {
-    if (printInfo) {
-      reactToPrintFn()
-    }
-  }, [printInfo])
 
   useEffect(() => {
     initSocketListeners()
@@ -344,8 +335,8 @@ function QueueManagement () {
   return (
     <div className="dashboard">
       <PrescriptionPad
-        reference={contentRef}
         data={printInfo}
+        onFinish={() => setPrintInfo(null)}
       />
 
       <div className="flex flex-jc-sb">
@@ -564,7 +555,7 @@ function QueueManagement () {
           </div>
 
           <div className="form-group">
-            <label>Pyshical Exam</label>
+            <label>Pyshical</label>
             <textarea className="records" name="physical_exam"></textarea>
           </div>
 

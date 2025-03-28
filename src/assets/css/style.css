@@ -119,7 +119,7 @@ ul, ol {
   list-style: none;
 }
 
-.flex, .profile_row div span, .profile_row div, .profile_row, .profile, .categories, .products span.info, .products, .settings_row div span, .settings_row div, .settings_row, .settings, .transactions .txn-metadata-right div, .transactions .txn-metadata-right, .transactions .txn-metadata-left, .transactions .txn-metadata, .transactions .txn-info-item, .transactions .txn-info, .transactions, .patients .patient-records-new, .patients .patient-records, .patients .patient-info-item, .patients .patient-info, .patients, .inventory, .users, .dashboard__queue-item-left__info, .dashboard__queue-item-left, .dashboard__queue-item, .dashboard__queue-wrapper, .dashboard__online-item-left__info, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__queue-row, .dashboard__statistics, .dashboard__online, .dashboard__queue, .dashboard__right, .dashboard__manage_queue .patient-records-new, .dashboard__manage_queue .patient-records .consultation, .dashboard__manage_queue .patient-records, .dashboard__manage_queue .patient-info-item, .dashboard__manage_queue .patient-info, .dashboard__manage_queue, .dashboard__table, .dashboard__totals .card__body, .dashboard__totals .card__header span, .dashboard__totals .card__header, .dashboard__totals, .dashboard__left, .dashboard__body, .dashboard__title, .dashboard, .side-modal_container .product-info .body .tab, .side-modal_container .product-info .buttons, .side-modal_container .product-info, .modal_container form .form-group, .datepicker__display, .table__pagination, .table__loader, .table__actions .search-filter, .table__actions, .table, .prescription_pad__footer .top .right div, .prescription_pad__footer .top .right, .prescription_pad__footer .top, .prescription_pad__footer, .prescription_pad__body .rx-logo, .prescription_pad__body, .prescription_pad__info div, .prescription_pad__info, .prescription_pad__header div, .prescription_pad__header, .form-wrapper form .form-group, .form-wrapper form, .form-wrapper .greetings, .form, .title {
+.flex, .profile_row div span, .profile_row div, .profile_row, .profile, .categories, .products span.info, .products, .settings_row div span, .settings_row div, .settings_row, .settings, .transactions .txn-metadata-right div, .transactions .txn-metadata-right, .transactions .txn-metadata-left, .transactions .txn-metadata, .transactions .txn-info-item, .transactions .txn-info, .transactions, .patients .patient-records-new, .patients .patient-records, .patients .patient-info-item, .patients .patient-info, .patients, .inventory, .users, .dashboard__queue-item-left__info, .dashboard__queue-item-left, .dashboard__queue-item, .dashboard__queue-wrapper, .dashboard__online-item-left__info, .dashboard__online-item-left, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__queue-row, .dashboard__statistics, .dashboard__online, .dashboard__queue, .dashboard__right, .dashboard__manage_queue .patient-records-new, .dashboard__manage_queue .patient-records .consultation, .dashboard__manage_queue .patient-records, .dashboard__manage_queue .patient-info-item, .dashboard__manage_queue .patient-info, .dashboard__manage_queue, .dashboard__table, .dashboard__totals .card__body, .dashboard__totals .card__header span, .dashboard__totals .card__header, .dashboard__totals, .dashboard__left, .dashboard__body, .dashboard__title, .dashboard, .side-modal_container .product-info .body .tab, .side-modal_container .product-info .buttons, .side-modal_container .product-info, .modal_container form .form-group, .datepicker__display, .table__pagination, .table__loader, .table__actions .search-filter, .table__actions, .table, .prescription_pad__footer .top .right div, .prescription_pad__footer .top .right, .prescription_pad__footer .top, .prescription_pad__footer, .prescription_pad__body, .prescription_pad__info div, .prescription_pad__info, .prescription_pad__header div, .prescription_pad__header, .prescription_pad .rx-logo, .form-wrapper form .form-group, .form-wrapper form, .form-wrapper .greetings, .form, .title {
   display: flex;
 }
 .flex-jc-sb, .transactions .txn-metadata-right div, .dashboard__queue-item-left__info, .dashboard__queue-item, .dashboard__online-item, .dashboard__statistics-row, .dashboard__online-row, .dashboard__queue-row, .dashboard__totals .card__header, .prescription_pad__footer .top {
@@ -368,7 +368,7 @@ ul, ol {
   justify-content: center;
   font-family: "Times New Roman", Times, serif;
   font-size: 20px;
-  padding: 50px 80px;
+  padding: 50px 0;
   padding-bottom: 0;
   display: none;
 }
@@ -382,6 +382,17 @@ ul, ol {
 }
 .prescription_pad p {
   font-weight: 600;
+}
+.prescription_pad .rx-logo {
+  font-weight: 500;
+  font-size: 80px;
+  font-style: italic;
+  position: fixed;
+  top: 270px;
+}
+.prescription_pad .rx-logo span {
+  margin-left: -10px;
+  padding-top: 15px;
 }
 .prescription_pad__header {
   justify-content: space-between;
@@ -425,23 +436,15 @@ ul, ol {
 }
 .prescription_pad__body {
   margin-top: 10px;
-  gap: 40px;
-  min-height: 400px;
-}
-.prescription_pad__body .rx-logo {
-  font-weight: 500;
-  font-size: 80px;
-  font-style: italic;
-}
-.prescription_pad__body .rx-logo span {
-  margin-left: -10px;
-  padding-top: 15px;
+  gap: 30px;
+  height: 450px;
+  padding-left: 100px;
 }
 .prescription_pad__body .medication {
   flex: 1;
   font-size: 22px;
   font-weight: 400;
-  margin-top: 50px;
+  margin-top: 30px;
   text-align: left;
   white-space: pre-line;
 }
@@ -508,6 +511,31 @@ ul, ol {
   background: #949494;
 }
 
+@media print {
+  @page {
+    size: A4;
+    padding: 20mm; /* Adjust margins for header & footer */
+  }
+  /* Fixed Header */
+  .pad_header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+  /* Fixed Footer */
+  .prescription_pad__footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+  /* Ensure the body content doesn't overlap with header/footer */
+  .prescription_pad__body {
+    margin-top: 60mm; /* Adjust to avoid overlap with header */
+    padding-bottom: 60mm; /* Adjust to avoid overlap with footer */
+  }
+}
 @keyframes fadeInDown {
   0% {
     opacity: 0;

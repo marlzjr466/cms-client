@@ -440,7 +440,7 @@ ul, ol {
   justify-content: center;
   font-family: 'Times New Roman', Times, serif;
   font-size: 20px;
-  padding: 50px 80px;
+  padding: 50px 0;
   padding-bottom: 0;
   display: none;
 
@@ -454,6 +454,20 @@ ul, ol {
 
   p {
     font-weight: 600;
+  }
+
+  .rx-logo {
+    @extend .flex;
+    font-weight: 500;
+    font-size: 80px;
+    font-style: italic;
+    position: fixed;
+    top: 270px;
+
+    span {
+      margin-left: -10px;
+      padding-top: 15px;
+    }
   }
 
   &__header {
@@ -516,26 +530,16 @@ ul, ol {
   &__body {
     @extend .flex;
     margin-top: 10px;
-    gap: 40px;
-    min-height: 400px;
-
-    .rx-logo {
-      @extend .flex;
-      font-weight: 500;
-      font-size: 80px;
-      font-style: italic;
-
-      span {
-        margin-left: -10px;
-        padding-top: 15px;
-      }
-    }
+    gap: 30px;
+    height: 450px;
+    // border: 1px solid #000;
+    padding-left: 100px;
 
     .medication {
       flex: 1;
       font-size: 22px;
       font-weight: 400;
-      margin-top: 50px;
+      margin-top: 30px;
       text-align: left;
       white-space: pre-line;
     }
@@ -623,4 +627,33 @@ ul, ol {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #949494; 
+}
+
+@media print {
+  @page {
+    size: A4;
+    padding: 20mm; /* Adjust margins for header & footer */
+  }
+
+  /* Fixed Header */
+  .pad_header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+  }
+
+  /* Fixed Footer */
+  .prescription_pad__footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
+
+  /* Ensure the body content doesn't overlap with header/footer */
+  .prescription_pad__body {
+    margin-top: 60mm;  /* Adjust to avoid overlap with header */
+    padding-bottom: 60mm; /* Adjust to avoid overlap with footer */
+  }
 }
