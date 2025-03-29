@@ -362,12 +362,47 @@ ul, ol {
   border-bottom: 2px solid #49E5C4;
 }
 
+.vaccine-records {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.vaccine-records-create {
+  position: absolute;
+  right: 0;
+  top: 0;
+  display: flex;
+  gap: 5px;
+  align-items: center;
+  padding: 10px 0;
+}
+.vaccine-records-create label {
+  color: var(--menu-color);
+  font-size: 14px;
+}
+.vaccine-records-create label:nth-child(3) {
+  margin-left: 10px;
+}
+.vaccine-records-create input {
+  width: 200px;
+  padding: 0 10px;
+  height: 30px;
+  border: 1px solid var(--primary-border);
+  cursor: text;
+}
+.vaccine-records-create button {
+  height: 30px;
+}
+.vaccine-records-table {
+  widtH: 100%;
+  margin-top: 60px;
+}
+
 .prescription_pad {
   background: white;
   flex-direction: column;
   justify-content: center;
   font-family: "Times New Roman", Times, serif;
-  font-size: 20px;
   padding: 50px 0;
   padding-bottom: 0;
   display: none;
@@ -377,10 +412,13 @@ ul, ol {
     display: flex;
   }
 }
-.prescription_pad h3, .prescription_pad p {
+.prescription_pad h3 {
   text-align: center;
+  font-size: 32px;
 }
 .prescription_pad p {
+  text-align: center;
+  font-size: 22px;
   font-weight: 600;
 }
 .prescription_pad .rx-logo {
@@ -388,7 +426,7 @@ ul, ol {
   font-size: 80px;
   font-style: italic;
   position: fixed;
-  top: 270px;
+  top: 330px;
 }
 .prescription_pad .rx-logo span {
   margin-left: -10px;
@@ -397,14 +435,14 @@ ul, ol {
 .prescription_pad__header {
   justify-content: space-between;
   border-bottom: 4px solid #000;
-  font-size: 18px;
-  margin-top: 30px;
+  margin-top: 50px;
   padding: 10px;
   padding-top: 0;
 }
 .prescription_pad__header div {
   gap: 2px;
   justify-content: center;
+  font-size: 22px;
 }
 .prescription_pad__header div .space {
   opacity: 0;
@@ -414,7 +452,7 @@ ul, ol {
   gap: 30px;
 }
 .prescription_pad__info div {
-  font-size: 16px;
+  font-size: 22px;
 }
 .prescription_pad__info div span {
   width: -moz-fit-content;
@@ -435,24 +473,21 @@ ul, ol {
   width: 57%;
 }
 .prescription_pad__body {
-  margin-top: 10px;
+  margin-top: 350px;
   gap: 30px;
-  height: 450px;
-  padding-left: 100px;
+  height: 620px;
+  padding: 0 10px;
 }
 .prescription_pad__body .medication {
   flex: 1;
-  font-size: 22px;
+  font-size: 27px;
   font-weight: 400;
   margin-top: 30px;
   text-align: left;
   white-space: pre-line;
 }
-.prescription_pad__footer .top {
-  margin-top: 30px;
-}
 .prescription_pad__footer .top .left {
-  font-size: 18px;
+  font-size: 22px;
   border-bottom: 2px solid #000;
   width: 300px;
   text-align: left;
@@ -460,9 +495,9 @@ ul, ol {
 }
 .prescription_pad__footer .top .right {
   gap: 10px;
-  font-size: 18px;
+  font-size: 22px;
   padding: 0 10px;
-  width: 300px;
+  width: 350px;
 }
 .prescription_pad__footer .top .right strong {
   text-align: center;
@@ -485,7 +520,7 @@ ul, ol {
 .prescription_pad__footer .bottom p {
   width: 85%;
   text-align: center;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 1.5;
   font-family: cursive;
   font-weight: 500;
@@ -513,8 +548,7 @@ ul, ol {
 
 @media print {
   @page {
-    size: A4;
-    padding: 20mm; /* Adjust margins for header & footer */
+    padding: 15mm; /* Adjust margins for header & footer */
   }
   /* Fixed Header */
   .pad_header {
@@ -529,11 +563,6 @@ ul, ol {
     bottom: 0;
     left: 0;
     right: 0;
-  }
-  /* Ensure the body content doesn't overlap with header/footer */
-  .prescription_pad__body {
-    margin-top: 60mm; /* Adjust to avoid overlap with header */
-    padding-bottom: 60mm; /* Adjust to avoid overlap with footer */
   }
 }
 @keyframes fadeInDown {
@@ -1644,6 +1673,11 @@ ul, ol {
   padding: 20px;
   border: 1px solid var(--primary-border);
   border-radius: 13px;
+}
+.dashboard__manage_queue .separator {
+  color: var(--menu-color);
+  font-size: 30px;
+  margin-right: 2px;
 }
 .dashboard__manage_queue .header button {
   height: 30px;

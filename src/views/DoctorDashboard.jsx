@@ -13,6 +13,7 @@ import { filters } from '@composable/filters'
 // components
 import PrescriptionPad from '@components/PrescriptionPad'
 import Modal from '@components/Modal'
+import SideModal from '@components/SideModal'
 import Table from '@components/base/Table'
 import Title from '@components/base/Title'
 import NoData from '@components/base/NoData'
@@ -39,6 +40,10 @@ function QueueManagement () {
     ...metaActions('transactions', ['create'])
   }
 
+  const patients = {
+    ...metaActions('patients', ['patch'])
+  }
+
   const queues = {
     ...metaStates('queues', ['list', 'count', 'current']),
     ...metaMutations('queues', ['SET_CURRENT']),
@@ -56,6 +61,9 @@ function QueueManagement () {
   const [isRecordAdded, setIsRecordAdded] = useState('false')
   const [recordId, setRecordId] = useState(null)
   const [consultationPrice, setConsultationPrice] = useState(null)
+  const [showVaccine, setShowVaccine] = useState(false)
+  const [vaccineRecord, setVaccineRecord] = useState(null)
+  const [isVaccineRecordLoading, setIsVaccineRecordLoading] = useState(false)
 
   const formRef = useRef(null)
 
@@ -64,7 +72,7 @@ function QueueManagement () {
     loadQueues()
     loadServePatientsCount()
 
-    setIsRecordAdded(storage.get('isRecordAdded') || false)
+    setIsRecordAdded(storage.get('isRecordAdded') || 'false')
   }, [])
 
   useEffect(() => {
@@ -137,7 +145,7 @@ function QueueManagement () {
             }
           ],
           is_first: true,
-          columns: ['id', 'first_name', 'last_name', 'gender', 'birth_date', 'address', 'phone_number']
+          columns: ['id', 'first_name', 'last_name', 'gender', 'birth_date', 'address', 'phone_number', 'vaccine']
         }
       ],
       is_count: true
@@ -237,7 +245,13 @@ function QueueManagement () {
     }
 
     await loadQueues()
-    queues.SET_CURRENT(queue)
+    queues.SET_CURRENT({
+      ...queue,
+      patients: {
+        ...queue.patients,
+        vaccine: queue?.patients?.vaccine || null
+      }
+    })
     setIsGetQueueLoading(false)
   }
 
@@ -332,6 +346,73 @@ function QueueManagement () {
     })
   }
 
+  const handleVaccineRecords = async isDeletedId => {
+    if (isVaccineRecordLoading) {
+      return
+    }
+
+    setIsVaccineRecordLoading(true)
+    let payload = []
+
+    if (isDeletedId) {
+      payload = queues.current?.patients?.vaccine.filter(x => x.id !== isDeletedId)
+    } else {
+      if (vaccineRecord?.id) {
+        // update here
+        const temp = queues.current?.patients?.vaccine.filter(x => x.id !== vaccineRecord?.id)
+        payload = [...temp, vaccineRecord]
+      } else {
+        // add here
+        const lastItem = queues.current?.patients?.vaccine
+          ? queues.current?.patients?.vaccine.at(-1)
+          : {id: 0}
+  
+        payload = queues.current?.patients?.vaccine
+          ? [...queues.current?.patients?.vaccine, {...vaccineRecord, id: lastItem.id + 1}]
+          : [{...vaccineRecord, id: 1}]
+      }
+    }
+
+    const res = await patients.patch({
+      key: 'id',
+      data: {
+        id: queues.current?.patients?.id,
+        vaccine: JSON.stringify(payload)
+      }
+    })
+
+    if (res.error) {
+      setIsVaccineRecordLoading(false)
+      return swal.error({
+        title: 'Error',
+        text: res.error.message
+      })
+    }
+
+    if (queues.current) {
+      queues.SET_CURRENT({
+        ...queues.current,
+        patients: {
+          ...queues.current?.patients,
+          vaccine: payload
+        }
+      })
+    }
+
+    const message = isDeletedId
+      ? 'Vaccine record deleted successfully!'
+      : vaccineRecord?.id
+        ? 'Vaccine record updated successfully!' 
+        : 'New vaccine record added successfully!'
+
+    swal.success({
+      title: 'Success',
+      text: message
+    })
+    setVaccineRecord(null)
+    setIsVaccineRecordLoading(false)
+  }
+
   return (
     <div className="dashboard">
       <PrescriptionPad
@@ -349,10 +430,25 @@ function QueueManagement () {
       <div className="dashboard__body">
         <div className="dashboard__left">
           <div className="dashboard__manage_queue">
-            <div className="header flex flex-jc-sb full-width">
+            <div className="header flex full-width gap-4 flex-ai-c">
               <Title title="Current Patient Records" icon={false} size="16px" />
+              
+              {
+                queues.current && (
+                  <>
+                    <span className="separator">|</span>
 
-              <div className="flex gap-2">
+                    <button
+                      className="btn info"
+                      onClick={() => setShowVaccine(true)}
+                    >
+                      Vaccine
+                    </button>
+                  </>
+                )
+              }
+
+              <div className="flex gap-2 ml-auto">
                 {
                   queues.current && (
                     <button
@@ -520,7 +616,6 @@ function QueueManagement () {
                 ) : <NoData label="No available queue" />
               }
             </div>
-
           </div>
         </div>
       </div>
@@ -577,6 +672,74 @@ function QueueManagement () {
           </div>
         </form>
       </Modal>
+
+      <SideModal
+        visible={showVaccine}
+        title="Vaccine Record"
+        onClose={() => setShowVaccine(false)}
+      >
+        <div className="vaccine-records">
+          <div className="vaccine-records-create">
+            <label>Vaccine Name:</label>
+            <input
+              type="text"
+              value={vaccineRecord ? vaccineRecord.name : ''}
+              onChange={e => setVaccineRecord(prev => ({
+                ...prev,
+                name: e.target.value
+              }))}
+            />
+
+            <label>Date Given:</label>
+            <input
+              type="date"
+              value={vaccineRecord ? moment(vaccineRecord.given_date).format('YYYY-MM-DD') : moment().format('YYYY-MM-DD')}
+              onChange={e => setVaccineRecord(prev => ({...prev, given_date: new Date(e.target.value).toISOString()}))}
+            />
+
+            <button
+              className="btn info"
+              onClick={() => handleVaccineRecords()}
+              disabled={!vaccineRecord || isVaccineRecordLoading}
+            >
+              {
+                vaccineRecord && vaccineRecord.id ? 'Update' : 'Add Vaccine'
+              }
+            </button>
+          </div>
+
+          <div className="vaccine-records-table">
+            <Table
+              headers={[
+                {column: 'ID', key: 'id'},
+                {column: 'Name', key: 'name'},
+                {column: 'Date Given', key: 'given_date'}
+              ]}
+              rows={queues.current?.patients?.vaccine || []}
+              selectedValue="id"
+              totalRowsCount={0}
+              onRowClick={row => {}}
+              onPageChance={value => {}}
+              onCreate={() => {}}
+              onSearch={data => {}}
+              noDelete
+              disableAllActions
+              actions={[
+                {
+                  label: 'Edit',
+                  onAction: item => setVaccineRecord(item)
+                },
+                {
+                  label: 'Delete',
+                  type: 'danger',
+                  onAction: item => handleVaccineRecords(item.id)
+                }
+              ]}
+            />
+          </div>
+
+        </div>
+      </SideModal>
     </div>
   )
 }

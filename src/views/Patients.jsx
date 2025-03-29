@@ -112,7 +112,17 @@ function Patients () {
       filters,
       leftJoin: [
         {
-          table: 'records',
+          raw: `
+            (
+              SELECT * FROM records 
+              WHERE id = (
+                SELECT id FROM records r2 
+                WHERE r2.patient_id = records.patient_id 
+                ORDER BY created_at DESC 
+                LIMIT 1
+              )
+            ) AS records
+          `,
           field: 'records.patient_id',
           key: 'patients.id'
         }
@@ -193,6 +203,11 @@ function Patients () {
 
   const handleSubmitPatient = async e => {
     e.preventDefault() // Prevent page refresh
+
+    if (isPatientLoading) {
+      return
+    }
+
     setIsPatientLoading(true)
 
     // Use FormData to access the submitted values
@@ -223,6 +238,11 @@ function Patients () {
 
   const handleSubmit = async e => {
     e.preventDefault() // Prevent page refresh
+
+    if (isRecordsDataLoading) {
+      return
+    }
+
     setIsRecordsDataLoading(true)
 
     // Use FormData to access the submitted values

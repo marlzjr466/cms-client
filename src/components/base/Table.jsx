@@ -233,7 +233,7 @@ function Table({
 
           <tbody>
             {rows.map((row, i) => (
-              <tr key={row.id}>
+              <tr key={i}>
                 {
                   !disableButton && !noDelete && (
                     <td>
@@ -270,7 +270,9 @@ function Table({
                                   ? formatQueueNumber(row[header.key])
                                   : row[header.key] ?
                                     _.capitalize(row[header.key])
-                                    : '---'
+                                    : header.key === '#'
+                                      ? (i + 1)
+                                      : '---'
                     }
                   </td>
                 ))}
@@ -282,7 +284,7 @@ function Table({
                         actions.map((item, index) => (
                           <button
                             key={index}
-                            className="btn success"
+                            className={`btn ${item.type || 'success'}`}
                             style={{ padding: 8 }}
                             onClick={e => {
                               e.stopPropagation()
@@ -318,7 +320,7 @@ function Table({
         }
       </div>
 
-      {rows.length && !isLoading ? (
+      {rows.length && !isLoading && totalRowsCount ? (
         <div className="table__pagination">
           <button
             className={`btn default ${currentPage === totalPages ? '' : 'disabled'}`}

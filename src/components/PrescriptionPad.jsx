@@ -13,7 +13,7 @@ const PrescriptionPad = ({ data, onFinish }) => {
     }
   })
 
-  const splitIntoLines = (text, linesPerPage = 15) => {
+  const splitIntoLines = (text, linesPerPage = 13) => {
     const lines = text.split("\n")
     const chunks = []
     

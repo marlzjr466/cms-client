@@ -19,7 +19,13 @@ export default () => ({
     },
 
     SET_CURRENT: (state, { payload }) => {
-      state.current = payload || null
+      state.current = payload ? {
+        ...payload,
+        patients: {
+          ...payload.patients,
+          vaccine: payload.patients.vaccine ? payload.patients.vaccine.sort((a, b) => (b.id - a.id)) : null
+        }
+      } : null
     }
   },
 
@@ -65,7 +71,7 @@ export default () => ({
                 }
               ],
               is_first: true,
-              columns: ['id', 'first_name', 'last_name', 'gender', 'birth_date', 'address']
+              columns: ['id', 'first_name', 'last_name', 'gender', 'birth_date', 'address', 'vaccine']
             }
           ]
         }

@@ -130,6 +130,12 @@
     border: 1px solid var(--primary-border);
     border-radius: 13px;
 
+    .separator {
+      color: var(--menu-color);
+      font-size: 30px;
+      margin-right: 2px;
+    }
+
     .header {
       button {
         height: 30px;

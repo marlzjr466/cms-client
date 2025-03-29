@@ -434,12 +434,54 @@ ul, ol {
   }
 }
 
+
+.vaccine-records {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  &-create {
+    position: absolute;
+    right: 0;
+    top: 0;
+    display: flex;
+    gap: 5px;
+    align-items: center;
+    padding: 10px 0;
+
+    label {
+      color:var(--menu-color);
+      font-size: 14px;
+
+      &:nth-child(3) {
+        margin-left: 10px;
+      }
+    }
+
+    input {
+      width: 200px;
+      padding: 0 10px;
+      height: 30px;
+      border: 1px solid var(--primary-border);
+      cursor: text;
+    }
+
+    button {
+      height: 30px;
+    }
+  }
+
+  &-table {
+    widtH: 100%;
+    margin-top: 60px;
+  }
+}
+
 .prescription_pad {
   background: white;
   flex-direction: column;
   justify-content: center;
   font-family: 'Times New Roman', Times, serif;
-  font-size: 20px;
   padding: 50px 0;
   padding-bottom: 0;
   display: none;
@@ -448,11 +490,14 @@ ul, ol {
     display: flex;
   }
 
-  h3, p {
+  h3 {
     text-align: center;
+    font-size: 32px;
   }
 
   p {
+    text-align: center;
+    font-size: 22px;
     font-weight: 600;
   }
 
@@ -462,7 +507,7 @@ ul, ol {
     font-size: 80px;
     font-style: italic;
     position: fixed;
-    top: 270px;
+    top: 330px;
 
     span {
       margin-left: -10px;
@@ -475,8 +520,7 @@ ul, ol {
 
     justify-content: space-between;
     border-bottom: 4px solid #000;
-    font-size: 18px;
-    margin-top: 30px;
+    margin-top: 50px;
     padding: 10px;
     padding-top: 0;
 
@@ -485,6 +529,7 @@ ul, ol {
       @extend .flex-col;
       gap: 2px;
       justify-content: center;
+      font-size: 22px;
 
       .space {
         opacity: 0;
@@ -501,7 +546,7 @@ ul, ol {
 
     div {
       @extend .flex;
-      font-size: 16px;
+      font-size: 22px;
 
       span {
         width: fit-content;
@@ -529,15 +574,15 @@ ul, ol {
 
   &__body {
     @extend .flex;
-    margin-top: 10px;
+    margin-top: 350px;
     gap: 30px;
-    height: 450px;
+    height: 620px;
     // border: 1px solid #000;
-    padding-left: 100px;
+    padding: 0 10px;
 
     .medication {
       flex: 1;
-      font-size: 22px;
+      font-size: 27px;
       font-weight: 400;
       margin-top: 30px;
       text-align: left;
@@ -554,10 +599,8 @@ ul, ol {
       @extend .flex-jc-sb;
       @extend .flex-ai-c;
 
-      margin-top: 30px;
-
       .left {
-        font-size: 18px;
+        font-size: 22px;
         border-bottom: 2px solid #000;
         width: 300px;
         text-align: left;
@@ -569,9 +612,9 @@ ul, ol {
         @extend .flex-col;
 
         gap: 10px; 
-        font-size: 18px;
+        font-size: 22px;
         padding: 0 10px;
-        width: 300px;
+        width: 350px;
 
         strong {
           text-align: center;
@@ -600,7 +643,7 @@ ul, ol {
       p {
         width: 85%;
         text-align: center;
-        font-size: 16px;
+        font-size: 20px;
         line-height: 1.5;
         font-family: cursive;
         font-weight: 500;
@@ -631,8 +674,7 @@ ul, ol {
 
 @media print {
   @page {
-    size: A4;
-    padding: 20mm; /* Adjust margins for header & footer */
+    padding: 15mm; /* Adjust margins for header & footer */
   }
 
   /* Fixed Header */
@@ -649,11 +691,5 @@ ul, ol {
     bottom: 0;
     left: 0;
     right: 0;
-  }
-
-  /* Ensure the body content doesn't overlap with header/footer */
-  .prescription_pad__body {
-    margin-top: 60mm;  /* Adjust to avoid overlap with header */
-    padding-bottom: 60mm; /* Adjust to avoid overlap with footer */
   }
 }
