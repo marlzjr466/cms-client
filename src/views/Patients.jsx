@@ -439,7 +439,7 @@ function Patients () {
           </div>
 
           <div className="form-group">
-            <label>Pyshical Exam</label>
+            <label>Pyshical</label>
             <textarea className="records" name="physical_exam"></textarea>
           </div>
 
