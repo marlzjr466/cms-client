@@ -484,7 +484,7 @@ ul, ol {
   font-weight: 400;
   margin-top: 30px;
   text-align: left;
-  white-space: pre-line;
+  white-space: pre;
 }
 .prescription_pad__footer .top .left {
   font-size: 22px;
