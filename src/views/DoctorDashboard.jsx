@@ -650,7 +650,7 @@ function QueueManagement () {
           </div>
 
           <div className="form-group">
-            <label>Pyshical</label>
+            <label>Physical</label>
             <textarea className="records" name="physical_exam"></textarea>
           </div>
 
